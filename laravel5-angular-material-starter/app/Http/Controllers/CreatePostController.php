@@ -6,6 +6,7 @@ use App\Posts;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Webpatser\Uuid\Uuid;
 
 class CreatePostController extends Controller
 {
@@ -17,6 +18,7 @@ class CreatePostController extends Controller
         ]);
 
         $post = new Posts();
+        $post->id = Uuid::generate();
         $post->name = $request->input('name');
         $post->topic = $request->input('topic');
         $post->save();

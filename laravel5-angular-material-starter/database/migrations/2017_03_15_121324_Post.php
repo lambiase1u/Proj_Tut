@@ -13,9 +13,10 @@ class Post extends Migration
     public function up()
     {
         Schema::create('posts', function (Blueprint $table) {
-            $table->string('id');
+            $table->uuid('id');
+            $table->primary('id');
             $table->string('name');
-            $table->string('topic')->index();
+            $table->string('topic');
             $table->timestamp('created_at');
             $table->timestamp('updated_at');
         });
