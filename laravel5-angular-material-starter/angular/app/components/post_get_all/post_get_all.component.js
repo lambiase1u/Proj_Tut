@@ -1,19 +1,40 @@
 class PostGetAllController {
-    constructor(API, $log, $rootScope) {
+    constructor(API, $log, $scope, $mdSidenav, $timeout) {
         'ngInject';
         this.API = API;
         this.$log = $log;
-        this.$rootScope = $rootScope;
-        //
+        this.$scope = $scope;
+        this.$timeout = $timeout;
+        this.$mdSidenav = $mdSidenav;
     }
 
     $onInit() {
         this.API.all('posts').get('').then((response) => {
             this.$log.log(response.data.posts);
             //  this.ToastService.show('Post listed successfully');
-            this.$rootScope.events = response.data.posts;
+            this.$scope.events = response.data.posts;
         });
+
     }
+
+    buildToggler(componentId) {
+        return function () {
+            this.$mdSidenav(componentId).toggle();
+        };
+    }
+
+    toggleLeft(){
+       this.buildToggler('left');
+        this.$log.log('test');
+    }
+    toggleRight(){
+       this.buildToggler('right');
+        this.$log.log('test');
+    }
+
+
+
+
 }
 
 export const PostGetAllComponent = {
