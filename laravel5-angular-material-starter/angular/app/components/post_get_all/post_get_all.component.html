@@ -1,0 +1,12 @@
+
+<md-list>
+    <md-list-item class="md-3-line" ng-repeat="item in $root.events">
+        <img ng-src="{{item.face}}?{{$index}}" class="md-avatar" alt="{{item.who}}">
+        <div class="md-list-item-text">
+            <h3>{{item.name}}</h3>
+            <h4>{{item.topic}}</h4>
+            <p>{{item.created_at}}</p>
+        </div>
+        <md-divider md-inset ng-if="!$last"></md-divider>
+    </md-list-item>
+</md-list>

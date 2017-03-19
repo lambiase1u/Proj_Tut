@@ -35,4 +35,5 @@ $api->group(['middleware' => ['api']], function ($api) {
 //protected API routes with JWT (must be logged in)
 $api->group(['middleware' => ['api', 'api.auth']], function ($api) {
     $api->post('posts', 'CreatePostController@create');
+    $api->get('posts', 'CreatePostController@getAll');
 });

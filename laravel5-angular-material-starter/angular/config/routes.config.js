@@ -70,5 +70,14 @@ export function RoutesConfig($stateProvider, $urlRouterProvider) {
                     templateUrl: getView('create_post')
                 }
             }
+        })
+        .state('app.get_all_posts', {
+            url: '/posts',
+            data: {auth: true},//{auth: true} would require JWT auth
+            views: {
+                'main@': {
+                    templateUrl: getView('post_get_all')
+                }
+            }
         });
 }

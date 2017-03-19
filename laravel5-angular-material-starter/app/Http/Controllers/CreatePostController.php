@@ -25,4 +25,12 @@ class CreatePostController extends Controller
 
         return response()->success(compact('post'));
     }
+
+
+    public function  getAll(){
+        $posts = Posts::all();
+
+        return response()
+            ->success(compact('posts'));
+    }
 }
