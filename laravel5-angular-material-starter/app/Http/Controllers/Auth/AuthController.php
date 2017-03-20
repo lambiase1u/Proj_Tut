@@ -8,13 +8,14 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Webpatser\Uuid\Uuid;
+use DateTime;
 
 class AuthController extends Controller
 {
     public function login(Request $request)
     {
         $this->validate($request, [
-            'email'    => 'required|email',
+            'email' => 'required|email',
             'password' => 'required|min:8',
         ]);
 
@@ -22,7 +23,7 @@ class AuthController extends Controller
 
         try {
             // verify the credentials and create a token for the user
-            if (! $token = JWTAuth::attempt($credentials)) {
+            if (!$token = JWTAuth::attempt($credentials)) {
                 return response()->error('Invalid credentials', 401);
             }
         } catch (\JWTException $e) {
@@ -36,12 +37,16 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
+        $date_Time = new \DateTime();
+        $current_date = $date_Time->createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
+        $adult = ($current_date->format('Y') - 18) . '-' . $current_date->format('m') . '-' . $current_date->format('d');
+
         $this->validate($request, [
-            'name'       => 'required|min:3',
-            'firstName'       => 'required|min:3',
-            'email'      => 'required|email|unique:users',
-            'password'   => 'required|min:8',
-            'birthdate'  => 'required',
+            'name' => 'required|min:3',
+            'firstName' => 'required|min:3',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:8',
+            'birthdate' => 'required|date|before:'.$adult
         ]);
 
         $user = new User;
