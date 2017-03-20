@@ -8,6 +8,18 @@
 
 	<div>
 		<md-input-container class="RegisterForm-inputContainer">
+			<label>firstName</label>
+			<input type="text" ng-model="vm.firstName">
+		</md-input-container>
+	</div>
+
+	<div flex-gt-xs>
+		<h4>Standard date-picker</h4>
+		<md-datepicker ng-model="vm.birthdate" md-placeholder="Enter date"></md-datepicker>
+	</div>
+
+	<div>
+		<md-input-container class="RegisterForm-inputContainer">
 			<label>Email</label>
 			<input type="email" ng-model="vm.email">
 		</md-input-container>

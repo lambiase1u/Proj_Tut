@@ -10,7 +10,8 @@ class CreatePostFormController {
     submit() {
         var data = {
             name: this.name,
-            topic: this.topic
+            topic: this.topic,
+            img: this.img
         };
 
         this.API.all('posts').post(data).then((response) => {
