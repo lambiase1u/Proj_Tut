@@ -17,6 +17,9 @@
     "angular-material": "~1.1",
     "restangular": "~1.5.2",
     "angular-loading-bar": "~0.8.0",
-    "satellizer": "^0.14.0"
+    "satellizer": "^0.14.0",
+    "moment": "^2.18.0",
+    "angular-translate": "^2.15.1",
+    "angular-moment": "^1.0.1"
   }
 }
