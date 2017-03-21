@@ -36,7 +36,7 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('./views/app/components/eventForm/eventForm.component.html',
-    '<form ng-submit="vm.submit()" enctype="multipart/form-data" name="eventForm">\n' +
+    '<form ng-submit="event.submit()" enctype="multipart/form-data" name="eventForm">\n' +
     '\n' +
     '    <div>\n' +
     '        <md-input-container>\n' +
@@ -46,9 +46,9 @@ module.run(['$templateCache', function($templateCache) {
     '    </div>\n' +
     '\n' +
     '    <div>\n' +
-    '        <md-input-container class="md-block">\n' +
-    '            <label>Description</label>\n' +
-    '            <textarea ng-model="event.description" md-maxlength="150" rows="5" md-select-on-focus></textarea>\n' +
+    '        <md-input-container class="">\n' +
+    '            <label>Date</label>\n' +
+    '            <md-datepicker ng-model="event.date" md-placeholder="dd/mm/yyyy" md-open-on-focus></md-datepicker>\n' +
     '        </md-input-container>\n' +
     '    </div>\n' +
     '\n' +
@@ -59,19 +59,24 @@ module.run(['$templateCache', function($templateCache) {
     '        </md-input-container>\n' +
     '    </div>\n' +
     '\n' +
+    '\n' +
     '    <div>\n' +
-    '        <md-input-container class="RegisterForm-inputContainer">\n' +
-    '            <label>Date</label>\n' +
-    '            <md-datepicker ng-model="event.date" md-placeholder="dd/mm/yyyy" md-open-on-focus></md-datepicker>\n' +
+    '        <md-input-container class="md-block">\n' +
+    '            <label>Description</label>\n' +
+    '            <textarea ng-model="event.description" md-maxlength="150" rows="5" md-select-on-focus></textarea>\n' +
     '        </md-input-container>\n' +
     '    </div>\n' +
     '\n' +
-    '    <div flex-gt-sm="50">\n' +
-    '        <md-checkbox aria-label="Public" ng-model="event.public" class="md-primary">\n' +
-    '        </md-checkbox>\n' +
+    '\n' +
+    '    <div>\n' +
+    '        <md-input-container>\n' +
+    '            <md-checkbox aria-label="Public" ng-model="event.public" class="md-primary">\n' +
+    '                Public\n' +
+    '            </md-checkbox>\n' +
+    '        </md-input-container>\n' +
     '    </div>\n' +
     '\n' +
-    '\n' +
+    '    <!--\n' +
     '    <div>\n' +
     '        <md-input-container>\n' +
     '            <label>Category</label>\n' +
@@ -101,6 +106,7 @@ module.run(['$templateCache', function($templateCache) {
     '            <input ng-model="event.idParent" type="text">\n' +
     '        </md-input-container>\n' +
     '    </div>\n' +
+    '    -->\n' +
     '\n' +
     '    <md-button type="submit" class="md-primary md-raised">Create post</md-button>\n' +
     '\n' +
@@ -313,13 +319,15 @@ try {
   module = angular.module('app.partials', []);
 }
 module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('./views/app/pages/create_post/create_post.page.html',
+  $templateCache.put('./views/app/pages/event/event.page.html',
     '<md-content class="Page-container">\n' +
+    '    <div flex="80" flex-offset="10">\n' +
+    '        <div class="Register-formContainer" layout="column" layout-align="center center">\n' +
+    '            <h1 class="md-headline">Create an Event</h1>\n' +
     '\n' +
-    '    <div class="Login-formContainer" layout="column" layout-align="center center">\n' +
-    '        <h1>Create Post</h1>\n' +
+    '            <event-form></event-form>\n' +
     '\n' +
-    '        <create-post-form></create-post-form>\n' +
+    '        </div>\n' +
     '    </div>\n' +
     '</md-content>\n' +
     '');
@@ -333,15 +341,13 @@ try {
   module = angular.module('app.partials', []);
 }
 module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('./views/app/pages/event/event.page.html',
+  $templateCache.put('./views/app/pages/create_post/create_post.page.html',
     '<md-content class="Page-container">\n' +
-    '    <div flex="80" flex-offset="10">\n' +
-    '        <div class="Register-formContainer" layout="column" layout-align="center center">\n' +
-    '            <h1 class="md-headline">Create an Event</h1>\n' +
     '\n' +
-    '            <event-form></event-form>\n' +
+    '    <div class="Login-formContainer" layout="column" layout-align="center center">\n' +
+    '        <h1>Create Post</h1>\n' +
     '\n' +
-    '        </div>\n' +
+    '        <create-post-form></create-post-form>\n' +
     '    </div>\n' +
     '</md-content>\n' +
     '');

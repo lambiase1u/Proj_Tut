@@ -1,4 +1,4 @@
-<form ng-submit="vm.submit()" enctype="multipart/form-data" name="eventForm">
+<form ng-submit="event.submit()" enctype="multipart/form-data" name="eventForm">
 
     <div>
         <md-input-container>
@@ -8,9 +8,9 @@
     </div>
 
     <div>
-        <md-input-container class="md-block">
-            <label>Description</label>
-            <textarea ng-model="event.description" md-maxlength="150" rows="5" md-select-on-focus></textarea>
+        <md-input-container class="">
+            <label>Date</label>
+            <md-datepicker ng-model="event.date" md-placeholder="dd/mm/yyyy" md-open-on-focus></md-datepicker>
         </md-input-container>
     </div>
 
@@ -21,19 +21,24 @@
         </md-input-container>
     </div>
 
+
     <div>
-        <md-input-container class="RegisterForm-inputContainer">
-            <label>Date</label>
-            <md-datepicker ng-model="event.date" md-placeholder="dd/mm/yyyy" md-open-on-focus></md-datepicker>
+        <md-input-container class="md-block">
+            <label>Description</label>
+            <textarea ng-model="event.description" md-maxlength="150" rows="5" md-select-on-focus></textarea>
         </md-input-container>
     </div>
 
-    <div flex-gt-sm="50">
-        <md-checkbox aria-label="Public" ng-model="event.public" class="md-primary">
-        </md-checkbox>
+
+    <div>
+        <md-input-container>
+            <md-checkbox aria-label="Public" ng-model="event.public" class="md-primary">
+                Public
+            </md-checkbox>
+        </md-input-container>
     </div>
 
-
+    <!--
     <div>
         <md-input-container>
             <label>Category</label>
@@ -63,6 +68,7 @@
             <input ng-model="event.idParent" type="text">
         </md-input-container>
     </div>
+    -->
 
     <md-button type="submit" class="md-primary md-raised">Create post</md-button>
 
