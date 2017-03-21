@@ -30,5 +30,11 @@
         document.write('<script src="'+ location.protocol + '//' + (location.host.split(':')[0] || 'localhost') +':35729/livereload.js?snipver=1" type="text/javascript"><\/script>')
     </script>
     @endif
+
+
+    <script src="{!! elixir('js/map.js') !!}"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFosuj-n-qIEM_BRqt2JX-YIhfno9138k&libraries=geometry,places&callback=initialize"
+            async defer></script>
+
 </body>
 </html>

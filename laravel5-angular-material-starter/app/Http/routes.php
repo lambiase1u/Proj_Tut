@@ -28,10 +28,7 @@ $api->group(['middleware' => ['api']], function ($api) {
     $api->post('auth/password/email', 'Auth\PasswordResetController@sendResetLinkEmail');
     $api->get('auth/password/verify', 'Auth\PasswordResetController@verify');
     $api->post('auth/password/reset', 'Auth\PasswordResetController@reset');
-
-    $api->post('posts', 'CreatePostController@create');
-
-
+  
     //----------------------------------------------------------------------------------//
     //---------------------------------OpenEvent Routes---------------------------------//
     //----------------------------------------------------------------------------------//
@@ -94,6 +91,4 @@ $api->group(['middleware' => ['api', 'api.auth']], function ($api) {
     $api->post('categories/', 'CategoryController@create');
     $api->put('categories/{id}', 'CategoryController@update');
     $api->delete('categories/{id}', 'CategoryController@delete');
-
-    
 });

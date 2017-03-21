@@ -10,13 +10,17 @@ class RegisterFormController {
         this.name = '';
         this.email = '';
         this.password = '';
+        this.firstName = '';
+        this.birthdate = '';
     }
 
 	register() {
 		let user = {
 			name: this.name,
 			email: this.email,
-			password: this.password
+			password: this.password,
+			firstName : this.firstName,
+            birthdate : this.birthdate
 		};
 
 		this.$auth.signup(user)
