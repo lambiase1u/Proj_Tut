@@ -36,4 +36,6 @@ $api->group(['middleware' => ['api']], function ($api) {
 $api->group(['middleware' => ['api', 'api.auth']], function ($api) {
     $api->post('posts', 'CreatePostController@create');
     $api->get('posts', 'CreatePostController@getAll');
+
+    $api->post('events', 'EventController@create');
 });
