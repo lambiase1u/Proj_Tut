@@ -4,25 +4,61 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Classe representant un Evenement
+ */
 class Event extends Model
 {
-    protected $table = 'event';
-    //public $incrementing = false;
-    public $timestamps = true;
+    /**
+     * Nom de la table 
+     */
+    protected $table = 'Event';
+  
+    /**
+     * Cle primaire de la table
+     */
+	protected $primaryKey = 'id';
+	public $timestamps = false;
 
-    protected $fillable = [
-        'idParent','title', 'description', 'public', 'capacity', 'date','idCategorie','placeId'
-    ];
-
-
-    // je suis pas sur de celle la
-    public function  organizer(){
-        return $this->hasMany('App\Organizer');
+    /**
+     * Evenements parent
+     */
+	public function parentEvent() {
+		return $this->hasMany('\app\Event', 'idParent');
+	}
+  
+    /**
+     * Commentaires de l'evenement
+     */
+    public function comments() {
+        return $this->hasMany('\app\Comment', 'idEvent');
     }
-    /*
-    public function comments()
-    {
-        return $this->hasMany('App\Comment');
+    
+    /**
+     * Categorie de l'Evenement
+     */
+    public function category() {
+        return $this->belongsTo('\app\Category', 'idCategorie');
     }
-    */
+    
+    /**
+     * Organisateurs de l'Evenement
+     */
+	public function organizers() {
+		return $this->belongsToMany('\app\User', 'organizer', 'idEvent', 'idUser');
+	}
+    
+    /**
+     * Participants a l'Evenement
+     */
+	public function participants() {
+		return $this->belongsToMany('\app\User', 'participation', 'idActivity', 'idUser');
+	}
+    
+    /**
+     * Invites a l'Evenement
+     */
+	public function organizers() {
+		return $this->belongsToMany('\app\User', 'invitation', 'idActivity', 'idUser');
+	}
 }
