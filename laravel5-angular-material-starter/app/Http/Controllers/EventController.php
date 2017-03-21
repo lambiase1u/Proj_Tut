@@ -25,7 +25,7 @@ class EventController extends Controller
             'description' => 'required | min: 15',
             'public' => 'required | true | false',
             'capacity' => 'required | integer',
-            'date' => 'required | date | after_or_equal :' . $current_date,
+            'date' => 'required | date | after_or_equal:' . $current_date,
             'idCategorie' => 'required | string',
             'placeId' => 'required'
         ]);

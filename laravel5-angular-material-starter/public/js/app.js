@@ -56,9 +56,9 @@
 
 	__webpack_require__(17);
 
-	__webpack_require__(24);
-
 	__webpack_require__(25);
+
+	__webpack_require__(26);
 
 /***/ },
 /* 1 */
@@ -474,22 +474,62 @@
 
 	'use strict';
 
-	var _post_get_all = __webpack_require__(18);
+	var _eventForm = __webpack_require__(18);
 
-	var _resetPassword = __webpack_require__(19);
+	var _post_get_all = __webpack_require__(19);
 
-	var _forgotPassword = __webpack_require__(20);
+	var _resetPassword = __webpack_require__(20);
 
-	var _loginForm = __webpack_require__(21);
+	var _forgotPassword = __webpack_require__(21);
 
-	var _registerForm = __webpack_require__(22);
+	var _loginForm = __webpack_require__(22);
 
-	var _create_post_form = __webpack_require__(23);
+	var _registerForm = __webpack_require__(23);
 
-	angular.module('app.components').component('postGetAll', _post_get_all.PostGetAllComponent).component('resetPassword', _resetPassword.ResetPasswordComponent).component('forgotPassword', _forgotPassword.ForgotPasswordComponent).component('loginForm', _loginForm.LoginFormComponent).component('registerForm', _registerForm.RegisterFormComponent).component('createPostForm', _create_post_form.CreatePostFormComponent);
+	var _create_post_form = __webpack_require__(24);
+
+	angular.module('app.components').component('eventForm', _eventForm.EventFormComponent).component('postGetAll', _post_get_all.PostGetAllComponent).component('resetPassword', _resetPassword.ResetPasswordComponent).component('forgotPassword', _forgotPassword.ForgotPasswordComponent).component('loginForm', _loginForm.LoginFormComponent).component('registerForm', _registerForm.RegisterFormComponent).component('createPostForm', _create_post_form.CreatePostFormComponent);
 
 /***/ },
 /* 18 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var EventFormController = function () {
+	    function EventFormController() {
+	        'ngInject';
+
+	        //
+
+	        _classCallCheck(this, EventFormController);
+	    }
+
+	    _createClass(EventFormController, [{
+	        key: '$onInit',
+	        value: function $onInit() {}
+	    }]);
+
+	    return EventFormController;
+	}();
+
+	var EventFormComponent = exports.EventFormComponent = {
+	    templateUrl: './views/app/components/eventForm/eventForm.component.html',
+	    controller: EventFormController,
+	    controllerAs: 'vm',
+	    bindings: {}
+	};
+
+/***/ },
+/* 19 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -559,7 +599,7 @@
 	};
 
 /***/ },
-/* 19 */
+/* 20 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -639,7 +679,7 @@
 	};
 
 /***/ },
-/* 20 */
+/* 21 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -694,7 +734,7 @@
 	};
 
 /***/ },
-/* 21 */
+/* 22 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -765,7 +805,7 @@
 	};
 
 /***/ },
-/* 22 */
+/* 23 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -841,7 +881,7 @@
 	};
 
 /***/ },
-/* 23 */
+/* 24 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -895,7 +935,7 @@
 	};
 
 /***/ },
-/* 24 */
+/* 25 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -903,21 +943,21 @@
 	angular.module('app.directives');
 
 /***/ },
-/* 25 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _API = __webpack_require__(26);
+	var _API = __webpack_require__(27);
 
-	var _dialog = __webpack_require__(27);
+	var _dialog = __webpack_require__(28);
 
-	var _toast = __webpack_require__(28);
+	var _toast = __webpack_require__(29);
 
 	angular.module('app.services').service('API', _API.APIService).service('DialogService', _dialog.DialogService).service('ToastService', _toast.ToastService);
 
 /***/ },
-/* 26 */
+/* 27 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -959,7 +999,7 @@
 	}];
 
 /***/ },
-/* 27 */
+/* 28 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1029,7 +1069,7 @@
 	}();
 
 /***/ },
-/* 28 */
+/* 29 */
 /***/ function(module, exports) {
 
 	'use strict';
