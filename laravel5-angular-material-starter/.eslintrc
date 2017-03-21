@@ -15,6 +15,7 @@
   "globals": {
     "angular": true,
     "module": true,
+    "moment": true,
     "inject": true
   }
 }

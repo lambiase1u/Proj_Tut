@@ -31,6 +31,7 @@ export function RoutesConfig($stateProvider, $urlRouterProvider) {
         })
         .state('app.login', {
 			url: '/login',
+            redirectTo: 'app.create_post',
 			views: {
 				'main@': {
 					templateUrl: getView('login')
@@ -63,9 +64,28 @@ export function RoutesConfig($stateProvider, $urlRouterProvider) {
         })
         .state('app.create_post', {
             url: '/create-post',
+            data: {auth: true},//{auth: true} would require JWT auth
             views: {
                 'main@': {
                     templateUrl: getView('create_post')
+                }
+            }
+        })
+        .state('app.get_all_posts', {
+            url: '/posts',
+            data: {auth: true},//{auth: true} would require JWT auth
+            views: {
+                'main@': {
+                    templateUrl: getView('post_get_all')
+                }
+            }
+        })
+        .state('app.event', {
+            url: '/event/create',
+            data: {auth: true},//{auth: true} would require JWT auth
+            views: {
+                'main@': {
+                    templateUrl: getView('event')
                 }
             }
         });

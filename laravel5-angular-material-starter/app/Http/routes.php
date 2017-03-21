@@ -29,10 +29,13 @@ $api->group(['middleware' => ['api']], function ($api) {
     $api->get('auth/password/verify', 'Auth\PasswordResetController@verify');
     $api->post('auth/password/reset', 'Auth\PasswordResetController@reset');
 
-    $api->post('posts', 'CreatePostController@create');
 
 });
 
 //protected API routes with JWT (must be logged in)
 $api->group(['middleware' => ['api', 'api.auth']], function ($api) {
+    $api->post('posts', 'CreatePostController@create');
+    $api->get('posts', 'CreatePostController@getAll');
+
+    $api->post('events', 'EventController@create');
 });
