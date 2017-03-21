@@ -525,14 +525,19 @@
 	            var _this = this;
 
 	            var data = {
-	                name: this.name,
-	                topic: this.topic,
-	                img: this.img
+	                title: this.title,
+	                description: this.description,
+	                public: this.public,
+	                capacity: this.capacity,
+	                date: this.date,
+	                idCategorie: this.idCategorie,
+	                placeId: this.placeId,
+	                idParent: this.idParent
 	            };
 
-	            this.API.all('posts').post(data).then(function (response) {
+	            this.API.all('events').post(data).then(function (response) {
 	                _this.$log.log(response);
-	                _this.ToastService.show('Post added successfully');
+	                _this.ToastService.show('Event added successfully');
 	            });
 	        }
 	    }]);
@@ -543,7 +548,7 @@
 	var EventFormComponent = exports.EventFormComponent = {
 	    templateUrl: './views/app/components/eventForm/eventForm.component.html',
 	    controller: EventFormController,
-	    controllerAs: 'vm',
+	    controllerAs: 'event',
 	    bindings: {}
 	};
 

@@ -28,6 +28,7 @@ md-toast[md-theme=warn] .md-toast-content {
   margin-bottom: 0;
 }
 
+
 .LoginForm-inputContainer {
   margin-top: 10px;
   margin-bottom: 0px;
@@ -59,6 +60,8 @@ md-toast[md-theme=warn] .md-toast-content {
   padding: 5px 0;
 }
 
+
+
 .Footer {
   text-align: center;
   background-color: #F6F9FA;
@@ -85,7 +88,6 @@ md-toast[md-theme=warn] .md-toast-content {
   width: 49px;
   height: 46px;
 }
-
 
 .ForgotPassword-formContainer {
   margin-top: 80px;
@@ -127,6 +129,7 @@ md-toast[md-theme=warn] .md-toast-content {
 .DemoHeader-spacer {
   padding-top: 64px;
 }
+
 
 body {
   font-family: 'Lato';
@@ -307,13 +310,12 @@ Make sure to remove this when you modify this demo
   }
 }
 
-.Login-formContainer {
+.Register-formContainer {
   margin-top: 80px;
   margin-bottom: 80px;
 }
 
-
-.Register-formContainer {
+.Login-formContainer {
   margin-top: 80px;
   margin-bottom: 80px;
 }

@@ -35,6 +35,86 @@ try {
   module = angular.module('app.partials', []);
 }
 module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('./views/app/components/eventForm/eventForm.component.html',
+    '<form ng-submit="vm.submit()" enctype="multipart/form-data" name="eventForm">\n' +
+    '\n' +
+    '    <div>\n' +
+    '        <md-input-container>\n' +
+    '            <label>title</label>\n' +
+    '            <input type="text" ng-model="event.title">\n' +
+    '        </md-input-container>\n' +
+    '    </div>\n' +
+    '\n' +
+    '    <div>\n' +
+    '        <md-input-container class="md-block">\n' +
+    '            <label>Description</label>\n' +
+    '            <textarea ng-model="event.description" md-maxlength="150" rows="5" md-select-on-focus></textarea>\n' +
+    '        </md-input-container>\n' +
+    '    </div>\n' +
+    '\n' +
+    '    <div>\n' +
+    '        <md-input-container class="md-block" flex-gt-sm>\n' +
+    '            <label>Max people</label>\n' +
+    '            <input name="capacity" ng-model="event.capacity" placeholder="123" md-maxlength="5">\n' +
+    '        </md-input-container>\n' +
+    '    </div>\n' +
+    '\n' +
+    '    <div>\n' +
+    '        <md-input-container class="RegisterForm-inputContainer">\n' +
+    '            <label>Date</label>\n' +
+    '            <md-datepicker ng-model="event.date" md-placeholder="dd/mm/yyyy" md-open-on-focus></md-datepicker>\n' +
+    '        </md-input-container>\n' +
+    '    </div>\n' +
+    '\n' +
+    '    <div flex-gt-sm="50">\n' +
+    '        <md-checkbox aria-label="Public" ng-model="event.public" class="md-primary">\n' +
+    '        </md-checkbox>\n' +
+    '    </div>\n' +
+    '\n' +
+    '\n' +
+    '    <div>\n' +
+    '        <md-input-container>\n' +
+    '            <label>Category</label>\n' +
+    '            <md-select ng-model="event.idCategorie" md-selected-text="getSelectedText()">\n' +
+    '                <md-optgroup label="Category">\n' +
+    '                    <md-option ng-value="category" ng-repeat="category in event.categories">Item {{category}}\n' +
+    '                    </md-option>\n' +
+    '                </md-optgroup>\n' +
+    '            </md-select>\n' +
+    '        </md-input-container>\n' +
+    '    </div>\n' +
+    '\n' +
+    '    <div>\n' +
+    '        <md-input-container>\n' +
+    '            <label>placeId</label>\n' +
+    '            <md-select ng-model="event.placeId" md-selected-text="getSelectedText()">\n' +
+    '                <md-optgroup label="Category">\n' +
+    '                    <md-option ng-value="place" ng-repeat="place in event.places">Item {{place}}</md-option>\n' +
+    '                </md-optgroup>\n' +
+    '            </md-select>\n' +
+    '        </md-input-container>\n' +
+    '    </div>\n' +
+    '\n' +
+    '    <div>\n' +
+    '        <md-input-container>\n' +
+    '            <label>Link to another event :</label>\n' +
+    '            <input ng-model="event.idParent" type="text">\n' +
+    '        </md-input-container>\n' +
+    '    </div>\n' +
+    '\n' +
+    '    <md-button type="submit" class="md-primary md-raised">Create post</md-button>\n' +
+    '\n' +
+    '</form>');
+}]);
+})();
+
+(function(module) {
+try {
+  module = angular.module('app.partials');
+} catch (e) {
+  module = angular.module('app.partials', []);
+}
+module.run(['$templateCache', function($templateCache) {
   $templateCache.put('./views/app/components/forgot-password/forgot-password.component.html',
     '<form ng-submit="vm.submit()" class="ForgotPassword-form">\n' +
     '    <div>\n' +
@@ -200,6 +280,26 @@ try {
   module = angular.module('app.partials', []);
 }
 module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('./views/app/pages/create_post/create_post.page.html',
+    '<md-content class="Page-container">\n' +
+    '\n' +
+    '    <div class="Login-formContainer" layout="column" layout-align="center center">\n' +
+    '        <h1>Create Post</h1>\n' +
+    '\n' +
+    '        <create-post-form></create-post-form>\n' +
+    '    </div>\n' +
+    '</md-content>\n' +
+    '');
+}]);
+})();
+
+(function(module) {
+try {
+  module = angular.module('app.partials');
+} catch (e) {
+  module = angular.module('app.partials', []);
+}
+module.run(['$templateCache', function($templateCache) {
   $templateCache.put('./views/app/components/reset-password/reset-password.component.html',
     '<form ng-submit="vm.submit()">\n' +
     '\n' +
@@ -233,13 +333,15 @@ try {
   module = angular.module('app.partials', []);
 }
 module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('./views/app/pages/create_post/create_post.page.html',
+  $templateCache.put('./views/app/pages/event/event.page.html',
     '<md-content class="Page-container">\n' +
+    '    <div flex="80" flex-offset="10">\n' +
+    '        <div class="Register-formContainer" layout="column" layout-align="center center">\n' +
+    '            <h1 class="md-headline">Create an Event</h1>\n' +
     '\n' +
-    '    <div class="Login-formContainer" layout="column" layout-align="center center">\n' +
-    '        <h1>Create Post</h1>\n' +
+    '            <event-form></event-form>\n' +
     '\n' +
-    '        <create-post-form></create-post-form>\n' +
+    '        </div>\n' +
     '    </div>\n' +
     '</md-content>\n' +
     '');
@@ -466,16 +568,15 @@ try {
   module = angular.module('app.partials', []);
 }
 module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('./views/app/pages/register/register.page.html',
+  $templateCache.put('./views/app/pages/reset-password/reset-password.page.html',
     '<md-content class="Page-container">\n' +
-    '	<div flex="80" flex-offset="10">\n' +
-    '		<div class="Register-formContainer" layout="column" layout-align="center center">\n' +
-    '			<h1 class="md-headline">Create an account</h1>\n' +
+    '    <div class="ResetPassword-formContainer" layout="column" layout-align="center center">\n' +
     '\n' +
-    '			<register-form></register-form>\n' +
+    '        <h1 class="md-headline">Reset Password</h1>\n' +
     '\n' +
-    '		</div>\n' +
-    '	</div>\n' +
+    '        <reset-password></reset-password>\n' +
+    '\n' +
+    '    </div>\n' +
     '</md-content>\n' +
     '');
 }]);
@@ -488,15 +589,16 @@ try {
   module = angular.module('app.partials', []);
 }
 module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('./views/app/pages/reset-password/reset-password.page.html',
+  $templateCache.put('./views/app/pages/register/register.page.html',
     '<md-content class="Page-container">\n' +
-    '    <div class="ResetPassword-formContainer" layout="column" layout-align="center center">\n' +
+    '	<div flex="80" flex-offset="10">\n' +
+    '		<div class="Register-formContainer" layout="column" layout-align="center center">\n' +
+    '			<h1 class="md-headline">Create an account</h1>\n' +
     '\n' +
-    '        <h1 class="md-headline">Reset Password</h1>\n' +
+    '			<register-form></register-form>\n' +
     '\n' +
-    '        <reset-password></reset-password>\n' +
-    '\n' +
-    '    </div>\n' +
+    '		</div>\n' +
+    '	</div>\n' +
     '</md-content>\n' +
     '');
 }]);

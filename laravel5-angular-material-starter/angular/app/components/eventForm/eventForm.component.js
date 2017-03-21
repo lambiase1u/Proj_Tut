@@ -33,6 +33,6 @@ class EventFormController {
 export const EventFormComponent = {
     templateUrl: './views/app/components/eventForm/eventForm.component.html',
     controller: EventFormController,
-    controllerAs: 'vm',
+    controllerAs: 'event',
     bindings: {}
 }
