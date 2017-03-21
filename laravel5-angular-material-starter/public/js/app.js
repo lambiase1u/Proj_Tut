@@ -810,7 +810,7 @@
 				this.$auth.login(user).then(function (response) {
 					_this.$auth.setToken(response.data);
 
-					_this.ToastService.show('Logged in successfully.');
+					_this.ToastService.show('Connexion réussie.');
 					return _this.$state.go('app.create_post');
 				}).catch(this.failedLogin.bind(this));
 			}
@@ -887,7 +887,7 @@
 					//remove this if you require email verification
 					_this.$auth.setToken(response.data);
 
-					_this.ToastService.show('Successfully registered.');
+					_this.ToastService.show('Inscription réussie.');
 				}).catch(this.failedRegistration.bind(this));
 			}
 		}, {

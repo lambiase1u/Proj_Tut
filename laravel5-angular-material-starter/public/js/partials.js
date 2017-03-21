@@ -147,19 +147,19 @@ module.run(['$templateCache', function($templateCache) {
     '<form ng-submit="vm.login()">\n' +
     '	<div>\n' +
     '		<md-input-container class="LoginForm-inputContainer">\n' +
-    '			<label>Email</label>\n' +
+    '			<label>Adresse mail</label>\n' +
     '			<input type="email" ng-model="vm.email">\n' +
     '		</md-input-container>\n' +
     '	</div>\n' +
     '\n' +
     '	<div>\n' +
     '		<md-input-container class="LoginForm-inputContainer">\n' +
-    '			<label>Password</label>\n' +
+    '			<label>Mot de passe</label>\n' +
     '			<input type="password" ng-model="vm.password">\n' +
     '		</md-input-container>\n' +
     '	</div>\n' +
     '\n' +
-    '	<md-button type="submit" class="LoginForm-submit md-primary md-raised">Log in</md-button>\n' +
+    '	<md-button type="submit" class="LoginForm-submit md-primary md-raised">Connexion</md-button>\n' +
     '</form>\n' +
     '');
 }]);
@@ -239,21 +239,21 @@ module.run(['$templateCache', function($templateCache) {
     '\n' +
     '    <div>\n' +
     '        <md-input-container class="RegisterForm-inputContainer">\n' +
-    '            <label>Birthday</label>\n' +
+    '            <label>Date de naissance</label>\n' +
     '            <md-datepicker ng-model="vm.birthdate"  md-current-view="year"  md-placeholder="dd/mm/yyyy"></md-datepicker>\n' +
     '        </md-input-container>\n' +
     '    </div>\n' +
     '\n' +
     '    <div>\n' +
     '        <md-input-container class="RegisterForm-inputContainer">\n' +
-    '            <label>Name</label>\n' +
+    '            <label>Nom</label>\n' +
     '            <input type="text" ng-model="vm.name">\n' +
     '        </md-input-container>\n' +
     '    </div>\n' +
     '\n' +
     '    <div>\n' +
     '        <md-input-container class="RegisterForm-inputContainer">\n' +
-    '            <label>firstName</label>\n' +
+    '            <label>Prénom</label>\n' +
     '            <input type="text" ng-model="vm.firstName">\n' +
     '        </md-input-container>\n' +
     '    </div>\n' +
@@ -261,19 +261,19 @@ module.run(['$templateCache', function($templateCache) {
     '\n' +
     '    <div>\n' +
     '        <md-input-container class="RegisterForm-inputContainer">\n' +
-    '            <label>Email</label>\n' +
+    '            <label>Adresse mail</label>\n' +
     '            <input type="email" ng-model="vm.email">\n' +
     '        </md-input-container>\n' +
     '    </div>\n' +
     '\n' +
     '    <div>\n' +
     '        <md-input-container class="RegisterForm-inputContainer">\n' +
-    '            <label>Password</label>\n' +
+    '            <label>Mot de passe</label>\n' +
     '            <input type="password" ng-model="vm.password">\n' +
     '        </md-input-container>\n' +
     '    </div>\n' +
     '\n' +
-    '    <md-button type="submit" class="RegisterForm-submit md-primary md-raised">Register</md-button>\n' +
+    '    <md-button type="submit" class="RegisterForm-submit md-primary md-raised">S\'inscrire</md-button>\n' +
     '</form>\n' +
     '');
 }]);
@@ -448,7 +448,7 @@ module.run(['$templateCache', function($templateCache) {
     '<md-content class="Page-container">\n' +
     '    <div class="Login-formContainer" layout="column" layout-align="center center">\n' +
     '\n' +
-    '        <h1 class="md-headline">Log in to your account</h1>\n' +
+    '        <h1 class="md-headline">Connectez vous</h1>\n' +
     '\n' +
     '        <login-form></login-form>\n' +
     '\n' +
@@ -485,7 +485,7 @@ module.run(['$templateCache', function($templateCache) {
     '<md-content class="Page-container">\n' +
     '	<div flex="80" flex-offset="10">\n' +
     '		<div class="Register-formContainer" layout="column" layout-align="center center">\n' +
-    '			<h1 class="md-headline">Create an account</h1>\n' +
+    '			<h1 class="md-headline">Créer un compte</h1>\n' +
     '\n' +
     '			<register-form></register-form>\n' +
     '\n' +
