@@ -79,5 +79,14 @@ export function RoutesConfig($stateProvider, $urlRouterProvider) {
                     templateUrl: getView('post_get_all')
                 }
             }
+        })
+        .state('app.event', {
+            url: '/event/create',
+            data: {auth: true},//{auth: true} would require JWT auth
+            views: {
+                'main@': {
+                    templateUrl: getView('event')
+                }
+            }
         });
 }
