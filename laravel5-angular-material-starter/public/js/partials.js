@@ -57,6 +57,35 @@ try {
   module = angular.module('app.partials', []);
 }
 module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('./views/app/components/login-form/login-form.component.html',
+    '<form ng-submit="vm.login()">\n' +
+    '	<div>\n' +
+    '		<md-input-container class="LoginForm-inputContainer">\n' +
+    '			<label>Email</label>\n' +
+    '			<input type="email" ng-model="vm.email">\n' +
+    '		</md-input-container>\n' +
+    '	</div>\n' +
+    '\n' +
+    '	<div>\n' +
+    '		<md-input-container class="LoginForm-inputContainer">\n' +
+    '			<label>Password</label>\n' +
+    '			<input type="password" ng-model="vm.password">\n' +
+    '		</md-input-container>\n' +
+    '	</div>\n' +
+    '\n' +
+    '	<md-button type="submit" class="LoginForm-submit md-primary md-raised">Log in</md-button>\n' +
+    '</form>\n' +
+    '');
+}]);
+})();
+
+(function(module) {
+try {
+  module = angular.module('app.partials');
+} catch (e) {
+  module = angular.module('app.partials', []);
+}
+module.run(['$templateCache', function($templateCache) {
   $templateCache.put('./views/app/components/post_get_all/post_get_all.component.html',
     '<section layout="row" flex>\n' +
     '\n' +
@@ -108,35 +137,6 @@ module.run(['$templateCache', function($templateCache) {
     '\n' +
     '\n' +
     '\n' +
-    '');
-}]);
-})();
-
-(function(module) {
-try {
-  module = angular.module('app.partials');
-} catch (e) {
-  module = angular.module('app.partials', []);
-}
-module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('./views/app/components/login-form/login-form.component.html',
-    '<form ng-submit="vm.login()">\n' +
-    '	<div>\n' +
-    '		<md-input-container class="LoginForm-inputContainer">\n' +
-    '			<label>Email</label>\n' +
-    '			<input type="email" ng-model="vm.email">\n' +
-    '		</md-input-container>\n' +
-    '	</div>\n' +
-    '\n' +
-    '	<div>\n' +
-    '		<md-input-container class="LoginForm-inputContainer">\n' +
-    '			<label>Password</label>\n' +
-    '			<input type="password" ng-model="vm.password">\n' +
-    '		</md-input-container>\n' +
-    '	</div>\n' +
-    '\n' +
-    '	<md-button type="submit" class="LoginForm-submit md-primary md-raised">Log in</md-button>\n' +
-    '</form>\n' +
     '');
 }]);
 })();

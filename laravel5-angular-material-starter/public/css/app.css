@@ -28,6 +28,19 @@ md-toast[md-theme=warn] .md-toast-content {
   margin-bottom: 0;
 }
 
+.LoginForm-inputContainer {
+  margin-top: 10px;
+  margin-bottom: 0px;
+  width: 80%;
+  min-width: 300px;
+}
+.LoginForm-submit {
+  margin-bottom: 40px;
+  margin-left: 0;
+  width: 100%;
+  padding: 5px 0;
+}
+
 
 .ResetPassword-input {
   margin-bottom: 0;
@@ -44,24 +57,6 @@ md-toast[md-theme=warn] .md-toast-content {
   margin-left: 0;
   width: 100%;
   padding: 5px 0;
-}
-
-.LoginForm-inputContainer {
-  margin-top: 10px;
-  margin-bottom: 0px;
-  width: 80%;
-  min-width: 300px;
-}
-.LoginForm-submit {
-  margin-bottom: 40px;
-  margin-left: 0;
-  width: 100%;
-  padding: 5px 0;
-}
-
-.ForgotPassword-formContainer {
-  margin-top: 80px;
-  margin-bottom: 80px;
 }
 
 .Footer {
@@ -91,6 +86,11 @@ md-toast[md-theme=warn] .md-toast-content {
   height: 46px;
 }
 
+
+.ForgotPassword-formContainer {
+  margin-top: 80px;
+  margin-bottom: 80px;
+}
 
 .DemoHeader {
   height: 64px;
@@ -307,11 +307,11 @@ Make sure to remove this when you modify this demo
   }
 }
 
-
 .Login-formContainer {
   margin-top: 80px;
   margin-bottom: 80px;
 }
+
 
 .Register-formContainer {
   margin-top: 80px;
