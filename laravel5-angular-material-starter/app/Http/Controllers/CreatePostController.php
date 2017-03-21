@@ -15,9 +15,6 @@ class CreatePostController extends Controller
 {
     public function create(Request $request)
     {
-        var_dump(Input::all());
-        die();
-
         $this->validate($request, [
             'name'  => 'required',
             'topic' => 'required',
@@ -25,8 +22,8 @@ class CreatePostController extends Controller
 
         $post = new Posts();
         $post->id = Uuid::generate();
-        $post->name = $request->input('name');
-        $post->topic = $request->input('topic');
+        $post->name = trim($request->input('name'));
+        $post->topic = trim($request->input('topic'));
 
         $post->save();
 
