@@ -11,3 +11,5 @@ public/views
 public/js
 public/css
 public/build
+composer.json
+config/jwt.php
