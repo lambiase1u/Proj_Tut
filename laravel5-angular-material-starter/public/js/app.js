@@ -505,17 +505,36 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	var EventFormController = function () {
-	    function EventFormController() {
+	    EventFormController.$inject = ["API", "ToastService", "$log"];
+	    function EventFormController(API, ToastService, $log) {
 	        'ngInject';
 
-	        //
-
 	        _classCallCheck(this, EventFormController);
+
+	        this.API = API;
+	        this.ToastService = ToastService;
+	        this.$log = $log;
 	    }
 
 	    _createClass(EventFormController, [{
 	        key: '$onInit',
 	        value: function $onInit() {}
+	    }, {
+	        key: 'submit',
+	        value: function submit() {
+	            var _this = this;
+
+	            var data = {
+	                name: this.name,
+	                topic: this.topic,
+	                img: this.img
+	            };
+
+	            this.API.all('posts').post(data).then(function (response) {
+	                _this.$log.log(response);
+	                _this.ToastService.show('Post added successfully');
+	            });
+	        }
 	    }]);
 
 	    return EventFormController;
