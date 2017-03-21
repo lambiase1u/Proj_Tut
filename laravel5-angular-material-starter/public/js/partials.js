@@ -319,6 +319,26 @@ try {
   module = angular.module('app.partials', []);
 }
 module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('./views/app/pages/create_post/create_post.page.html',
+    '<md-content class="Page-container">\n' +
+    '\n' +
+    '    <div class="Login-formContainer" layout="column" layout-align="center center">\n' +
+    '        <h1>Create Post</h1>\n' +
+    '\n' +
+    '        <create-post-form></create-post-form>\n' +
+    '    </div>\n' +
+    '</md-content>\n' +
+    '');
+}]);
+})();
+
+(function(module) {
+try {
+  module = angular.module('app.partials');
+} catch (e) {
+  module = angular.module('app.partials', []);
+}
+module.run(['$templateCache', function($templateCache) {
   $templateCache.put('./views/app/pages/event/event.page.html',
     '<md-content class="Page-container">\n' +
     '    <div flex="80" flex-offset="10">\n' +
@@ -341,37 +361,13 @@ try {
   module = angular.module('app.partials', []);
 }
 module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('./views/app/pages/create_post/create_post.page.html',
-    '<md-content class="Page-container">\n' +
-    '\n' +
-    '    <div class="Login-formContainer" layout="column" layout-align="center center">\n' +
-    '        <h1>Create Post</h1>\n' +
-    '\n' +
-    '        <create-post-form></create-post-form>\n' +
-    '    </div>\n' +
-    '</md-content>\n' +
-    '');
-}]);
-})();
-
-(function(module) {
-try {
-  module = angular.module('app.partials');
-} catch (e) {
-  module = angular.module('app.partials', []);
-}
-module.run(['$templateCache', function($templateCache) {
   $templateCache.put('./views/app/pages/footer/footer.page.html',
     '<md-content class="Page-Container Footer iOS-hack" layout-align="center center">\n' +
     '<md-icon md-svg-src="/img/icons/logo-grey.svg" class="Footer-logo"></md-icon>\n' +
     '<br/>\n' +
     '<br/>\n' +
     '<div class="Footer-text">\n' +
-    '	An open source project by <a href="https://github.com/jadjoubran" class="Footer-link" target="_blank">Jad Joubran</a>.\n' +
-    '	Design by <a href="http://nicolesaidy.com" class="Footer-link" target="_blank">Nicole Saidy</a>\n' +
-    '</div>\n' +
-    '<div class="Footer-text">\n' +
-    '	&copy; 2016 Laravel Angular Material Starter\n' +
+    '	Un projet fait par Dylan Demougin, Quentin Claudel, David Lambiase et Maxime Weiten dans le cadre d\'un projet tutoré à l\'<a href="http://iut-charlemagne.univ-lorraine.fr" class="Footer-link" target="_blank">IUT Charlemagne</a> de Nancy.\n' +
     '</div>\n' +
     '</md-content>\n' +
     '');
@@ -413,10 +409,9 @@ module.run(['$templateCache', function($templateCache) {
     '			<div layout="row" layout-align="space-between">\n' +
     '				<img src="img/icons/logo.svg" ui-sref="app.landing" class="DemoHeader-logo"/>\n' +
     '				<div layout="row" layout-align="center stretch">\n' +
-    '					<a hide-xs class="DemoHeader-link md-subhead" href="https://laravel-angular.readme.io" target="_blank">Docs</a>\n' +
-    '					<a hide-xs class="DemoHeader-link md-subhead" href="https://www.youtube.com/watch?list=PLIiQ4B5FSupiQYLX6kERPV0OhMC7tTbBE&v=_ZWV9KBK2N8" target="_blank">Screencasts</a>\n' +
-    '					<a hide-xs class="DemoHeader-link md-subhead" href="https://github.com/jadjoubran/laravel5-angular-material-starter" target="_blank">Github</a>\n' +
-    '					<iframe class="DemoHeader-github" src="https://ghbtns.com/github-btn.html?user=jadjoubran&repo=laravel5-angular-material-starter&type=star&count=true&size=large" frameborder="0" scrolling="0" width="160px" height="30px"></iframe>\n' +
+    '					<a hide-xs class="DemoHeader-link md-subhead" href="#!/register">Inscription</a>\n' +
+    '					<a hide-xs class="DemoHeader-link md-subhead" href="#!/login">Connexion</a>\n' +
+    '					<a hide-xs class="DemoHeader-link md-subhead" href="https://github.com/lambiase1u/Proj_Tut" target="_blank">Github</a>\n' +
     '				</div>\n' +
     '			</div>\n' +
     '		</div>\n' +
@@ -436,95 +431,7 @@ try {
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('./views/app/pages/landing/landing.page.html',
     '<div class="Page-Container Landing iOS-hack">\n' +
-    '    <div layout="column" class="Landing-cover" layout-align="center center">\n' +
-    '        <div class="md-headline Landing-subtitle">Build your next powerful web app</div>\n' +
-    '        <h1 class="md-display-3 Landing-heading"><strong>laravel angular</strong> <span class="Landing-headingLight">material starter</span></h1>\n' +
-    '        <md-button class="md-raised md-large Landing-getStarted" href="https://laravel-angular.readme.io/docs/install" target="_blank">Get Started</md-button>\n' +
-    '    </div>\n' +
-    '\n' +
-    '    <div class="Landing-laravelAngular">\n' +
-    '        <div class="Landing-ampersand" hide show-gt-sm>&amp;</div>\n' +
-    '        <div layout="column" layout-gt-sm="row">\n' +
-    '            <div flex="50" class="Landing-laravel" layout-align="center center">\n' +
-    '                <h2 class="md-display-2 Landing-laravelAngular-title">Laravel</h2>\n' +
-    '                <div class="md-title Landing-laravelAngular-subtitle">Response macros integrated with your Angular app</div>\n' +
-    '                <br/>\n' +
-    '                <div class="DemoCode">\n' +
-    '                    <span class="DemoCode-operator">&lt;?php</span><br/>\n' +
-    '                    <br/>\n' +
-    '                    <span class="DemoCode-highlight">class</span> <span class="DemoCode-secondary">PostsController</span><br/>\n' +
-    '                    {<br/>\n' +
-    '                    <br/>\n' +
-    '                    &nbsp;&nbsp;&nbsp;&nbsp;public <span class="DemoCode-secondary">function</span> <span class="DemoCode-highlight">get</span>()<br/>\n' +
-    '                    &nbsp;&nbsp;&nbsp;&nbsp;{<br/>\n' +
-    '                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="DemoCode-secondary">$posts</span> = <span class="DemoCode-highlight">App</span>\\<span class="DemoCode-highlight">Post</span>::<span class="DemoCode-secondary">get</span>();<br/>\n' +
-    '                    <br/>\n' +
-    '                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="DemoCode-highlight">return</span> <span class="DemoCode-secondary">response</span>()<br/>\n' +
-    '                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;<span class="DemoCode-secondary">success</span>(compact(<span class="DemoCode-string">\'posts\'</span>));<br/>\n' +
-    '                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>\n' +
-    '                    }\n' +
-    '                    <br/>\n' +
-    '                    <br/>\n' +
-    '                </div>\n' +
-    '            </div>\n' +
-    '            <div flex="50" class="Landing-angular" layout-align="center center">\n' +
-    '                <h2 class="md-display-2 Landing-laravelAngular-title">Angular</h2>\n' +
-    '                <div class="md-title Landing-laravelAngular-subtitle">Query your API without worrying about validations</div>\n' +
-    '                <br/>\n' +
-    '                <div class="DemoCode">\n' +
-    '                    <span class="DemoCode-secondary">Class</span> <span class="DemoCode-highlight">PostsController</span> {<br/>\n' +
-    '                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="DemoCode-highlight">constructor</span>(API){<br/>\n' +
-    '                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="DemoCode-string">\'ngInject\'</span>;<br/>\n' +
-    '                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.API = API<br/>\n' +
-    '                    &nbsp;&nbsp;&nbsp;&nbsp;}<br/>\n' +
-    '                    <br/>\n' +
-    '                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="DemoCode-highlight">getPosts</span>(){<br/>\n' +
-    '                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.API.all(<span class="DemoCode-string">\'posts\'</span>).get(\'\')<br/>\n' +
-    '                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.then((<span class="DemoCode-secondary">response</span>) => {<br/>\n' +
-    '                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="DemoCode-highlight">this</span>.posts = <span class="DemoCode-highlight">response.data</span>;<br/>\n' +
-    '                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});<br/>\n' +
-    '                    &nbsp;&nbsp;&nbsp;&nbsp;}<br/>\n' +
-    '                    }<br/>\n' +
-    '                    <br/>\n' +
-    '                </div>\n' +
-    '            </div>\n' +
-    '        </div>\n' +
-    '    </div>\n' +
-    '\n' +
-    '    <div class="Landing-features" layout-align="center center">\n' +
-    '        <h1 class="md-display-2 Landing-featuresMainTitle">Laravel Angular Material Starter</h1>\n' +
-    '        <div class="md-title Landing-featuresMainDescription">\n' +
-    '            The right features to get you started\n' +
-    '        </div>\n' +
-    '        <br/>\n' +
-    '        <div>\n' +
-    '            <div layout="column" layout-gt-sm="row" layout-align="space-around">\n' +
-    '                <div flex="33">\n' +
-    '                    <div class="Landing-featuresEntry Landing-featuresEntry--restful">\n' +
-    '                        <md-icon md-svg-src="/img/icons/restful-api.svg" class="Landing-featuresEntry-icon"></md-icon>\n' +
-    '                    </div>\n' +
-    '                    <div class="md-headline Landing-featuresTitle">RESTful API</div>\n' +
-    '                    <div class="md-subhead Landing-featuresDescription">Build consistent REST APIs and call them fluently using JavaScript, without having to worry about validation errors</div>\n' +
-    '                </div>\n' +
-    '                <div flex="33">\n' +
-    '                    <div class="Landing-featuresEntry Landing-featuresEntry--jwt">\n' +
-    '                        <md-icon md-svg-src="/img/icons/json-webtoken.svg" class="Landing-featuresEntry-icon"></md-icon>\n' +
-    '                    </div>\n' +
-    '                    <div class="md-headline Landing-featuresTitle">Json Web Token Authentication</div>\n' +
-    '                    <div class="md-subhead Landing-featuresDescription">Get an out-of-the-box JWT Authentication in your app that allows you to authenticate users on the fly</div>\n' +
-    '                </div>\n' +
-    '                <div flex="33">\n' +
-    '                    <div class="Landing-featuresEntry Landing-featuresEntry--generators">\n' +
-    '                        <md-icon md-svg-src="/img/icons/angular-generators.svg" class="Landing-featuresEntry-icon"></md-icon>\n' +
-    '                    </div>\n' +
-    '                    <div class="md-headline Landing-featuresTitle">Angular Generators</div>\n' +
-    '                    <div class="md-subhead Landing-featuresDescription">Generate angular features, dialogs, directives, services, filters & configs just like you\'re used to</div>\n' +
-    '                </div>\n' +
-    '            </div>\n' +
-    '        </div>\n' +
-    '        <br/>\n' +
-    '        <br/>\n' +
-    '    </div>\n' +
+    '    \n' +
     '</div>\n' +
     '');
 }]);

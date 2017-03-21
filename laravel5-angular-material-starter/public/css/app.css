@@ -56,10 +56,10 @@ md-toast[md-theme=warn] .md-toast-content {
   padding: 5px 0;
 }
 
-
 .ResetPassword-input {
   margin-bottom: 0;
 }
+
 
 
 .Footer {
@@ -315,12 +315,12 @@ Make sure to remove this when you modify this demo
 }
 
 
-.ResetPassword-formContainer {
+.Register-formContainer {
   margin-top: 80px;
   margin-bottom: 80px;
 }
 
-.Register-formContainer {
+.ResetPassword-formContainer {
   margin-top: 80px;
   margin-bottom: 80px;
 }
