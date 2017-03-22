@@ -49,7 +49,7 @@ class AuthController extends Controller
             'birthdate' => 'required|date|before:'.$adult
         ]);
 
-        $user = new User;
+        $user = new User();
 
         $user->id = Uuid::generate();
         $user->name = trim($request->name);

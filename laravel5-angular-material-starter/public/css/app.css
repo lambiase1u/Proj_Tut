@@ -309,13 +309,13 @@ Make sure to remove this when you modify this demo
   }
 }
 
-.Login-formContainer {
+
+.Register-formContainer {
   margin-top: 80px;
   margin-bottom: 80px;
 }
 
-
-.Register-formContainer {
+.Login-formContainer {
   margin-top: 80px;
   margin-bottom: 80px;
 }
