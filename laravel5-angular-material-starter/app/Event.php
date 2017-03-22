@@ -19,46 +19,47 @@ class Event extends Model
      */
 	protected $primaryKey = 'id';
 	public $timestamps = false;
+    public $incrementing = false;
 
     /**
      * Evenements parent
      */
 	public function parentEvent() {
-		return $this->hasMany('\app\Event', 'idParent');
+		return $this->hasMany('\App\Event', 'idParent');
 	}
   
     /**
      * Commentaires de l'evenement
      */
     public function comments() {
-        return $this->hasMany('\app\Comment', 'idEvent');
+        return $this->hasMany('\App\Comment', 'idEvent');
     }
     
     /**
      * Categorie de l'Evenement
      */
     public function category() {
-        return $this->belongsTo('\app\Category', 'idCategorie');
+        return $this->belongsTo('\App\Category', 'idCategorie');
     }
     
     /**
      * Organisateurs de l'Evenement
      */
 	public function organizers() {
-		return $this->belongsToMany('\app\User', 'organizer', 'idEvent', 'idUser');
+		return $this->belongsToMany('\App\User', 'organizer', 'idEvent', 'idUser');
 	}
     
     /**
      * Participants a l'Evenement
      */
 	public function participants() {
-		return $this->belongsToMany('\app\User', 'participation', 'idActivity', 'idUser');
+		return $this->belongsToMany('\App\User', 'participation', 'idActivity', 'idUser');
 	}
     
     /**
      * Invites a l'Evenement
      */
-	public function organizers() {
-		return $this->belongsToMany('\app\User', 'invitation', 'idActivity', 'idUser');
+	public function invitations() {
+		return $this->belongsToMany('\App\User', 'invitation', 'idActivity', 'idUser');
 	}
 }

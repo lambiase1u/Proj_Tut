@@ -234,6 +234,81 @@ try {
   module = angular.module('app.partials', []);
 }
 module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('./views/app/pages/event/event.page.html',
+    '<md-content class="Page-container">\n' +
+    '    <div flex="80" flex-offset="10">\n' +
+    '        <div class="Register-formContainer" layout="column" layout-align="center center">\n' +
+    '            <h1 class="md-headline">Create an Event</h1>\n' +
+    '\n' +
+    '            <event-form></event-form>\n' +
+    '\n' +
+    '        </div>\n' +
+    '    </div>\n' +
+    '</md-content>\n' +
+    '');
+}]);
+})();
+
+(function(module) {
+try {
+  module = angular.module('app.partials');
+} catch (e) {
+  module = angular.module('app.partials', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('./views/app/pages/create_post/create_post.page.html',
+    '<md-content class="Page-container">\n' +
+    '\n' +
+    '    <div class="Login-formContainer" layout="column" layout-align="center center">\n' +
+    '        <h1>Create Post</h1>\n' +
+    '\n' +
+    '        <create-post-form></create-post-form>\n' +
+    '    </div>\n' +
+    '</md-content>\n' +
+    '');
+}]);
+})();
+
+(function(module) {
+try {
+  module = angular.module('app.partials');
+} catch (e) {
+  module = angular.module('app.partials', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('./views/app/components/reset-password/reset-password.component.html',
+    '<form ng-submit="vm.submit()">\n' +
+    '\n' +
+    '    <div ng-if="!vm.isValidToken" layout="row" layout-align="center center">\n' +
+    '        <md-progress-circular md-mode="indeterminate"></md-progress-circular>\n' +
+    '    </div>\n' +
+    '\n' +
+    '    <div ng-show="vm.isValidToken">\n' +
+    '        <md-input-container class="ResetPassword-input">\n' +
+    '            <label>Password</label>\n' +
+    '            <input type="password" ng-model="vm.password">\n' +
+    '        </md-input-container>\n' +
+    '\n' +
+    '        <md-input-container class="ResetPassword-input">\n' +
+    '            <label>Confirm Password</label>\n' +
+    '            <input type="password" ng-model="vm.password_confirmation">\n' +
+    '        </md-input-container>\n' +
+    '\n' +
+    '        <md-button type="submit" class="md-primary md-raised">Submit</md-button>\n' +
+    '    </div>\n' +
+    '\n' +
+    '</form>\n' +
+    '');
+}]);
+})();
+
+(function(module) {
+try {
+  module = angular.module('app.partials');
+} catch (e) {
+  module = angular.module('app.partials', []);
+}
+module.run(['$templateCache', function($templateCache) {
   $templateCache.put('./views/app/components/register-form/register-form.component.html',
     '<form ng-submit="vm.register()">\n' +
     '\n' +
@@ -286,81 +361,6 @@ try {
   module = angular.module('app.partials', []);
 }
 module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('./views/app/components/reset-password/reset-password.component.html',
-    '<form ng-submit="vm.submit()">\n' +
-    '\n' +
-    '    <div ng-if="!vm.isValidToken" layout="row" layout-align="center center">\n' +
-    '        <md-progress-circular md-mode="indeterminate"></md-progress-circular>\n' +
-    '    </div>\n' +
-    '\n' +
-    '    <div ng-show="vm.isValidToken">\n' +
-    '        <md-input-container class="ResetPassword-input">\n' +
-    '            <label>Password</label>\n' +
-    '            <input type="password" ng-model="vm.password">\n' +
-    '        </md-input-container>\n' +
-    '\n' +
-    '        <md-input-container class="ResetPassword-input">\n' +
-    '            <label>Confirm Password</label>\n' +
-    '            <input type="password" ng-model="vm.password_confirmation">\n' +
-    '        </md-input-container>\n' +
-    '\n' +
-    '        <md-button type="submit" class="md-primary md-raised">Submit</md-button>\n' +
-    '    </div>\n' +
-    '\n' +
-    '</form>\n' +
-    '');
-}]);
-})();
-
-(function(module) {
-try {
-  module = angular.module('app.partials');
-} catch (e) {
-  module = angular.module('app.partials', []);
-}
-module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('./views/app/pages/create_post/create_post.page.html',
-    '<md-content class="Page-container">\n' +
-    '\n' +
-    '    <div class="Login-formContainer" layout="column" layout-align="center center">\n' +
-    '        <h1>Create Post</h1>\n' +
-    '\n' +
-    '        <create-post-form></create-post-form>\n' +
-    '    </div>\n' +
-    '</md-content>\n' +
-    '');
-}]);
-})();
-
-(function(module) {
-try {
-  module = angular.module('app.partials');
-} catch (e) {
-  module = angular.module('app.partials', []);
-}
-module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('./views/app/pages/event/event.page.html',
-    '<md-content class="Page-container">\n' +
-    '    <div flex="80" flex-offset="10">\n' +
-    '        <div class="Register-formContainer" layout="column" layout-align="center center">\n' +
-    '            <h1 class="md-headline">Create an Event</h1>\n' +
-    '\n' +
-    '            <event-form></event-form>\n' +
-    '\n' +
-    '        </div>\n' +
-    '    </div>\n' +
-    '</md-content>\n' +
-    '');
-}]);
-})();
-
-(function(module) {
-try {
-  module = angular.module('app.partials');
-} catch (e) {
-  module = angular.module('app.partials', []);
-}
-module.run(['$templateCache', function($templateCache) {
   $templateCache.put('./views/app/pages/footer/footer.page.html',
     '<md-content class="Page-Container Footer iOS-hack" layout-align="center center">\n' +
     '<md-icon md-svg-src="/img/icons/logo-grey.svg" class="Footer-logo"></md-icon>\n' +
@@ -369,27 +369,6 @@ module.run(['$templateCache', function($templateCache) {
     '<div class="Footer-text">\n' +
     '	Un projet fait par Dylan Demougin, Quentin Claudel, David Lambiase et Maxime Weiten dans le cadre d\'un projet tutoré à l\'<a href="http://iut-charlemagne.univ-lorraine.fr" class="Footer-link" target="_blank">IUT Charlemagne</a> de Nancy.\n' +
     '</div>\n' +
-    '</md-content>\n' +
-    '');
-}]);
-})();
-
-(function(module) {
-try {
-  module = angular.module('app.partials');
-} catch (e) {
-  module = angular.module('app.partials', []);
-}
-module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('./views/app/pages/forgot-password/forgot-password.page.html',
-    '<md-content class="Page-container">\n' +
-    '    <div class="ForgotPassword-formContainer" layout="column" layout-align="center center">\n' +
-    '\n' +
-    '        <h1 class="md-headline">Forgot your password?</h1>\n' +
-    '\n' +
-    '        <forgot-password></forgot-password>\n' +
-    '\n' +
-    '    </div>\n' +
     '</md-content>\n' +
     '');
 }]);
@@ -444,13 +423,13 @@ try {
   module = angular.module('app.partials', []);
 }
 module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('./views/app/pages/login/login.page.html',
+  $templateCache.put('./views/app/pages/forgot-password/forgot-password.page.html',
     '<md-content class="Page-container">\n' +
-    '    <div class="Login-formContainer" layout="column" layout-align="center center">\n' +
+    '    <div class="ForgotPassword-formContainer" layout="column" layout-align="center center">\n' +
     '\n' +
-    '        <h1 class="md-headline">Connectez vous</h1>\n' +
+    '        <h1 class="md-headline">Forgot your password?</h1>\n' +
     '\n' +
-    '        <login-form></login-form>\n' +
+    '        <forgot-password></forgot-password>\n' +
     '\n' +
     '    </div>\n' +
     '</md-content>\n' +
@@ -465,10 +444,15 @@ try {
   module = angular.module('app.partials', []);
 }
 module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('./views/app/pages/post_get_all/post_get_all.page.html',
+  $templateCache.put('./views/app/pages/login/login.page.html',
     '<md-content class="Page-container">\n' +
+    '    <div class="Login-formContainer" layout="column" layout-align="center center">\n' +
     '\n' +
-    '    <post-get-all></post-get-all>\n' +
+    '        <h1 class="md-headline">Connectez vous</h1>\n' +
+    '\n' +
+    '        <login-form></login-form>\n' +
+    '\n' +
+    '    </div>\n' +
     '</md-content>\n' +
     '');
 }]);
@@ -491,6 +475,22 @@ module.run(['$templateCache', function($templateCache) {
     '\n' +
     '		</div>\n' +
     '	</div>\n' +
+    '</md-content>\n' +
+    '');
+}]);
+})();
+
+(function(module) {
+try {
+  module = angular.module('app.partials');
+} catch (e) {
+  module = angular.module('app.partials', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('./views/app/pages/post_get_all/post_get_all.page.html',
+    '<md-content class="Page-container">\n' +
+    '\n' +
+    '    <post-get-all></post-get-all>\n' +
     '</md-content>\n' +
     '');
 }]);

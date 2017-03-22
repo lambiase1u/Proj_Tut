@@ -19,18 +19,19 @@ class Comment extends Model
      */
 	protected $primaryKey = 'id';
 	public $timestamps = false;
+    public $incrementing = false;
 
     /**
      * Evenements lies a la categorie
      */
 	public function event() {
-		return $this->belongsTo('\app\Event', 'idEvent');
+		return $this->belongsTo('\App\Event', 'idEvent');
 	}
   
     /**
      * Utilisateur auteur du commentaire
      */
     public function user() {
-        return $this->belongsTo('\app\User', 'idUser');  
+        return $this->belongsTo('\App\User', 'idUser');  
     }
 }
