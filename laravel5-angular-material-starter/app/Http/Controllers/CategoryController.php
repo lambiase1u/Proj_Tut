@@ -82,7 +82,7 @@ class CategoryController extends Controller
         
         $category->save();
 
-        return response()->json($category);
+        return response()->json($category, 201);
     }
     
     /**
@@ -106,8 +106,9 @@ class CategoryController extends Controller
             $categorie->save();
             
             return response()->json($category);
-        } else 
-            return response()->error('Aucune catégorie correspondant à l\'identifiant n\'a été trouvée.', 204);
+        } else {
+            $this->create($request);
+        }
     }
     
     /**
