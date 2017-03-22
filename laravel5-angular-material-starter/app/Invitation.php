@@ -14,5 +14,6 @@ class Invitation extends Model
      */
     protected $table = 'invitation';
 	public $timestamps = false;
+    public $incrementing = false;
 
 }

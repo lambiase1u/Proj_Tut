@@ -19,11 +19,12 @@ class Category extends Model
      */
 	protected $primaryKey = 'id';
 	public $timestamps = false;
+    public $incrementing = false;
 
     /**
      * Evenements lies a la categorie
      */
 	public function events() {
-		return $this->hasMany('\app\Event', 'idCategorie');
+		return $this->hasMany('\App\Event', 'idCategorie');
 	}
 }
