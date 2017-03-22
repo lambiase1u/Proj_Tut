@@ -5,6 +5,8 @@ namespace App\Providers;
 use Response;
 use Illuminate\Support\ServiceProvider;
 
+use Webpatser\Uuid\Uuid;
+
 class ResponseMacroServiceProvider extends ServiceProvider
 {
     /**
@@ -19,6 +21,13 @@ class ResponseMacroServiceProvider extends ServiceProvider
                 'errors'  => false,
                  'data' => $data,
                 ]);
+        });
+
+        Response::macro('created', function($data) {
+            return Response::json([
+                'errors' => false,
+                'data' => $data,
+            ], 201);
         });
 
         Response::macro('error', function ($message, $status = 400) {

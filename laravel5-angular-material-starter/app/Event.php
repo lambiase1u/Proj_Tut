@@ -18,8 +18,8 @@ class Event extends Model
      * Cle primaire de la table
      */
 	protected $primaryKey = 'id';
-	public $timestamps = false;
-    public $incrementing = false;
+  public $incrementing = false;
+	public $timestamps = true;
 
     /**
      * Evenements parent
