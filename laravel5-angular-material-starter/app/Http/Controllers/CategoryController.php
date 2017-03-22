@@ -99,15 +99,13 @@ class CategoryController extends Controller
                 'description' => 'required'
             ]);
             
-            echo $request->title;
-            
             $categorie->title = trim($request->title);
             $categorie->description = trim($request->description);
             $categorie->save();
             
-            return response()->json($category);
+            return response()->json($categorie);
         } else {
-            $this->create($request);
+            return response()->error('Aucune catégorie correspondant à l\’identifiant n\'a été trouvée.', 204);
         }
     }
     
