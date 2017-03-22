@@ -76,7 +76,7 @@ class CategoryController extends Controller
         ]);
         
         $category = new Category();
-        $category->id = Uuid::generate();
+        $category->id = (string)Uuid::generate();
         $category->title = trim($request->title);
         $category->description = trim($request->description);
         
