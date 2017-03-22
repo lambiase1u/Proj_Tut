@@ -58,7 +58,7 @@ class Event extends Model
     /**
      * Invites a l'Evenement
      */
-	public function organizers() {
+	public function invitations() {
 		return $this->belongsToMany('\app\User', 'invitation', 'idActivity', 'idUser');
 	}
 }
