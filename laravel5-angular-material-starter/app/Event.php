@@ -18,7 +18,9 @@ class Event extends Model
      * Cle primaire de la table
      */
 	protected $primaryKey = 'id';
-	public $timestamps = false;
+
+    public $incrementing = false;
+	public $timestamps = true;
 
     /**
      * Evenements parent
@@ -58,7 +60,7 @@ class Event extends Model
     /**
      * Invites a l'Evenement
      */
-	public function organizers() {
+	public function invitations() {
 		return $this->belongsToMany('\app\User', 'invitation', 'idActivity', 'idUser');
 	}
 }

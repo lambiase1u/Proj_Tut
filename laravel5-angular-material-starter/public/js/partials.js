@@ -35,92 +35,6 @@ try {
   module = angular.module('app.partials', []);
 }
 module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('./views/app/components/eventForm/eventForm.component.html',
-    '<form ng-submit="event.submit()" enctype="multipart/form-data" name="eventForm">\n' +
-    '\n' +
-    '    <div>\n' +
-    '        <md-input-container>\n' +
-    '            <label>title</label>\n' +
-    '            <input type="text" ng-model="event.title">\n' +
-    '        </md-input-container>\n' +
-    '    </div>\n' +
-    '\n' +
-    '    <div>\n' +
-    '        <md-input-container class="">\n' +
-    '            <label>Date</label>\n' +
-    '            <md-datepicker ng-model="event.date" md-placeholder="dd/mm/yyyy" md-open-on-focus></md-datepicker>\n' +
-    '        </md-input-container>\n' +
-    '    </div>\n' +
-    '\n' +
-    '    <div>\n' +
-    '        <md-input-container class="md-block" flex-gt-sm>\n' +
-    '            <label>Max people</label>\n' +
-    '            <input name="capacity" ng-model="event.capacity" placeholder="123" md-maxlength="5">\n' +
-    '        </md-input-container>\n' +
-    '    </div>\n' +
-    '\n' +
-    '\n' +
-    '    <div>\n' +
-    '        <md-input-container class="md-block">\n' +
-    '            <label>Description</label>\n' +
-    '            <textarea ng-model="event.description" md-maxlength="150" rows="5" md-select-on-focus></textarea>\n' +
-    '        </md-input-container>\n' +
-    '    </div>\n' +
-    '\n' +
-    '\n' +
-    '    <div>\n' +
-    '        <md-input-container>\n' +
-    '            <md-checkbox aria-label="Public" ng-model="event.public" class="md-primary">\n' +
-    '                Public\n' +
-    '            </md-checkbox>\n' +
-    '        </md-input-container>\n' +
-    '    </div>\n' +
-    '\n' +
-    '    <!--\n' +
-    '    <div>\n' +
-    '        <md-input-container>\n' +
-    '            <label>Category</label>\n' +
-    '            <md-select ng-model="event.idCategorie" md-selected-text="getSelectedText()">\n' +
-    '                <md-optgroup label="Category">\n' +
-    '                    <md-option ng-value="category" ng-repeat="category in event.categories">Item {{category}}\n' +
-    '                    </md-option>\n' +
-    '                </md-optgroup>\n' +
-    '            </md-select>\n' +
-    '        </md-input-container>\n' +
-    '    </div>\n' +
-    '\n' +
-    '    <div>\n' +
-    '        <md-input-container>\n' +
-    '            <label>placeId</label>\n' +
-    '            <md-select ng-model="event.placeId" md-selected-text="getSelectedText()">\n' +
-    '                <md-optgroup label="Category">\n' +
-    '                    <md-option ng-value="place" ng-repeat="place in event.places">Item {{place}}</md-option>\n' +
-    '                </md-optgroup>\n' +
-    '            </md-select>\n' +
-    '        </md-input-container>\n' +
-    '    </div>\n' +
-    '\n' +
-    '    <div>\n' +
-    '        <md-input-container>\n' +
-    '            <label>Link to another event :</label>\n' +
-    '            <input ng-model="event.idParent" type="text">\n' +
-    '        </md-input-container>\n' +
-    '    </div>\n' +
-    '    -->\n' +
-    '\n' +
-    '    <md-button type="submit" class="md-primary md-raised">Create post</md-button>\n' +
-    '\n' +
-    '</form>');
-}]);
-})();
-
-(function(module) {
-try {
-  module = angular.module('app.partials');
-} catch (e) {
-  module = angular.module('app.partials', []);
-}
-module.run(['$templateCache', function($templateCache) {
   $templateCache.put('./views/app/components/forgot-password/forgot-password.component.html',
     '<form ng-submit="vm.submit()" class="ForgotPassword-form">\n' +
     '    <div>\n' +
@@ -172,77 +86,10 @@ try {
   module = angular.module('app.partials', []);
 }
 module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('./views/app/components/post_get_all/post_get_all.component.html',
-    '<section layout="row" flex>\n' +
-    '\n' +
-    '    <md-sidenav\n' +
-    '            class="md-sidenav-left"\n' +
-    '            md-component-id="left"\n' +
-    '            md-is-locked-open="$mdMedia(\'gt-md\')"\n' +
-    '            md-whiteframe="4">\n' +
-    '\n' +
-    '        <md-toolbar class="md-theme-indigo">\n' +
-    '            <h1 class="md-toolbar-tools">Sidenav Left</h1>\n' +
-    '        </md-toolbar>\n' +
-    '        <md-content layout-padding >\n' +
-    '\n' +
-    '            <md-input-container class="md-block">\n' +
-    '                <input id="autocomplete" type="text" ng-model="test.address">\n' +
-    '            </md-input-container>\n' +
-    '\n' +
-    '            <md-button ng-click="close()" class="md-primary" hide-gt-md>\n' +
-    '                Close Sidenav Left\n' +
-    '            </md-button>\n' +
-    '            <p hide show-gt-md>\n' +
-    '                This sidenav is locked open on your device. To go back to the default behavior,\n' +
-    '                narrow your display.\n' +
-    '            </p>\n' +
-    '\n' +
-    '            <md-list>\n' +
-    '                <md-list-item class="md-3-line" ng-repeat="item in events">\n' +
-    '                    <img ng-src="{{item.face}}?{{$index}}" class="md-avatar" alt="{{item.who}}">\n' +
-    '                    <div class="md-list-item-text">\n' +
-    '                        <h3>{{item.name}}</h3>\n' +
-    '                        <h4>{{item.topic}}</h4>\n' +
-    '                        <p>{{item.created_at}}</p>\n' +
-    '                    </div>\n' +
-    '                    <md-divider md-inset ng-if="!$last"></md-divider>\n' +
-    '                </md-list-item>\n' +
-    '            </md-list>\n' +
-    '        </md-content>\n' +
-    '\n' +
-    '    </md-sidenav>\n' +
-    '\n' +
-    '    <md-content flex layout-padding  style="overflow: hidden;">\n' +
-    '        <div id="map" style="min-height: 100%; width: 100%;">\n' +
-    '\n' +
-    '        </div>\n' +
-    '\n' +
-    '    </md-content>\n' +
-    '</section>\n' +
-    '\n' +
-    '\n' +
-    '\n' +
-    '');
-}]);
-})();
-
-(function(module) {
-try {
-  module = angular.module('app.partials');
-} catch (e) {
-  module = angular.module('app.partials', []);
-}
-module.run(['$templateCache', function($templateCache) {
   $templateCache.put('./views/app/components/register-form/register-form.component.html',
     '<form ng-submit="vm.register()">\n' +
     '\n' +
-    '    <div>\n' +
-    '        <md-input-container class="RegisterForm-inputContainer">\n' +
-    '            <label>Date de naissance</label>\n' +
-    '            <md-datepicker ng-model="vm.birthdate"  md-current-view="year"  md-placeholder="dd/mm/yyyy"></md-datepicker>\n' +
-    '        </md-input-container>\n' +
-    '    </div>\n' +
+    '    \n' +
     '\n' +
     '    <div>\n' +
     '        <md-input-container class="RegisterForm-inputContainer">\n' +
@@ -326,28 +173,6 @@ module.run(['$templateCache', function($templateCache) {
     '        <h1>Create Post</h1>\n' +
     '\n' +
     '        <create-post-form></create-post-form>\n' +
-    '    </div>\n' +
-    '</md-content>\n' +
-    '');
-}]);
-})();
-
-(function(module) {
-try {
-  module = angular.module('app.partials');
-} catch (e) {
-  module = angular.module('app.partials', []);
-}
-module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('./views/app/pages/event/event.page.html',
-    '<md-content class="Page-container">\n' +
-    '    <div flex="80" flex-offset="10">\n' +
-    '        <div class="Register-formContainer" layout="column" layout-align="center center">\n' +
-    '            <h1 class="md-headline">Create an Event</h1>\n' +
-    '\n' +
-    '            <event-form></event-form>\n' +
-    '\n' +
-    '        </div>\n' +
     '    </div>\n' +
     '</md-content>\n' +
     '');
@@ -454,6 +279,176 @@ module.run(['$templateCache', function($templateCache) {
     '\n' +
     '    </div>\n' +
     '</md-content>\n' +
+    '');
+}]);
+})();
+
+(function(module) {
+try {
+  module = angular.module('app.partials');
+} catch (e) {
+  module = angular.module('app.partials', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('./views/app/pages/event/event.page.html',
+    '<md-content class="Page-container">\n' +
+    '    <div flex="80" flex-offset="10">\n' +
+    '        <div class="Register-formContainer" layout="column" layout-align="center center">\n' +
+    '            <h1 class="md-headline">Create an Event</h1>\n' +
+    '\n' +
+    '            <event-form></event-form>\n' +
+    '\n' +
+    '        </div>\n' +
+    '    </div>\n' +
+    '</md-content>\n' +
+    '');
+}]);
+})();
+
+(function(module) {
+try {
+  module = angular.module('app.partials');
+} catch (e) {
+  module = angular.module('app.partials', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('./views/app/components/eventForm/eventForm.component.html',
+    '<form ng-submit="event.submit()" enctype="multipart/form-data" name="eventForm">\n' +
+    '\n' +
+    '    <div>\n' +
+    '        <md-input-container>\n' +
+    '            <label>title</label>\n' +
+    '            <input type="text" ng-model="event.title">\n' +
+    '        </md-input-container>\n' +
+    '    </div>\n' +
+    '\n' +
+    '    <div>\n' +
+    '        <md-input-container class="">\n' +
+    '            <label>Date</label>\n' +
+    '            <md-datepicker ng-model="event.date" md-placeholder="dd/mm/yyyy" md-open-on-focus></md-datepicker>\n' +
+    '        </md-input-container>\n' +
+    '    </div>\n' +
+    '\n' +
+    '    <div>\n' +
+    '        <md-input-container class="md-block" flex-gt-sm>\n' +
+    '            <label>Max people</label>\n' +
+    '            <input name="capacity" ng-model="event.capacity" placeholder="123" md-maxlength="5">\n' +
+    '        </md-input-container>\n' +
+    '    </div>\n' +
+    '\n' +
+    '\n' +
+    '    <div>\n' +
+    '        <md-input-container class="md-block">\n' +
+    '            <label>Description</label>\n' +
+    '            <textarea ng-model="event.description" md-maxlength="150" rows="5" md-select-on-focus></textarea>\n' +
+    '        </md-input-container>\n' +
+    '    </div>\n' +
+    '\n' +
+    '\n' +
+    '    <div>\n' +
+    '        <md-input-container>\n' +
+    '            <md-checkbox aria-label="Public" ng-model="event.public" class="md-primary">\n' +
+    '                Public\n' +
+    '            </md-checkbox>\n' +
+    '        </md-input-container>\n' +
+    '    </div>\n' +
+    '\n' +
+    '    <!--\n' +
+    '    <div>\n' +
+    '        <md-input-container>\n' +
+    '            <label>Category</label>\n' +
+    '            <md-select ng-model="event.idCategorie" md-selected-text="getSelectedText()">\n' +
+    '                <md-optgroup label="Category">\n' +
+    '                    <md-option ng-value="category" ng-repeat="category in event.categories">Item {{category}}\n' +
+    '                    </md-option>\n' +
+    '                </md-optgroup>\n' +
+    '            </md-select>\n' +
+    '        </md-input-container>\n' +
+    '    </div>\n' +
+    '\n' +
+    '    <div>\n' +
+    '        <md-input-container>\n' +
+    '            <label>placeId</label>\n' +
+    '            <md-select ng-model="event.placeId" md-selected-text="getSelectedText()">\n' +
+    '                <md-optgroup label="Category">\n' +
+    '                    <md-option ng-value="place" ng-repeat="place in event.places">Item {{place}}</md-option>\n' +
+    '                </md-optgroup>\n' +
+    '            </md-select>\n' +
+    '        </md-input-container>\n' +
+    '    </div>\n' +
+    '\n' +
+    '    <div>\n' +
+    '        <md-input-container>\n' +
+    '            <label>Link to another event :</label>\n' +
+    '            <input ng-model="event.idParent" type="text">\n' +
+    '        </md-input-container>\n' +
+    '    </div>\n' +
+    '    -->\n' +
+    '\n' +
+    '    <md-button type="submit" class="md-primary md-raised">Create post</md-button>\n' +
+    '\n' +
+    '</form>');
+}]);
+})();
+
+(function(module) {
+try {
+  module = angular.module('app.partials');
+} catch (e) {
+  module = angular.module('app.partials', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('./views/app/components/post_get_all/post_get_all.component.html',
+    '<section layout="row" flex>\n' +
+    '\n' +
+    '    <md-sidenav\n' +
+    '            class="md-sidenav-left"\n' +
+    '            md-component-id="left"\n' +
+    '            md-is-locked-open="$mdMedia(\'gt-md\')"\n' +
+    '            md-whiteframe="4">\n' +
+    '\n' +
+    '        <md-toolbar class="md-theme-indigo">\n' +
+    '            <h1 class="md-toolbar-tools">Sidenav Left</h1>\n' +
+    '        </md-toolbar>\n' +
+    '        <md-content layout-padding >\n' +
+    '\n' +
+    '            <md-input-container class="md-block">\n' +
+    '                <input id="autocomplete" type="text" ng-model="test.address">\n' +
+    '            </md-input-container>\n' +
+    '\n' +
+    '            <md-button ng-click="close()" class="md-primary" hide-gt-md>\n' +
+    '                Close Sidenav Left\n' +
+    '            </md-button>\n' +
+    '            <p hide show-gt-md>\n' +
+    '                This sidenav is locked open on your device. To go back to the default behavior,\n' +
+    '                narrow your display.\n' +
+    '            </p>\n' +
+    '\n' +
+    '            <md-list>\n' +
+    '                <md-list-item class="md-3-line" ng-repeat="item in events">\n' +
+    '                    <img ng-src="{{item.face}}?{{$index}}" class="md-avatar" alt="{{item.who}}">\n' +
+    '                    <div class="md-list-item-text">\n' +
+    '                        <h3>{{item.name}}</h3>\n' +
+    '                        <h4>{{item.topic}}</h4>\n' +
+    '                        <p>{{item.created_at}}</p>\n' +
+    '                    </div>\n' +
+    '                    <md-divider md-inset ng-if="!$last"></md-divider>\n' +
+    '                </md-list-item>\n' +
+    '            </md-list>\n' +
+    '        </md-content>\n' +
+    '\n' +
+    '    </md-sidenav>\n' +
+    '\n' +
+    '    <md-content flex layout-padding  style="overflow: hidden;">\n' +
+    '        <div id="map" style="min-height: 100%; width: 100%;">\n' +
+    '\n' +
+    '        </div>\n' +
+    '\n' +
+    '    </md-content>\n' +
+    '</section>\n' +
+    '\n' +
+    '\n' +
+    '\n' +
     '');
 }]);
 })();
