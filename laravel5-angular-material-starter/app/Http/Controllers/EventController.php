@@ -17,34 +17,16 @@ class EventController extends Controller
      */
     public function create(Request $request)
     {
+        $this->validationEvent($request);
+        $event = new Event();
+        $event->id = (string)Uuid::generate();
 
-        $date_Time = new \DateTime();
-        $current_date = $date_Time->createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
+        $event = $this->fillEvent($request, $event);
 
-        $this->validate($request, [
-            'title' => 'required | min: 3',
-            'description' => 'required | min: 15',
-            'public' => 'required | boolean',
-            'capacity' => 'required | integer',
-            'date' => 'required | date '
-            //'idCategorie' => 'required | string',
-            //'placeId' => 'required'
-        ]);
-
-            $event = new Event();
-            $event->id = (string)Uuid::generate();
-            $event->title = trim($request->input('title'));
-            $event->description = trim($request->input('description'));
-            $event->public = $request->input('public');
-            $event->capacity = $request->input('capacity');
-            $event->date = $request->input('date');
-            //$event->idCategorie = $request->input('idCategorie');
-            //$event->placeId = $request->input('placeId');
-
-            if($event->save())
-                return response()->created(compact('event'));
-            else
-                return response()->error("La création a échouée", 500);
+        if($event->save())
+            return response()->created(compact('event'));
+        else
+            return response()->error("La création a échouée", 500);
     }
 
     /**
@@ -92,18 +74,7 @@ class EventController extends Controller
      * @return mixed reponse contenant l'evenement modifie ou cree
      */
     public function update(Request $request, $id){
-        $date_Time = new \DateTime();
-        $current_date = $date_Time->createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
-
-        $this->validate($request, [
-            'title' => 'required | min: 3',
-            'description' => 'required | min: 15',
-            'public' => 'required | boolean',
-            'capacity' => 'required | integer',
-            'date' => 'required | date '
-            //'idCategorie' => 'required | string',
-            //'placeId' => 'required'
-        ]);
+        $this->validationEvent($request);
 
         $event = Event::find($id);
         $created = false;
@@ -114,13 +85,7 @@ class EventController extends Controller
             $event->id = (string)Uuid::generate();
         }
 
-        $event->title = trim($request->input('title'));
-        $event->description = trim($request->input('description'));
-        $event->public = $request->input('public');
-        $event->capacity = $request->input('capacity');
-        $event->date = $request->input('date');
-        //$event->idCategorie = $request->input('idCategorie');
-        //$event->placeId = $request->input('placeId');
+        $event = $this->fillEvent($request, $event);
 
         if($event->save()){
             if($created)
@@ -130,5 +95,41 @@ class EventController extends Controller
         } else
             return response()->error("La modification a échouée", 500);
 
+    }
+
+    /**
+     * Methode privee permettant de remplir les attribut d'un event lors
+     * de la modification ou la creation d'un event
+     * @param Request $request
+     * @param $event evenement a completer
+     * @return mixed evenement complete
+     */
+    private function fillEvent(Request $request, $event){
+        $event->title = trim($request->input('title'));
+        $event->description = trim($request->input('description'));
+        $event->public = $request->input('public');
+        $event->capacity = $request->input('capacity');
+        $event->date = $request->input('date');
+        $event->idCategorie = $request->input('idCategorie');
+        //$event->placeId = $request->input('placeId');
+
+        return $event;
+    }
+
+    /**
+     * Methode prive permettant de valider une requete lors de
+     * la modification ou la creation d'un event
+     * @param Request $request
+     */
+    private function validationEvent(Request $request){
+        $this->validate($request, [
+            'title' => 'required | min: 3',
+            'description' => 'required | min: 15',
+            'public' => 'required | boolean',
+            'capacity' => 'required | integer',
+            'date' => 'required | date ',
+            'idCategorie' => 'required | string'
+            //'placeId' => 'required'
+        ]);
     }
 }
