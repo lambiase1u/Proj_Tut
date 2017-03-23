@@ -42,6 +42,9 @@ section {
 }
 </style>
 
+<!-- Add the slick-theme.css if you want default styling -->
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick-theme.css"/>
+
 <section layout="row" class="icondemoFontIconsWithLigatures" ng-cloak>
 
     <div flex="30" layout="column" class="boxWithHeight" layout-padding>
@@ -79,6 +82,15 @@ section {
 
         <section flex="20">
             <h2>Derniere Participation: </h2>
+
+            <div  id="slider" data-slick='{"slidesToShow": 1, "slidesToScroll": 1}'>
+                <div><h3>1</h3></div>
+                <div><h3>2</h3></div>
+                <div><h3>3</h3></div>
+                <div><h3>4</h3></div>
+                <div><h3>5</h3></div>
+                <div><h3>6</h3></div>
+            </div>
         </section>
         <section flex>flex</section>
     </div>
