@@ -97,6 +97,18 @@ class EventController extends Controller
 
     }
 
+    public function findAllComments($id){
+        $event = Event::find($id);
+        if($event == null)
+            return response()->noContent("Aucun evenement correspondant a l'identifiant n'a été trouvé");
+
+        $comments = $event->comments;
+        if($comments->count() == 0)
+            return response()->noContent("Il n'y a aucun commentaire sur cet événement.");
+        else
+            return response()->success(compact('comments'));
+    }
+
     /**
      * Methode privee permettant de remplir les attribut d'un event lors
      * de la modification ou la creation d'un event
