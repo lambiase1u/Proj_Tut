@@ -38,7 +38,7 @@ class User extends Authenticatable
      * Evenements ou l'utilisateur est organisateur
      */
 	public function eventsOrganization() {
-		return $this->belongsToMany('\app\Event', 'organizer', 'idUser', 'idEvent');
+		return $this->belongsToMany('\app\Event', 'organizer', 'idEvent', 'idEvent');
 	}
     
     /**

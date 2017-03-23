@@ -21,6 +21,10 @@ class Event extends Model
     public $incrementing = false;
 	public $timestamps = true;
 
+    protected $hidden = [
+        'invitations', 'organizers', 'participants'
+    ];
+
     /**
      * Evenements parent
      */

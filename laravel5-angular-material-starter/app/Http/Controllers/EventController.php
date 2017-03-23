@@ -158,7 +158,7 @@ class EventController extends Controller
         //verification de l'accessibilité a l'evenement
         if(!$this->eventIsAccessible($event))
             return response()->error("L'événement est privé", 401);
-        
+
         $invitations = $event->invitations;
         if($invitations->count() == 0)
             return response()->noContent("Il n'y a aucune invitations sur cet événement.");
@@ -237,9 +237,9 @@ class EventController extends Controller
      */
     private function eventIsAccessible($event){
         $res = true;
-        $user = $this->findUser();
 
         if(!$event->public) {
+            $user = $this->findUser();
             if (!$user)
                 $res = false;
             else {
