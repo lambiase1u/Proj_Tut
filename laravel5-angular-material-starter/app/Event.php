@@ -18,8 +18,12 @@ class Event extends Model
      * Cle primaire de la table
      */
 	protected $primaryKey = 'id';
-  public $incrementing = false;
+    public $incrementing = false;
 	public $timestamps = true;
+
+    protected $hidden = [
+        'invitations', 'organizers', 'participants'
+    ];
 
     /**
      * Evenements parent
