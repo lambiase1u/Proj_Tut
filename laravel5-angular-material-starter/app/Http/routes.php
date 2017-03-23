@@ -39,7 +39,7 @@ $api->group(['middleware' => ['api']], function ($api) {
 
     //Comments routes
     $api->get('events/{id}/comments', 'EventController@findAllComments');
-    $api->get('events/{id}/comments/{idComment}', 'EventController@findCommentById');
+    $api->get('comments/{idComment}', 'CommentsController@findCommentById');
 
     //Organizers routes
     $api->get('events/{id}/organizers', 'OrganizerController@findAll');
@@ -75,9 +75,9 @@ $api->group(['middleware' => ['api', 'api.auth']], function ($api) {
     $api->delete('events/{id}/invitation', 'EventController@deleteInvitation');
 
     //Comments routes
-    $api->post('events/{id}/comments', 'EventController@addComment');
-    $api->put('events/{id}/comments', 'EventController@updateComment');
-    $api->delete('events/{id}/comments', 'EventController@removeComment');
+    $api->post('events/{id}/comments', 'CommentsController@addComment');
+    $api->put('comments/{id}', 'CommentsController@updateComment');
+    $api->delete('comments/{id}', 'CommentsController@removeComment');
 
     //Organizer routes
     $api->post('events/{id}/organizers', 'OrganizerController@create');
