@@ -39,10 +39,10 @@ $api->group(['middleware' => ['api']], function ($api) {
 
     //Comments routes
     $api->get('events/{id}/comments', 'EventController@findAllComments');
-    $api->get('events/{id}/comments/{idComment}', 'EventController@findCommentById');
+    $api->get('events/{idEvent}/comments/{idComment}', 'EventController@findCommentById'); //a revoir
 
     //Organizers routes
-    $api->get('events/{id}/organizers', 'OrganizerController@findAll');
+    $api->get('events/{id}/organizers', 'EventController@findAllOrganizers');
 
     //Users routes
     $api->get('users/', 'UserController@findAll');
