@@ -12,6 +12,7 @@ use App\Event;
 use App\User;
 use App\Participation;
 use App\Invitation;
+use Illuminate\Support\Facades\DB;
 
 class ParticipationController extends Controller
 {
@@ -76,24 +77,22 @@ class ParticipationController extends Controller
      */
     public function removeParticipation(Request $request, $id) {
         $event = Event::find($id);
+        $user = Auth::user();
         
-        if($event != null) {
-            $this->validate($request, [
-                'comment' => 'required',
-            ]);
+        $participation = DB::table('participation')->where('idUser', '=', $user->id)->where('idActivity', '=', $event->id);
+        
+        if($participation != null) {
+            $participation->delete();
             
-            $user = Auth::user();
-
-            $comment = new Comment();
-            $comment->id = (string)Uuid::generate();
-            $comment->comment = $request->comment;
-            $comment->idUser = $user->id;
-            $comment->idEvent = $event->id;
-
-            $comment->save();
-
-            return response()->json($comment, 201);   
+            $invitation = Invitation::where('idUser', '=', $user->id)->where('idActivity', '=', $event->id)->first();
+            
+            if($invitation != null && $invitation->answered = false) {
+                $invitation->answered = true;
+                $invitation->save();
+            }
+            
+            return response()->success('La participation a bien été supprimée.');
         } else
-            return response()->error('Aucun événement correspond à l\'id trouvé.', 204);
+            return response()->error('La participation n\'a pas été trouvée.', 204);   
     }
 }
