@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use Webpatser\Uuid\Uuid;
 use Auth;
+use JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
+use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 
 
 class EventController extends Controller
@@ -40,8 +44,15 @@ class EventController extends Controller
         if($events->count() == 0)
             return response("Aucun contenu", 204)
                 ->header('Content-Type', 'application/json');
-        else
-            return response()->success(compact('events'));
+        else {
+            $user = $this->findUser();
+            $listEvents = array();
+            foreach ($events as $event){
+                if($this->eventIsAccessible($event, $user))
+                    array_push($listEvents, $event);
+            }
+            return response()->success(compact('listEvents'));
+        }
     }
 
     /**
@@ -51,8 +62,13 @@ class EventController extends Controller
      */
     public function findById($id){
         $event = Event::find($id);
-        if($event != null)
-            return response()->success(compact('event'));
+        if($event != null){
+            $user = $this->findUser();
+            if($this->eventIsAccessible($event, $user))
+                return response()->success(compact('event'));
+            else
+                return response()->error("L'événement est privé", 401);
+        }
         else
             return response()->error("Evenement non trouvé", 404);
     }
@@ -167,5 +183,59 @@ class EventController extends Controller
             'idCategorie' => 'required | string'
             //'placeId' => 'required'
         ]);
+    }
+
+    private function findUser(){
+        $user = null;
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+        }
+        catch (TokenExpiredException $e) {}
+        catch (TokenInvalidException $e) {}
+        catch (JWTException $e) {}
+
+        return $user;
+    }
+
+
+    private function eventIsAccessible($event, $user){
+        $res = true;
+        if(!$event->public) {
+            if (!$user)
+                $res = false;
+            else {
+                if(!$this->userIsOrganizerOrInvited($event, $user))
+                    $res = false;
+            }
+        }
+
+        return $res;
+    }
+
+
+    private function userIsOrganizerOrInvited($event, $user){
+        $found = false;
+        $id = $user->id;
+
+        //invité
+        $invitations = $event->invitations;
+        foreach ($invitations as $invitation){
+            if($invitation->id == $id){
+                $found = true;
+                break;
+            }
+        }
+        if(!$found){
+            //organisateurs
+            $organizers = $event->organizers;
+            foreach ($organizers as $organizer){
+                if($organizer->id == $id){
+                    $found = true;
+                    break;
+                }
+            }
+        }
+
+        return $found;
     }
 }
