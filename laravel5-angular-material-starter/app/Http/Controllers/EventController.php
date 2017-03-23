@@ -45,10 +45,9 @@ class EventController extends Controller
             return response("Aucun contenu", 204)
                 ->header('Content-Type', 'application/json');
         else {
-            $user = $this->findUser();
             $listEvents = array();
             foreach ($events as $event){
-                if($this->eventIsAccessible($event, $user))
+                if($this->eventIsAccessible($event))
                     array_push($listEvents, $event);
             }
             return response()->success(compact('listEvents'));
@@ -63,8 +62,7 @@ class EventController extends Controller
     public function findById($id){
         $event = Event::find($id);
         if($event != null){
-            $user = $this->findUser();
-            if($this->eventIsAccessible($event, $user))
+            if($this->eventIsAccessible($event))
                 return response()->success(compact('event'));
             else
                 return response()->error("L'événement est privé", 401);
@@ -141,12 +139,40 @@ class EventController extends Controller
         if($event == null)
             return response()->noContent("Aucun evenement correspondant a l'identifiant n'a été trouvé");
 
+        //verification de l'accessibilité a l'evenement
+        if(!$this->eventIsAccessible($event))
+            return response()->error("L'événement est privé", 401);
+
         $organizers = $event->organizers;
         if($organizers->count() == 0)
             return response()->noContent("Il n'y a aucun organisateur sur cet événement.");
         else
             return response()->success(compact('organizers'));
     }
+
+    public function findAllInvitations($id){
+        $event = Event::find($id);
+        if($event == null)
+            return response()->noContent("Aucun evenement correspondant a l'identifiant n'a été trouvé");
+
+        //verification de l'accessibilité a l'evenement
+        if(!$this->eventIsAccessible($event))
+            return response()->error("L'événement est privé", 401);
+        
+        $invitations = $event->invitations;
+        if($invitations->count() == 0)
+            return response()->noContent("Il n'y a aucune invitations sur cet événement.");
+        else
+            return response()->success(compact('invitations'));
+    }
+
+    /*******************************************************************************************************************
+     *******************************************************************************************************************
+     **                                                                                                               **
+     **                                     Méthodes privées                                                          **
+     **                                                                                                               **
+     *******************************************************************************************************************
+     *******************************************************************************************************************/
 
     /**
      * Methode privee permettant de remplir les attribut d'un event lors
@@ -209,8 +235,10 @@ class EventController extends Controller
      * @param $user utilisateur a tester
      * @return bool egal a true si l'utilisateur a le droit d'acceder a l'evneement
      */
-    private function eventIsAccessible($event, $user){
+    private function eventIsAccessible($event){
         $res = true;
+        $user = $this->findUser();
+
         if(!$event->public) {
             if (!$user)
                 $res = false;
