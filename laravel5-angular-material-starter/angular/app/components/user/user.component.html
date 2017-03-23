@@ -45,14 +45,41 @@ section {
 <section layout="row" class="icondemoFontIconsWithLigatures" ng-cloak>
 
     <div flex="30" layout="column" class="boxWithHeight" layout-padding>
-        flex="30"
-        <section flex="40">flex="40"<img src=""></section>
-        <section flex>flex</section>
+        <section flex="40">
+
+            <md-card>
+                <img ng-src="http://www.francetvinfo.fr/image/75e490efj-61bb/260/146/12104700.jpg" class="md-card-image"
+                     alt="Washed Out">
+
+                <md-card-actions layout="row" layout-align="start center">
+                    <md-card-icon-actions>
+                        <h2> Name Firstname </h2>
+                    </md-card-icon-actions>
+                    <md-button>
+                        <md-icon> favorite</md-icon>
+                    </md-button>
+                    <md-button class="md-icon-button">
+                        <md-icon>settings</md-icon>
+                    </md-button>
+                    <md-button class="md-icon-button">
+                        <md-icon>share</md-icon>
+                    </md-button>
+                </md-card-actions>
+            </md-card>
+
+            <section flex>flex</section>
+        </section>
     </div>
     <div flex layout="column" class="boxWithHeight" layout-padding>
-        flex
-        <section flex="70">flex="70"</section>
-        <section flex="20">flex="20"</section>
+        <section flex="70">
+            <h2>Description : </h2>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam accumsan at ex nec dapibus.
+            Nullam et dui condimentum, condimentum lacus orci aliquam.
+        </section>
+
+        <section flex="20">
+            <h2>Derniere Participation: </h2>
+        </section>
         <section flex>flex</section>
     </div>
 
