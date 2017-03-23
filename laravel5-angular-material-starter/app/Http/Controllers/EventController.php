@@ -185,6 +185,11 @@ class EventController extends Controller
         ]);
     }
 
+
+    /**
+     * Methode prive qui recupere l'user qui fait la requete si il est connecte
+     * @return user ou null si aucun utilisateur n'est connecté
+     */
     private function findUser(){
         $user = null;
         try {
@@ -198,6 +203,12 @@ class EventController extends Controller
     }
 
 
+    /**
+     * Methode prive permettant de dire si l'utilisateur a acces a l'evenement
+     * @param $event evenement a tester
+     * @param $user utilisateur a tester
+     * @return bool egal a true si l'utilisateur a le droit d'acceder a l'evneement
+     */
     private function eventIsAccessible($event, $user){
         $res = true;
         if(!$event->public) {
@@ -213,6 +224,12 @@ class EventController extends Controller
     }
 
 
+    /**
+     * Méthode permettant de voir si un user est organisateur ou invite a un evenement
+     * @param $event evenement a regarder
+     * @param $user utilisateur a regarder
+     * @return bool egal a true si l'utilisateur est organisateur ou invite a l'evenement
+     */
     private function userIsOrganizerOrInvited($event, $user){
         $found = false;
         $id = $user->id;
