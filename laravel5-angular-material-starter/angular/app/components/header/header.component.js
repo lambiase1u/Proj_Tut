@@ -1,20 +1,19 @@
 class HeaderController{
-    constructor(API,$log){
+    constructor(API,$log,$auth){
         'ngInject';
 
         this.API = API;
         this.$log = $log;
         this.user = null;
+        this.$auth = $auth;
+
     }
 
     $onInit(){
 
 
-        this.API.all('auth/self').get('').then((response) => {
-            this.user = response.data.user;
-        },function(){
 
-        });
+
     }
 }
 

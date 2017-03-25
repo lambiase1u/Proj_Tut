@@ -1,10 +1,11 @@
 class LoginFormController {
-	constructor($auth, ToastService , $state) {
+	constructor($auth, ToastService , $state,$rootScope) {
 		'ngInject';
 
 		this.$auth = $auth;
 		this.ToastService = ToastService;
         this.$state = $state;
+		this.$rootScope = $rootScope;
 	}
 
     $onInit(){
@@ -21,6 +22,9 @@ class LoginFormController {
 		this.$auth.login(user)
 			.then((response) => {
 				this.$auth.setToken(response.data);
+
+				this.$rootScope.user = response.data.data.user;
+
 
 				this.ToastService.show('Connexion réussie.');
                 return this.$state.go('app.create_post');

@@ -1,19 +1,19 @@
 class UserController{
-    constructor(API,$log){
+    constructor(API,$log,$auth,$rootScope){
         'ngInject';
 
         this.API = API;
         this.$log = $log;
-        this.user = null;
+
+        this.user = $rootScope.user;
+
     }
 
     $onInit(){
 
 
-        this.API.all('auth/self').get('').then((response) => {
-            this.$log.log(response.data);
-            this.user = response.data.user;
-        });
+
+
     }
 
 

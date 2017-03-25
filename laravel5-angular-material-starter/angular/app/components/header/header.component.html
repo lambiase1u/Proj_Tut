@@ -9,16 +9,13 @@
 
 
 
-        <div ng-switch on="vm.user">
-            <div ng-switch-when="null">
-                <a hide-xs ng-if="vm.user == null" class="DemoHeader-link md-subhead" href="#!/register">Inscription</a>
-                <a hide-xs ng-if="vm.user == null" class="DemoHeader-link md-subhead" href="#!/login">Connexion</a>
-            </div>
-            <div ng-switch-default>
-                <a hide-xs ng-show="vm.user" class="DemoHeader-link md-subhead" href="#!/">Accueil</a>
-                <a hide-xs ng-show="vm.user" class="DemoHeader-link md-subhead" href="#!/user">Mon Profil</a>
-            </div>
-        </div>
+
+                <a hide-xs ng-show="vm.$auth.isAuthenticated() === false" class="DemoHeader-link md-subhead" href="#!/register">Inscription</a>
+                <a hide-xs ng-show="vm.$auth.isAuthenticated() === false" class="DemoHeader-link md-subhead" href="#!/login">Connexion</a>
+
+                <a hide-xs ng-show="vm.$auth.isAuthenticated() === true" class="DemoHeader-link md-subhead" href="#!/">Accueil</a>
+                <a hide-xs ng-show="vm.$auth.isAuthenticated() === true" class="DemoHeader-link md-subhead" href="#!/user">Mon Profil</a>
+
 
 
     </div>
