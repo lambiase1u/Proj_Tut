@@ -48,7 +48,7 @@ class InvitationController extends Controller
             
             if($invitationPossible) {
                 $this->validate($request, [
-                    'idUser' => 'required',
+                    'idUser' => 'required'
                 ]);
                 
                 $utilisateurInvite = User::find($request->idUser);
@@ -84,20 +84,27 @@ class InvitationController extends Controller
         $event = Event::find($id);
         $user = Auth::user();
         
-        $participation = DB::table('participation')->where('idUser', '=', $user->id)->where('idActivity', '=', $event->id);
+        $this->validate($request, [
+           'idUser' => 'required' 
+        ]);
         
-        if($participation != null) {
-            $participation->delete();
-            
-            $invitation = Invitation::where('idUser', '=', $user->id)->where('idActivity', '=', $event->id)->first();
-            
-            if($invitation != null && $invitation->answered = false) {
-                $invitation->answered = true;
-                $invitation->save();
-            }
-            
-            return response()->success('La participation a bien été supprimée.');
-        } else
-            return response()->error('La participation n\'a pas été trouvée.', 204);   
+        $utilisateurInvite = User::find($request->idUser);
+        
+        if($utilisateurInvite != null) {
+            $invitation = DB::table('invitation')->where('idUser', '=', $utilisateurInvite->id)->where('idActivity', '=', $event->id);
+            $invitationRow = $invitation->first();
+
+            if($invitationRow != null) {
+                if(!$invitationRow->answered) {
+                    $invitation->delete();
+
+                    return response()->success('La participation a bien été supprimée.');
+                } else 
+                    return response()->error('L\'utilisateur a déjà répondu à l\'invitation.', 400);
+            } else
+                return response()->error('L\'invitation n\'a pas été trouvée.', 404);     
+        } else {
+            return response()->error('L\'utilisateur dont vous souhaitez retirer l\'invitation n\'a pas été trouvé.', 404);
+        } 
     }
 }
