@@ -87,4 +87,14 @@ class Event extends Model
         }
         return $res;
     }
+
+
+    public function delete()
+    {
+        $this->organizers()->detach();
+        $this->participants()->detach();
+        $this->invitations()->detach();
+
+        return parent::delete();
+    }
 }

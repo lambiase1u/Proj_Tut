@@ -49,9 +49,9 @@ class OrganizerController extends Controller
         if($userToAdd->isOrganizer($event, $listOrganizers))
             return response()->error("L'utilisateur est deja organisateur.", 400);
 
-
         $event->organizers()->attach($idUser);
-        return response()->created($event->organizers);
+        $listOrganizers->push($userToAdd);
+        return response()->created($listOrganizers);
     }
 
     /**
@@ -78,8 +78,7 @@ class OrganizerController extends Controller
         if(!$authorOfRequest->isOrganizer($event, $organizers))
             return response()->unauthorized();
 
-        $organizer = Organizer::where('idUser', '=', $idUser)->where('idEvent', '=', $idEvent);
-        $organizer->delete();
+        $event->organizers()->detach($idUser);
 
         return response()->success("Organisateur supprimé.");
     }

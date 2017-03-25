@@ -110,4 +110,14 @@ class User extends Authenticatable
         return $found;
     }
 
+
+    public function delete()
+    {
+        $this->eventsOrganization()->detach();
+        $this->eventsInvitations()->detach();
+        $this->eventsParticipations()->detach();
+
+        return parent::delete();
+    }
+
 }
