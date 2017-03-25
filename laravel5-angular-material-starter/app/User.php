@@ -85,9 +85,10 @@ class User extends Authenticatable
         return $this->isOrganizer($event) || $this->isInvited($event);
     }
 
-    public function isOrganizer($event){
+    public function isOrganizer($event, $organizers = null){
         $found = false;
-        $organizers = $event->organizers;
+        if($organizers == null)
+            $organizers = $event->organizers;
         foreach ($organizers as $organizer){
             if($organizer->id == $this->id){
                 $found = true;

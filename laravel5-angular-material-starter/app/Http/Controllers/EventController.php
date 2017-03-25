@@ -4,10 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Event;
 use Illuminate\Http\Request;
-use App\Http\Requests;
 use Webpatser\Uuid\Uuid;
 use Auth;
-use App\User;
 
 
 
@@ -76,7 +74,7 @@ class EventController extends Controller
     public function delete($id){
         $event = Event::find($id);
         if($event != null) {
-            $user = User::findAuthorOfRequest();
+            $user = Auth::user();
             if($user->isOrganizer($event))
                 $event->delete();
             else
@@ -102,7 +100,7 @@ class EventController extends Controller
             $event = new Event();
             $event->id = (string)Uuid::generate();
         } else {
-            $user = User::findAuthorOfRequest();
+            $user = Auth::user();
             if(!$user->isOrganizer($event))
                 return response()->error("Vous n'avez pas les droits necessaires pour effectuer cette action", 401);
         }
@@ -134,27 +132,6 @@ class EventController extends Controller
             return response()->noContent("Il n'y a aucun commentaire sur cet événement.");
         else
             return response()->success(compact('comments'));
-    }
-
-    /**
-     * Methode permettant de recuperer la liste des organisateurs d'un evenement via son id.
-     * @param $id id de l'evenement
-     * @return mixed reponse contenant la liste des organisateurs de l'evenement.
-     */
-    public function findAllOrganizers($id){
-        $event = Event::find($id);
-        if($event == null)
-            return response()->noContent("Aucun evenement correspondant a l'identifiant n'a été trouvé");
-
-        //verification de l'accessibilité a l'evenement
-        if(!$event->isAccessible())
-            return response()->error("L'événement est privé", 401);
-
-        $organizers = $event->organizers;
-        if($organizers->count() == 0)
-            return response()->noContent("Il n'y a aucun organisateur sur cet événement.");
-        else
-            return response()->success(compact('organizers'));
     }
 
     public function findAllInvitations($id){

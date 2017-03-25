@@ -37,6 +37,15 @@ class ResponseMacroServiceProvider extends ServiceProvider
             ], 204);
         });
 
+        Response::macro('unauthorized', function ($message = "Vous n'avez pas les droits nécessaire pour effectuer cette opération") {
+            return Response::json([
+                'errors'          => [
+                    'message' => $message,
+                ],
+                'status_code'     => "401",
+            ], 401);
+        });
+
         Response::macro('error', function ($message, $status = 400) {
             return Response::json([
             'message'         => $status.' error',
