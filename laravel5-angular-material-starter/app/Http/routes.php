@@ -90,6 +90,7 @@ $api->group(['middleware' => ['api', 'api.auth']], function ($api) {
     //Users routes
     $api->put('users/{id}', 'UserController@update');
     $api->delete('users/{id}', 'UserController@delete');
+    $api->get('self', 'UserController@findMe');
 
     //Categories routes
     $api->post('categories/', 'CategoryController@create');

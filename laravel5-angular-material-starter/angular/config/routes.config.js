@@ -46,6 +46,30 @@ export function RoutesConfig($stateProvider, $urlRouterProvider) {
                 }
             }
         })
+        .state('app.users_id', {
+            url: '/users/:id',
+            views: {
+                'main@': {
+                    templateUrl: getView('users')
+                }
+            }
+        })
+        .state('app.users_me', {
+        url: '/self',
+        views: {
+            'main@': {
+                templateUrl: getView('users') //???
+            }
+        }
+        })
+        .state('app.users_all', {
+            url: '/users/all',
+            views: {
+                'main@': {
+                    templateUrl: getView('users') //???
+                }
+            }
+        })
         .state('app.forgot_password', {
             url: '/forgot-password',
             views: {

@@ -1,0 +1,98 @@
+<style>body[ng-cloak] {
+    display: none;
+}
+
+body {
+    background-color: #FEEBC8;
+}
+
+div[flex="30"] {
+    background-color: #DFDFDF;
+}
+
+section[flex="40"] {
+    background-color: #D4E5FA;
+}
+
+section[flex="70"] {
+    background-color: #E8FCD6;
+}
+
+section[flex="20"] {
+    background-color: #FFD5E3;
+}
+
+section[flex=""] {
+    background-color: rgba(0, 128, 0, 0.35);
+}
+
+/* Important to set height for column layout */
+.boxWithHeight {
+    box-sizing: border-box;
+    height: 100%;
+}
+
+.a, section {
+    border: 5px solid rgba(85, 97, 85, 0.27);
+    margin: 5px;
+}
+
+section {
+    background-color: #dedede;
+}
+</style>
+
+<!-- Add the slick-theme.css if you want default styling -->
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick-theme.css"/>
+
+<section layout="row" class="icondemoFontIconsWithLigatures" ng-cloak>
+
+    <div flex="30" layout="column" class="boxWithHeight" layout-padding>
+        <section flex="40">
+
+            <md-card>
+                <img ng-src="http://www.francetvinfo.fr/image/75e490efj-61bb/260/146/12104700.jpg" class="md-card-image"
+                     alt="Washed Out">
+
+                <md-card-actions layout="row" layout-align="start center">
+                    <md-card-icon-actions>
+                        <h2> {{vm.user.firstname}} </h2>
+                    </md-card-icon-actions>
+                    <md-button>
+                        <md-icon> favorite</md-icon>
+                    </md-button>
+                    <md-button class="md-icon-button">
+                        <md-icon>settings</md-icon>
+                    </md-button>
+                    <md-button class="md-icon-button">
+                        <md-icon>share</md-icon>
+                    </md-button>
+                </md-card-actions>
+            </md-card>
+
+            <section flex>flex</section>
+        </section>
+    </div>
+    <div flex layout="column" class="boxWithHeight" layout-padding>
+        <section flex="70">
+            <h2>Description : </h2>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam accumsan at ex nec dapibus.
+            Nullam et dui condimentum, condimentum lacus orci aliquam.
+        </section>
+
+        <section flex="20">
+            <h2>Derniere Participation: </h2>
+
+            <div  id="slider" data-slick='{"slidesToShow": 1, "slidesToScroll": 1}'>
+                <div><h3>1</h3></div>
+                <div><h3>2</h3></div>
+                <div><h3>3</h3></div>
+                <div><h3>4</h3></div>
+                <div><h3>5</h3></div>
+                <div><h3>6</h3></div>
+            </div>
+        </section>
+        <section flex>flex</section>
+    </div>
+
+</section>

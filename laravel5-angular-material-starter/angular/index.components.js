@@ -1,3 +1,5 @@
+import {HeaderComponent} from './app/components/header/header.component';
+import {UsersComponent} from './app/components/users/users.component';
 import {EventFormComponent} from './app/components/eventForm/eventForm.component';
 import {PostGetAllComponent} from './app/components/post_get_all/post_get_all.component';
 import {ResetPasswordComponent} from './app/components/reset-password/reset-password.component';
@@ -8,6 +10,8 @@ import {CreatePostFormComponent} from './app/components/create_post_form/create_
 
 
 angular.module('app.components')
+	.component('header', HeaderComponent)
+	.component('users', UsersComponent)
 	.component('eventForm', EventFormComponent)
 	.component('postGetAll', PostGetAllComponent)
 	.component('resetPassword', ResetPasswordComponent)
