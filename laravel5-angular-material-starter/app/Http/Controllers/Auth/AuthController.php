@@ -64,5 +64,26 @@ class AuthController extends Controller
 
         return response()->success(compact('user', 'token'));
     }
+
+    public function findMe(){
+        $user = null;
+
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+        }
+        catch (TokenExpiredException $e) {
+            return response()->success();
+        }
+        catch (TokenInvalidException $e) {
+            return response()->success();
+        }
+        catch (JWTException $e) {
+
+        }
+
+        return response()->success(compact('user'));
+
+
+    }
 }
 

@@ -1,0 +1,23 @@
+<div layout="row" layout-align="space-between">
+
+
+    <img src="img/icons/logo.svg" ui-sref="app.landing" class="DemoHeader-logo"/>
+    <div layout="row" layout-align="center stretch">
+
+
+        <a hide-xs class="DemoHeader-link md-subhead" href="https://github.com/lambiase1u/Proj_Tut" target="_blank">Github</a>
+
+
+
+
+                <a hide-xs ng-show="vm.$auth.isAuthenticated() === false" class="DemoHeader-link md-subhead" href="#!/register">Inscription</a>
+                <a hide-xs ng-show="vm.$auth.isAuthenticated() === false" class="DemoHeader-link md-subhead" href="#!/login">Connexion</a>
+
+                <a hide-xs ng-show="vm.$auth.isAuthenticated() === true" class="DemoHeader-link md-subhead" href="#!/">Accueil</a>
+                <a hide-xs ng-show="vm.$auth.isAuthenticated() === true" class="DemoHeader-link md-subhead" href="#!/user">Mon Profil</a>
+
+
+
+    </div>
+
+</div>

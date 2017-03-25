@@ -88,5 +88,15 @@ export function RoutesConfig($stateProvider, $urlRouterProvider) {
                     templateUrl: getView('event')
                 }
             }
+        })
+        .state('app.profile', {
+            url: '/user',
+            data: {auth: true},
+            views : {
+                'main@' : {
+                    templateUrl: getView('profile')
+                }
+            }
+
         });
 }
