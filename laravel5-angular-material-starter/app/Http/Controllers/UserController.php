@@ -43,12 +43,12 @@ class UserController extends Controller
      * methode : GET
      */
     public function findById(Request $request, $id) {
-        $categorie = Category::find($id);
+        $user = User::find($id);
         
-        if($categorie != null)
-            return response()->json($categorie);
+        if($user != null)
+            return response()->json($user);
         else 
-            return response()->error('Aucune catégorie correspondant à l\'identifiant n\'a été trouvée.', 404);
+            return response()->error('Aucun utilisateur correspondant à l\'identifiant n\'a été trouvée.', 404);
     }
     
     /**
