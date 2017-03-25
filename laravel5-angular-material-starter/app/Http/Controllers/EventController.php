@@ -77,8 +77,13 @@ class EventController extends Controller
      */
     public function delete($id){
         $event = Event::find($id);
-        if($event != null)
-            $event->delete();
+        if($event != null) {
+            $user = $this->findUser();
+            if($this->userIsOrganizer($event, $user->id))
+                $event->delete();
+            else
+                return response()->error("Vous n'avez pas les droits necessaires pour effectuer cette action", 401);
+        }
         return response()->success("Evenement supprimé.");
     }
 
@@ -98,9 +103,13 @@ class EventController extends Controller
             $created = true;
             $event = new Event();
             $event->id = (string)Uuid::generate();
+        } else {
+            $user = $this->findUser();
+            if(!$this->userIsOrganizer($event, $user->id))
+                return response()->error("Vous n'avez pas les droits necessaires pour effectuer cette action", 401);
         }
 
-        $event = $this->fillEvent($request, $event);
+        $event = $this->fillEvent($request, $event, $created);
 
         if($event->save()){
             if($created)
@@ -181,14 +190,15 @@ class EventController extends Controller
      * @param $event evenement a completer
      * @return mixed evenement complete
      */
-    private function fillEvent(Request $request, $event){
+    private function fillEvent(Request $request, $event, $createOrganizer = true){
         $event->title = trim($request->input('title'));
         $event->description = trim($request->input('description'));
         $event->public = $request->input('public');
         $event->capacity = $request->input('capacity');
         $event->date = $request->input('date');
         $event->idCategorie = $request->input('idCategorie');
-        $event->organizers()->attach(Auth::user()->id);
+        if($createOrganizer)
+            $event->organizers()->attach(Auth::user()->id);
         //$event->placeId = $request->input('placeId');
 
         return $event;
@@ -272,15 +282,21 @@ class EventController extends Controller
         }
         if(!$found){
             //organisateurs
-            $organizers = $event->organizers;
-            foreach ($organizers as $organizer){
-                if($organizer->id == $id){
-                    $found = true;
-                    break;
-                }
-            }
+            $found = $this->userIsOrganizer($event,$id);
         }
 
+        return $found;
+    }
+
+    private function userIsOrganizer($event, $userId){
+        $found = false;
+        $organizers = $event->organizers;
+        foreach ($organizers as $organizer){
+            if($organizer->id == $userId){
+                $found = true;
+                break;
+            }
+        }
         return $found;
     }
 }
