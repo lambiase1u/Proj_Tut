@@ -13,6 +13,9 @@ use App\User;
 use App\Invitation;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * Controleur des Invitations aux Evenements
+ */
 class InvitationController extends Controller
 {
     /**
