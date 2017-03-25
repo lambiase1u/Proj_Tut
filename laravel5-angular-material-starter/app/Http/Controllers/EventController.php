@@ -190,7 +190,7 @@ class EventController extends Controller
             'description' => 'required | min: 15',
             'public' => 'required | boolean',
             'capacity' => 'required | integer',
-            'date' => 'required | date ',
+            'date' => 'required|date|after:'.date("Y-m-d H:i:s"),
             'idCategorie' => 'required | string'
             //'placeId' => 'required'
         ]);
