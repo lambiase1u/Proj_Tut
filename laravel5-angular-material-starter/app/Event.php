@@ -66,4 +66,25 @@ class Event extends Model
 	public function invitations() {
 		return $this->belongsToMany('\App\User', 'invitation', 'idActivity', 'idUser');
 	}
+
+    /**
+     * Methode permettant de dire si l'utilisateur a acces a l'evenement
+     * @param $event evenement a tester
+     * @param $user utilisateur a tester
+     * @return bool egal a true si l'utilisateur a le droit d'acceder a l'evneement
+     */
+    public function isAccessible(){
+        $res = true;
+
+        if(!$this->public) {
+            $user = User::findAuthorOfRequest();
+            if (!$user)
+                $res = false;
+            else {
+                if(!$user->isOrganizerOrInvited($this))
+                    $res = false;
+            }
+        }
+        return $res;
+    }
 }
