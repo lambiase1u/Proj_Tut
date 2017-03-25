@@ -57,18 +57,7 @@ class UserController extends Controller
      * methode : PUT
      */
      public function update(Request $request, $id) {
-        $categorie = Category::find($id);
-        
-        if($categorie == null)
-            return response()->error('Aucune catégorie correspondant à l\'identifiant n\'a été trouvée.', 404);
-        else {
-            $events = $categorie->events;
-            
-            if(count($events) != 0)
-                return response()->json($events);
-            else
-                return response()->error('Aucun événement trouvé.', 204);
-        }
+        //A faire
     }
     
     /**
@@ -77,18 +66,6 @@ class UserController extends Controller
      * methode : DELETE
      */
     public function delete(Request $request) {
-        $this->validate($request, [
-            'title' => 'required|unique:category',
-            'description' => 'required'
-        ]);
-        
-        $category = new Category();
-        $category->id = (string)Uuid::generate();
-        $category->title = trim($request->title);
-        $category->description = trim($request->description);
-        
-        $category->save();
-
-        return response()->json($category, 201);
+       //A faire
     }
 }
