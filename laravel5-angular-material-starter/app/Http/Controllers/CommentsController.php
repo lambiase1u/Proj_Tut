@@ -27,7 +27,7 @@ class CommentsController extends Controller
         if($comment != null)
             return response()->json($comment, 201);
         else
-            return response()->error('Aucun commentaire correspondant à l\'id fourni n\'a été trouvé.', 204);
+            return response()->error('Aucun commentaire correspondant à l\'id fourni n\'a été trouvé.', 404);
     }
     
     /**
@@ -55,7 +55,7 @@ class CommentsController extends Controller
 
             return response()->json($comment, 201);   
         } else
-            return response()->error('Aucun événement correspond à l\'id trouvé.', 204);
+            return response()->error('Aucun événement correspond à l\'id trouvé.', 404);
     }
     
     /**
@@ -79,7 +79,7 @@ class CommentsController extends Controller
             } else 
                 return response()->error('Vous ne disposez pas des droits sur ce commentaire.', 401);
         } else 
-            return response()->error('Aucun commentaire correspondant à l\'id n\'a été trouvé.', 204);
+            return response()->error('Aucun commentaire correspondant à l\'id n\'a été trouvé.', 404);
     }
     
     /**
@@ -102,6 +102,6 @@ class CommentsController extends Controller
             } else 
                 return response()->error('Vous ne disposez pas des droits sur ce commentaire.', 401);
         } else
-            return response()->error('Aucun commentaire correspondant à l\'id n\'a été trouvé.', 204);
+            return response()->error('Aucun commentaire correspondant à l\'id n\'a été trouvé.', 404);
     }
 }
