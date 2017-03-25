@@ -41,7 +41,7 @@ class CategoryController extends Controller
         if($categorie != null)
             return response()->json($categorie);
         else 
-            return response()->error('Aucune catégorie correspondant à l\'identifiant n\'a été trouvée.', 204);
+            return response()->error('Aucune catégorie correspondant à l\'identifiant n\'a été trouvée.', 404);
     }
     
     /**
@@ -53,7 +53,7 @@ class CategoryController extends Controller
         $categorie = Category::find($id);
         
         if($categorie == null)
-            return response()->error('Aucune catégorie correspondant à l\'identifiant n\'a été trouvée.', 204);
+            return response()->error('Aucune catégorie correspondant à l\'identifiant n\'a été trouvée.', 404);
         else {
             $events = $categorie->events;
             
@@ -105,7 +105,7 @@ class CategoryController extends Controller
             
             return response()->json($categorie);
         } else {
-            return response()->error('Aucune catégorie correspondant à l\’identifiant n\'a été trouvée.', 204);
+            return response()->error('Aucune catégorie correspondant à l\’identifiant n\'a été trouvée.', 404);
         }
     }
     
@@ -122,6 +122,6 @@ class CategoryController extends Controller
             
             return response()->success('La catégorie a bien été supprimée.');
         } else 
-            return response()->error('Aucune catégorie correspondant à l\’identifiant n\'a été trouvée.', 204);
+            return response()->error('Aucune catégorie correspondant à l\’identifiant n\'a été trouvée.', 404);
     }
 }
