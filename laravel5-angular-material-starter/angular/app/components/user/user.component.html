@@ -37,6 +37,23 @@ section[flex=""] {
     margin: 5px;
 }
 
+.flex-item {
+    background: tomato;
+    margin: 5px;
+    color: white;
+    font-weight: bold;
+    font-size: 1.5em;
+    text-align: center;
+    flex: 1 0 auto;
+    height:auto;
+}
+.flex-item:before {
+    content:'';
+    float:left;
+    padding-top:100%;
+}
+
+
 section {
     background-color: #dedede;
 }
@@ -44,13 +61,16 @@ section {
 
 <section layout="row" class="icondemoFontIconsWithLigatures" ng-cloak>
 
-    <div flex="30" layout="column" class="boxWithHeight" layout-padding>
-        flex="30"
-        <section flex="40">flex="40"<img src=""></section>
-        <section flex>flex</section>
+    <div flex="15" layout="column" class="boxWithHeight" layout-padding>
+
+
+        <div class="flex-item">Photo</div>
+        <section flex>{{vm.user.firstname}} {{vm.user.name}}</section>
+        <section flex>{{vm.user.email}}</section>
+        <section flex>Inscrit le {{vm.user.created_at}}</section>
     </div>
     <div flex layout="column" class="boxWithHeight" layout-padding>
-        flex
+        <h1>Mes évènements</h1>
         <section flex="70">flex="70"</section>
         <section flex="20">flex="20"</section>
         <section flex>flex</section>

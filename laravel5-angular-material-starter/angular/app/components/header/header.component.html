@@ -1,0 +1,26 @@
+<div layout="row" layout-align="space-between">
+
+
+    <img src="img/icons/logo.svg" ui-sref="app.landing" class="DemoHeader-logo"/>
+    <div layout="row" layout-align="center stretch">
+
+
+        <a hide-xs class="DemoHeader-link md-subhead" href="https://github.com/lambiase1u/Proj_Tut" target="_blank">Github</a>
+
+
+
+        <div ng-switch on="vm.user">
+            <div ng-switch-when="null">
+                <a hide-xs ng-if="vm.user == null" class="DemoHeader-link md-subhead" href="#!/register">Inscription</a>
+                <a hide-xs ng-if="vm.user == null" class="DemoHeader-link md-subhead" href="#!/login">Connexion</a>
+            </div>
+            <div ng-switch-default>
+                <a hide-xs ng-show="vm.user" class="DemoHeader-link md-subhead" href="#!/">Accueil</a>
+                <a hide-xs ng-show="vm.user" class="DemoHeader-link md-subhead" href="#!/user">Mon Profil</a>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>

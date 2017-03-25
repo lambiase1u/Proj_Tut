@@ -1,4 +1,4 @@
-class UserController{
+class HeaderController{
     constructor(API,$log){
         'ngInject';
 
@@ -11,19 +11,16 @@ class UserController{
 
 
         this.API.all('auth/self').get('').then((response) => {
-            this.$log.log(response.data);
             this.user = response.data.user;
+        },function(){
+
         });
     }
-
-
-
-
 }
 
-export const UserComponent = {
-    templateUrl: './views/app/components/user/user.component.html',
-    controller: UserController,
+export const HeaderComponent = {
+    templateUrl: './views/app/components/header/header.component.html',
+    controller: HeaderController,
     controllerAs: 'vm',
     bindings: {}
 }
