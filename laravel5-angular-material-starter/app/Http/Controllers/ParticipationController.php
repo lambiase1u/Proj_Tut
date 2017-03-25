@@ -35,8 +35,10 @@ class ParticipationController extends Controller
                 $invite = false;
                 
                 foreach($guests as $guest) {
-                    if($guest->id == $user->id)
+                    if($guest->id == $user->id) {
                         $invite = true;
+                        break;
+                    }
                 }
                 
                 if($invite) {
@@ -56,9 +58,10 @@ class ParticipationController extends Controller
                     $participation->idActivity = $id;
                     $participation->save();    
 
-                    $invitation = Invitation::where('idUser', '=', $user->id)->where('idActivity', '=', $event->id)->first();
+                    $invitation = Invitation::where('idUser', '=', $user->id)->where('idActivity', '=', $event->id);
+                    $invitationRow = $invitation->first();
 
-                    if($invitation != null) {
+                    if($invitationRow != null) {
                         $invitation->answered = true;
                         $invitation->save();
                     }
@@ -67,7 +70,7 @@ class ParticipationController extends Controller
                 }
             }
         } else
-            return response()->error('Aucun événement correspondant à cet id n\'a été trouvé.', 204);
+            return response()->error('Aucun événement correspondant à cet id n\'a été trouvé.', 404);
     }
     
     /**
@@ -80,8 +83,9 @@ class ParticipationController extends Controller
         $user = Auth::user();
         
         $participation = DB::table('participation')->where('idUser', '=', $user->id)->where('idActivity', '=', $event->id);
+        $participationRow = $participation->first();
         
-        if($participation != null) {
+        if($participationRow != null) {
             $participation->delete();
             
             $invitation = Invitation::where('idUser', '=', $user->id)->where('idActivity', '=', $event->id)->first();
@@ -93,6 +97,6 @@ class ParticipationController extends Controller
             
             return response()->success('La participation a bien été supprimée.');
         } else
-            return response()->error('La participation n\'a pas été trouvée.', 204);   
+            return response()->error('La participation n\'a pas été trouvée.', 404);   
     }
 }
