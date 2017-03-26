@@ -43,7 +43,7 @@ $api->group(['middleware' => ['api']], function ($api) {
     $api->get('comments/{idComment}', 'CommentsController@findCommentById');
 
     //Organizers routes
-    $api->get('events/{id}/organizers', 'EventController@findAllOrganizers');
+    $api->get('events/{id}/organizers', 'OrganizerController@findAll');
 
     //Invitations routes
     $api->get('events/{id}/invitations', 'EventController@findAllInvitations');
@@ -85,7 +85,7 @@ $api->group(['middleware' => ['api', 'api.auth']], function ($api) {
 
     //Organizer routes
     $api->post('events/{id}/organizers', 'OrganizerController@create');
-    $api->delete('events/{id}/organizers', 'OrganizerController@delete');
+    $api->delete('events/{idEvent}/organizers/{idUser}', 'OrganizerController@delete');
 
     //Users routes
     $api->put('users/{id}', 'UserController@update')->where('id', '(\w{8}(-\w{4}){3}-\w{12}?)');
