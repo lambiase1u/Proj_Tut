@@ -7,7 +7,9 @@ export function RoutesConfig($stateProvider, $urlRouterProvider) {
 
 	$urlRouterProvider.otherwise('/');
 
-	$stateProvider
+
+
+    $stateProvider
 		.state('app', {
 			abstract: true,
             data: {},//{auth: true} would require JWT auth
@@ -47,7 +49,7 @@ export function RoutesConfig($stateProvider, $urlRouterProvider) {
             }
         })
         .state('app.users_id', {
-            url: '/users/{id:int}',
+            url: '/users/{id:(?:[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12})}',
             views: {
                 'main@': {
                     templateUrl: getView('users')
