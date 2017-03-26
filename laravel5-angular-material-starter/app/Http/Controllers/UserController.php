@@ -83,13 +83,13 @@ class UserController extends Controller
             $user = JWTAuth::parseToken()->authenticate();
         }
         catch (TokenExpiredException $e) {
-            return response()->success();
+            return response()->error('Token has expired', 500);
         }
         catch (TokenInvalidException $e) {
-            return response()->success();
+            return response()->error('Token is invalid', 500);
         }
         catch (JWTException $e) {
-
+            return response()->error('Token is missing', 500);
         }
 
         return response()->success(compact('user'));

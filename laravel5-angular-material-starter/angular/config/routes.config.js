@@ -47,7 +47,7 @@ export function RoutesConfig($stateProvider, $urlRouterProvider) {
             }
         })
         .state('app.users_id', {
-            url: '/users/:id',
+            url: '/users/{id:int}',
             views: {
                 'main@': {
                     templateUrl: getView('users')
@@ -55,7 +55,7 @@ export function RoutesConfig($stateProvider, $urlRouterProvider) {
             }
         })
         .state('app.users_me', {
-        url: '/self',
+        url: '/users/self',
         views: {
             'main@': {
                 templateUrl: getView('users') //???
@@ -66,7 +66,7 @@ export function RoutesConfig($stateProvider, $urlRouterProvider) {
             url: '/users/all',
             views: {
                 'main@': {
-                    templateUrl: getView('users') //???
+                    templateUrl: getView('users')
                 }
             }
         })

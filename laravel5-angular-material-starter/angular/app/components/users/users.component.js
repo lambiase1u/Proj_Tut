@@ -27,7 +27,7 @@ class UsersController{
     }
 
     findMe(){
-        this.API.all('self').get('').then((response) => {
+        this.API.all('users/self').get('').then((response) => {
              this.user = response.data.user;
              this.$log.log(response);
         });
@@ -48,6 +48,18 @@ class UsersController{
                 this.findMe();
                 break;
         }
+
+
+        this.$scope.arrayData = [
+            {src: 'http://www.francetvinfo.fr/image/75e490efj-61bb/260/146/12104700.jpg'},
+            {src: 'http://www.francetvinfo.fr/image/75e490efj-61bb/260/146/12104700.jpg'},
+            {src: 'http://www.francetvinfo.fr/image/75e490efj-61bb/260/146/12104700.jpg'}
+        ];
+
+        this.$log.log(this.$scope.arrayData);
+
+        this.$scope.slideIndex = 1;
+        $("#slider").slick();
 
     }
 

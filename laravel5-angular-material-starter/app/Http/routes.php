@@ -50,7 +50,7 @@ $api->group(['middleware' => ['api']], function ($api) {
 
     //Users routes
     $api->get('users/', 'UserController@findAll');
-    $api->get('users/{id}', 'UserController@findById');
+    $api->get('users/{id}', 'UserController@findById')->where('id', '[0-9]+');
 
     //Categories routes
     $api->get('categories/', 'CategoryController@findAll');
@@ -88,9 +88,9 @@ $api->group(['middleware' => ['api', 'api.auth']], function ($api) {
     $api->delete('events/{id}/organizers', 'OrganizerController@delete');
 
     //Users routes
-    $api->put('users/{id}', 'UserController@update');
-    $api->delete('users/{id}', 'UserController@delete');
-    $api->get('self', 'UserController@findMe');
+    $api->put('users/{id}', 'UserController@update')->where('id', '[0-9]+');
+    $api->delete('users/{id}', 'UserController@delete')->where('id', '[0-9]+');
+    $api->get('users/self', 'UserController@findMe');
 
     //Categories routes
     $api->post('categories/', 'CategoryController@create');
