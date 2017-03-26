@@ -50,16 +50,6 @@ class UsersController{
         }
 
 
-        this.$scope.arrayData = [
-            {src: 'http://www.francetvinfo.fr/image/75e490efj-61bb/260/146/12104700.jpg'},
-            {src: 'http://www.francetvinfo.fr/image/75e490efj-61bb/260/146/12104700.jpg'},
-            {src: 'http://www.francetvinfo.fr/image/75e490efj-61bb/260/146/12104700.jpg'}
-        ];
-
-        this.$log.log(this.$scope.arrayData);
-
-        this.$scope.slideIndex = 1;
-        $("#slider").slick();
 
     }
 
