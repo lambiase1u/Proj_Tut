@@ -106,6 +106,16 @@ export function RoutesConfig($stateProvider, $urlRouterProvider) {
                 }
             }
         })
+
+        .state('app.event_id', {
+        url: '/events/{id:(?:[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12})}',
+        data: {auth: true},//{auth: true} would require JWT auth
+        views: {
+            'main@': {
+                templateUrl: getView('landing')
+            }
+        }
+        })
         .state('app.event_create', {
             url: '/events/create',
             data: {auth: true},//{auth: true} would require JWT auth
@@ -114,15 +124,6 @@ export function RoutesConfig($stateProvider, $urlRouterProvider) {
                     templateUrl: getView('event')
                 }
             }
-        })
-        .state('app.event_id', {
-        url: '/events/{id:(?:[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12})}',
-        data: {auth: true},//{auth: true} would require JWT auth
-        views: {
-            'main@': {
-                templateUrl: getView('event')
-            }
-        }
         })
 
 

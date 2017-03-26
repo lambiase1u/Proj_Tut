@@ -1,5 +1,5 @@
 class EventFormController {
-    constructor(API, ToastService, $log) {
+    constructor(API, ToastService, $log,$state) {
         'ngInject';
 
         this.API = API;
@@ -7,6 +7,8 @@ class EventFormController {
         this.$log = $log;
         this.categories = [];
         this.category_picked = null;
+        this.place = null;
+        this.$state = $state;
     }
 
     $onInit() {
@@ -37,7 +39,7 @@ class EventFormController {
             capacity: this.capacity,
             date: this.date,
             idCategorie: this.category_picked.toString(),
-            placeId: this.placeId,
+            placeId: this.place.place_id,
             idParent: this.idParent
         };
 

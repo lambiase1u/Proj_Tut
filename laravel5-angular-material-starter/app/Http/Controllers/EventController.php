@@ -189,7 +189,7 @@ class EventController extends Controller
         $event->date = $request->input('date');
         $event->idCategorie = $request->input('idCategorie');
         $event->organizers()->attach(Auth::user()->id);
-        //$event->placeId = $request->input('placeId');
+        $event->placeId = $request->input('placeId');
 
         return $event;
     }

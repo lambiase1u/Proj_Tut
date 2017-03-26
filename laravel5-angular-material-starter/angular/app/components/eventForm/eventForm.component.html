@@ -54,6 +54,19 @@
 
 
     <div>
+        <md-input-container class="md-icon-float md-block">
+            <!-- Use floating label instead of placeholder -->
+
+            <label>Définissez un lieu</label>
+
+            <input g-places-autocomplete ng-model="event.place" type="text">
+        </md-input-container>
+
+
+    </div>
+
+
+    <div>
         <md-input-container>
             <md-checkbox aria-label="Public" ng-model="event.public" class="md-primary">
                 Public
