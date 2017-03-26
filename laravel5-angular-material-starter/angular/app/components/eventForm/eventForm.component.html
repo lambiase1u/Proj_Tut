@@ -30,6 +30,29 @@
     </div>
 
 
+
+    <div>
+        <md-input-container>
+            <label>Catégories</label>
+            <md-select ng-model="event.category_picked"
+                       md-on-close="clearSearchTerm()"
+                       data-md-container-class="selectdemoSelectHeader"
+                       multiple>
+                <md-select-header class="demo-select-header">
+                    <input ng-model="searchTerm"
+                           type="search"
+                           placeholder="Choisir une catégorie.."
+                           class="demo-header-searchbox md-text">
+                </md-select-header>
+                <md-optgroup label="categories">
+                    <md-option ng-value="category.id" ng-repeat="category in event.categories |
+              filter:searchTerm">{{category.title}}</md-option>
+                </md-optgroup>
+            </md-select>
+        </md-input-container>
+    </div>
+
+
     <div>
         <md-input-container>
             <md-checkbox aria-label="Public" ng-model="event.public" class="md-primary">
