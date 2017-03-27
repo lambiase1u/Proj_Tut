@@ -1,0 +1,70 @@
+
+
+
+
+<div ng-switch="vm.$state.$current.self.name">
+    <div ng-switch-when="app.landing">
+        <div class="row">
+            <md-button ng-click="vm.event_create()" md-no-ink class="md-primary">Créer un évènement</md-button>
+        </div>
+        <div class="row">
+            <md-content class="md-padding" layout-xs="column" layout="row">
+                <div flex-xs flex-gt-xs="50" layout="row">
+                    <md-card ng-repeat="event in vm.events ">
+                        <img ng-src="" class="md-card-image" alt="Image ou Map">
+                        <div id="map"></div>
+                        <md-card-title>
+                            <md-card-title-text>
+                                <span class="md-headline">{{ event.title}}</span>
+                            </md-card-title-text>
+                        </md-card-title>
+                        <md-card-actions layout="row" layout-align="start center">
+                            <md-card-icon-actions>
+
+                            </md-card-icon-actions>
+                            <md-button  md-no-ink class="md-primary"><a ui-sref="app.event_id({id: event.id})">Voir</a></md-button>
+                            <md-button ng-click="vm.participate(event.id)">Participer</md-button>
+                        </md-card-actions>
+                        <md-card-content>
+                            <p>
+                                {{ event.description }}
+                            </p>
+                        </md-card-content>
+                    </md-card>
+                </div>
+            </md-content>
+        </div>
+    </div>
+    <div ng-switch-when="app.event_id">
+
+
+        <md-content class="md-padding" layout-xs="column" layout="row">
+            <div flex-xs flex-gt-xs="50" layout="column">
+                <md-card >
+                    <img ng-src="" class="md-card-image" alt="Image ou Map">
+
+                    <md-card-title>
+                        <md-card-title-text>
+                            <span class="md-headline">{{ vm.event.title}}</span>
+                        </md-card-title-text>
+                    </md-card-title>
+                    <md-card-actions layout="row" layout-align="start center">
+                        <md-card-icon-actions>
+
+                        </md-card-icon-actions>
+
+                        <md-button ng-click="vm.participate(vm.event.id)">Participer</md-button>
+                    </md-card-actions>
+                    <md-card-content>
+                        <p>
+                            {{ vm.event.description }}
+                        </p>
+                    </md-card-content>
+                </md-card>
+
+            </div>
+        </md-content>
+    </div>
+
+
+</div>

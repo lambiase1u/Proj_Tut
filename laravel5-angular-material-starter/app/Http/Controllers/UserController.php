@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use Webpatser\Uuid\Uuid;
+use Auth;
+use JWTAuth;
 
 use App\User;
 
@@ -68,4 +70,31 @@ class UserController extends Controller
     public function delete(Request $request) {
        //A faire
     }
+
+    /**
+     * Methode permettant de récuperer l'utilisateur courant
+     * route : /api/users/self
+     * methode : GET
+     */
+    public function findMe(){
+        $user = null;
+
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+        }
+        catch (TokenExpiredException $e) {
+            return response()->error('Token has expired', 500);
+        }
+        catch (TokenInvalidException $e) {
+            return response()->error('Token is invalid', 500);
+        }
+        catch (JWTException $e) {
+            return response()->error('Token is missing', 500);
+        }
+
+        return response()->success(compact('user'));
+
+
+    }
+
 }

@@ -172,9 +172,11 @@ class EventController extends Controller
         $event->capacity = $request->input('capacity');
         $event->date = $request->input('date');
         $event->idCategorie = $request->input('idCategorie');
-        if($createOrganizer)
-            $event->organizers()->attach(Auth::user()->id);
-        //$event->placeId = $request->input('placeId');
+        if($createOrganizer){
+          $event->organizers()->attach(Auth::user()->id);
+        }
+         $event->placeId = $request->input('placeId');
+
 
         return $event;
     }

@@ -20,6 +20,8 @@
     <div ui-view="main"></div>
     <div ui-view="footer"></div>
 
+
+
     <script src="{!! elixir('js/vendor.js') !!}"></script>
     <script src="{!! elixir('js/partials.js') !!}"></script>
     <script src="{!! elixir('js/app.js') !!}"></script>
@@ -33,8 +35,16 @@
 
 
     <script src="{!! elixir('js/map.js') !!}"></script>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFosuj-n-qIEM_BRqt2JX-YIhfno9138k&libraries=geometry,places&callback=initialize"
-            async defer></script>
+    <!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFosuj-n-qIEM_BRqt2JX-YIhfno9138k&libraries=geometry,places&callback=initialize"
+            async defer></script>-->
+
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFosuj-n-qIEM_BRqt2JX-YIhfno9138k&libraries=places"></script>
+
+
+    <script src="js/autocomplete.js"></script>
+    <link rel="stylesheet" href="css/autocomplete.css">
+
 
 </body>
 </html>
