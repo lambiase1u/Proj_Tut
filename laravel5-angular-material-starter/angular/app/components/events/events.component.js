@@ -1,3 +1,5 @@
+let vm;
+
 class EventsController{
     constructor(API,$log,$state,ToastService,NgMap){
         'ngInject';
@@ -10,18 +12,10 @@ class EventsController{
        this.$state = $state;
        this.ToastService = ToastService;
        this.user = null;
-        this.map = NgMap;
+       this.map = NgMap;
+       vm=this;
 
-
-       this.positions =[
-            {pos:[40.71, -74.21]},
-            {pos:[41.72, -73.20]},
-            {pos:[42.73, -72.19]},
-            {pos:[43.74, -71.18]},
-            {pos:[44.75, -70.17]},
-            {pos:[45.76, -69.16]},
-            {pos:[46.77, -68.15]}
-        ];
+       this.positions =[];
     }
 
 
@@ -32,6 +26,10 @@ class EventsController{
         });
     }
 
+    details(object_map,event){
+        vm.event = event.details;
+        vm.$log.log(vm.event);
+    }
 
     findAll(){
 
@@ -39,11 +37,25 @@ class EventsController{
 
         let log = this.$log;
         let api = this.API;
+        let vm = this;
+        let geocoder = new google.maps.Geocoder;
 
 
         this.API.all('events').get('').then((response) => {
            // this.$log.log(response.data.listEvents);
             this.events = response.data.listEvents;
+
+            angular.forEach(this.events , function(event){
+
+                geocoder.geocode({'placeId': event.placeId}, function(results, status) {
+                    if (status === google.maps.GeocoderStatus.OK) {
+
+                        vm.positions.push({pos:[results[0].geometry.location.lat(), results[0].geometry.location.lng()],details:event},)
+                    } else {
+                    }
+                });
+
+            });
 
 
             angular.forEach(this.events , function(key){
@@ -55,6 +67,7 @@ class EventsController{
                     if(!angular.isUndefined(response)){
 
                         key.organizers = response.data.organizers[0];
+                        key.show = false;
                         //log.log(key);
                     }
 
@@ -68,12 +81,9 @@ class EventsController{
 
         });
 
-
-
-
-
-
     }
+
+
 
 
     findOne(){
@@ -88,9 +98,14 @@ class EventsController{
 
 
 
+
+
     $onInit(){
 
         this.findMe();
+        let log = this.$log;
+
+
 
         switch(this.$state.$current.self.name){
             case "app.landing" :
@@ -102,8 +117,10 @@ class EventsController{
         }
 
 
-
     }
+
+
+
 
 
 

@@ -35,6 +35,7 @@ class EventFormController {
 
     placeChanged() {
         place = this.getPlace();
+        console.log(place);
     }
 
 
