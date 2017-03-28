@@ -35,28 +35,28 @@ class User extends Authenticatable
      * Commentaires sur des Evenements
      */
 	public function comments() {
-		return $this->hasMany('\app\Comment', 'idUser');
+		return $this->hasMany('\App\Comment', 'idUser');
 	}
     
     /**
      * Evenements ou l'utilisateur est organisateur
      */
 	public function eventsOrganization() {
-		return $this->belongsToMany('\app\Event', 'organizer', 'idEvent', 'idEvent');
+		return $this->belongsToMany('\App\Event', 'organizer', 'idEvent', 'idEvent');
 	}
     
     /**
      * Evenements ou l'utilisateur est invite
      */
 	public function eventsInvitations() {
-		return $this->belongsToMany('\app\Event', 'invitation', 'idUser', 'idActivity');
+		return $this->belongsToMany('\App\Event', 'invitation', 'idUser', 'idActivity');
 	}
     
     /**
      * Evenements auxuqles l'utilisateur participe
      */
 	public function eventsParticipations() {
-		return $this->belongsToMany('\app\User', 'participation', 'idUser', 'idActivity');
+		return $this->belongsToMany('\App\Event', 'participation', 'idUser', 'idActivity');
 	}
 
     /**

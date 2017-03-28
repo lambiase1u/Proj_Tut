@@ -51,6 +51,7 @@ $api->group(['middleware' => ['api']], function ($api) {
     //Users routes
     $api->get('users/', 'UserController@findAll');
     $api->get('users/{id}', 'UserController@findById')->where('id', '(\w{8}(-\w{4}){3}-\w{12}?)');
+    $api->get('users/{id}/participe', 'UserController@participe')->where('id', '(\w{8}(-\w{4}){3}-\w{12}?)');
 
     //Categories routes
     $api->get('categories/', 'CategoryController@findAll');

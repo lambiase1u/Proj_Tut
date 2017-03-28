@@ -97,4 +97,13 @@ class UserController extends Controller
 
     }
 
+
+    public  function  participe(Request $request,$id){
+        $user = User::find($id);
+        if($user != null)
+            return response()->json($user->eventsParticipations);
+        else
+            return response()->error('Aucun utilisateur correspondant à l\'identifiant n\'a été trouvée.', 404);
+    }
+
 }
