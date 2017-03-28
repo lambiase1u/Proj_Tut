@@ -36,8 +36,8 @@
 
     <script src="{!! elixir('js/map.js') !!}"></script>
     <!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFosuj-n-qIEM_BRqt2JX-YIhfno9138k&libraries=geometry,places&callback=initialize"
-            async defer></script>-->
-
+            async defer></script>
+-->
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFosuj-n-qIEM_BRqt2JX-YIhfno9138k&libraries=places"></script>
 

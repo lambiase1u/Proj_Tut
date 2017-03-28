@@ -1,5 +1,8 @@
+
+let place;
+
 class EventFormController {
-    constructor(API, ToastService, $log,$state) {
+    constructor(API, ToastService, $log,$state,$scope) {
         'ngInject';
 
         this.API = API;
@@ -9,13 +12,14 @@ class EventFormController {
         this.category_picked = null;
         this.place = null;
         this.$state = $state;
+
     }
+
 
     $onInit() {
 
         this.API.all('categories').get('').then((response) => {
             //log.log(response);
-
             angular.forEach(response, function(value) {
 
                 let tab_ref = this;
@@ -23,15 +27,22 @@ class EventFormController {
                     tab_ref.push(value);
                 }
             },this.categories);
-
-
         });
-
-        //this.$log.log(this.categories);
+        
 
     }
 
+
+    placeChanged() {
+        place = this.getPlace();
+    }
+
+
+
     submit() {
+
+        //this.$log.log(this.place);
+
         var data = {
             title: this.title,
             description: this.description,
@@ -39,7 +50,7 @@ class EventFormController {
             capacity: this.capacity,
             date: this.date,
             idCategorie: this.category_picked.toString(),
-            placeId: this.place.place_id,
+            placeId: place.place_id,
             idParent: this.idParent
         };
 

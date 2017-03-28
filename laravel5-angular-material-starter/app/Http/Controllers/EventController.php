@@ -31,7 +31,7 @@ class EventController extends Controller
     }
 
     /**
-     * Methode permettant de recuperer les liste de tous les evenements
+     * Methode permettant de recuperer la liste de tous les evenements
      * @return reponse contenant la liste des evenements si il y en a
      */
     public function findAll(){
