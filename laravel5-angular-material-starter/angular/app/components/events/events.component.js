@@ -26,6 +26,11 @@ class EventsController{
         });
     }
 
+    /**
+     * Méthode permettant d'afficher un évènement sur la sidebar de la page d'accueil 'landing" suite à un click
+     * @param object_map, par défaut en 1er argument, imposé par ngMap
+     * @param event, l'évènement passé en paramètre dans la vue ( 'p' dans notre cas )
+     */
     details(object_map,event){
         vm.event = event.details;
         vm.$log.log(vm.event);
@@ -40,11 +45,16 @@ class EventsController{
         let vm = this;
         let geocoder = new google.maps.Geocoder;
 
-
+        /**
+         * Appel a l'API pour récuperer tous les évènements
+         */
         this.API.all('events').get('').then((response) => {
            // this.$log.log(response.data.listEvents);
             this.events = response.data.listEvents;
 
+            /**
+             * On récupère les coordonnés de tous les évènements à partir de leur placeID grâce a l'API de google geocode
+             */
             angular.forEach(this.events , function(event){
 
                 geocoder.geocode({'placeId': event.placeId}, function(results, status) {
@@ -57,7 +67,10 @@ class EventsController{
 
             });
 
-
+            /**
+             * On ajoute au tableau d'évènement, les données relatives aux organisateurs afin de savoir si l'utilisateur
+             * courant est le proprietaire
+             */
             angular.forEach(this.events , function(key){
                // log.log(key);
 
@@ -97,9 +110,10 @@ class EventsController{
     }
 
 
-
-
-
+    /**
+     * Methode de base , permet de remplir le tableau d'events si on est sur la page d'accueil ( landing )
+     * et la variable event si on est sur une page d'un evenement précis grace à son id
+     */
     $onInit(){
 
         this.findMe();

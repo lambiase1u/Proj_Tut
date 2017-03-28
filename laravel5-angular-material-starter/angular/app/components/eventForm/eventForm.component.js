@@ -32,7 +32,10 @@ class EventFormController {
 
     }
 
-
+    /**
+     * Permet de récupérer les données liées a l'autocomplete de google maps
+     * Necessaire pour le post de 'placeId"
+     */
     placeChanged() {
         place = this.getPlace();
         console.log(place);

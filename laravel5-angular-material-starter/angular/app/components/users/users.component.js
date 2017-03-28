@@ -33,7 +33,10 @@ class UsersController {
         });
     }
 
-
+    /**
+     * Methode de base , permettant de variables les bonnes variables pour la vue, celle ci fait le meme traitement
+     * pour afficher les bonnes DIV HTML
+     */
     $onInit() {
 
         switch (this.$state.$current.self.name) {
