@@ -49,7 +49,7 @@ class UsersController{
                 break;
         }
 
-
+        $("#carousel").slick()
 
     }
 
