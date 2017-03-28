@@ -16,7 +16,6 @@
 </style>
 
 
-
 <section layout="row" class="icondemoFontIconsWithLigatures" ng-cloak>
 
     <div flex="30" layout="column" class="boxWithHeight" layout-padding>
@@ -54,14 +53,16 @@
         <section flex="20">
             <h2>Derniere Participation: </h2>
 
-            <div id="carousel" data-slick='{"slidesToShow": 4, "slidesToScroll": 4}'>
-                <div><h3>1</h3></div>
-                <div><h3>2</h3></div>
-                <div><h3>3</h3></div>
-                <div><h3>4</h3></div>
-                <div><h3>5</h3></div>
-                <div><h3>6</h3></div>
+
+            <div ng-if="vm.dataLoaded && vm.lastParticipation">
+                <slick infinite="true" slides-to-show="3" slides-to-scroll="3" dots="true" arrows="true"
+                       init-onload="true" data="vm.lastParticipation">
+                    <div ng-repeat="last in vm.lastParticipation track by $index">
+                        {{last}}
+                    </div>
+                </slick>
             </div>
+
         </section>
         <section flex>flex</section>
     </div>
