@@ -1,5 +1,5 @@
-class UsersController{
-    constructor(API, ToastService, $state,$log){
+class UsersController {
+    constructor(API, ToastService, $state, $log) {
         'ngInject';
 
         this.API = API;
@@ -10,34 +10,33 @@ class UsersController{
 
     }
 
-    findOneUser(){
+    findOneUser() {
         let id = this.$state.params.id;
 
-        this.API.all('users/'+id).get('').then((response) => {
-            this.user = response;
-            this.$log.log(response);
+        this.API.all('users/' + id).get('').then((response) => {
+            this.user =  response.data.user;
+            this.$log.log( response.data.user);
         });
     }
 
-    findAllUsers(){
+    findAllUsers() {
         this.API.all('users').get('').then((response) => {
-           // this.user = response;
-            this.$log.log(response);
+            // this.user =  response.data.user;
+            this.$log.log(response.data);
         });
     }
 
-    findMe(){
+    findMe() {
         this.API.all('users/self').get('').then((response) => {
-             this.user = response.data.user;
-             this.$log.log(response);
+            this.user = response.data.user;
+            this.$log.log( response.data.user);
         });
     }
 
 
+    $onInit() {
 
-    $onInit(){
-
-        switch(this.$state.$current.self.name){
+        switch (this.$state.$current.self.name) {
             case "app.users_all" :
                 this.findAllUsers();
                 break;
@@ -49,10 +48,9 @@ class UsersController{
                 break;
         }
 
-
+        $("#carousel").slick()
 
     }
-
 
 
 }
