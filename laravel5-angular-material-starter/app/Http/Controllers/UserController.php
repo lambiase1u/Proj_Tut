@@ -77,24 +77,12 @@ class UserController extends Controller
      * methode : GET
      */
     public function findMe(){
-        $user = null;
+        $user = Auth::user();
 
-        try {
-            $user = JWTAuth::parseToken()->authenticate();
-        }
-        catch (TokenExpiredException $e) {
-            return response()->error('Token has expired', 500);
-        }
-        catch (TokenInvalidException $e) {
-            return response()->error('Token is invalid', 500);
-        }
-        catch (JWTException $e) {
-            return response()->error('Token is missing', 500);
-        }
-
-        return response()->success(compact('user'));
-
-
+        if($user == null)
+            return response()->error("Vous n'êtes pas connecté." , 401);
+        else
+            return response()->success(compact('user'));
     }
 
 }
