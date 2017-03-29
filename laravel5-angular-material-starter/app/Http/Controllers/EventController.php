@@ -170,7 +170,8 @@ class EventController extends Controller
         $event->description = trim($request->input('description'));
         $event->public = $request->input('public');
         $event->capacity = $request->input('capacity');
-        $event->date = $request->input('date');
+        $event->dateDebut = $request->input('dateDebut');
+        $event->dateFin = $request->input('dateFin');
         $event->idCategorie = $request->input('idCategorie');
         if($createOrganizer){
           $event->organizers()->attach(Auth::user()->id);
@@ -192,9 +193,10 @@ class EventController extends Controller
             'description' => 'required | min: 15',
             'public' => 'required | boolean',
             'capacity' => 'required | integer',
-            'date' => 'required|date|after:'.date("Y-m-d H:i:s"),
-            'idCategorie' => 'required | string'
-            //'placeId' => 'required'
+            'dateDebut' => 'required|date_format:Y-m-d H:i:s|after:'.date("Y-m-d H:i:s"),
+            'dateFin' => 'required|date_format:Y-m-d H:i:s|after:dateDebut',
+            'idCategorie' => 'required | string',
+            'placeId' => 'required'
         ]);
     }
 
