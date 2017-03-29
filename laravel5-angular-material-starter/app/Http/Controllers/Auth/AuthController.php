@@ -62,7 +62,7 @@ class AuthController extends Controller
 
         $token = JWTAuth::fromUser($user);
 
-        return response()->success(compact('user', 'token'));
+        return response()->created(compact('user', 'token'));
     }
 }
 
