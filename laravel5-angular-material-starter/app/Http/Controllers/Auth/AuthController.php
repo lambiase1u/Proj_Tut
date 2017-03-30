@@ -8,7 +8,6 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Webpatser\Uuid\Uuid;
-use DateTime;
 
 class AuthController extends Controller
 {

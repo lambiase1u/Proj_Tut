@@ -94,6 +94,7 @@ class Event extends Model
         $this->organizers()->detach();
         $this->participants()->detach();
         $this->invitations()->detach();
+        $this->comments()->delete();
 
         return parent::delete();
     }

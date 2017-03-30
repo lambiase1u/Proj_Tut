@@ -4,11 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
 use Webpatser\Uuid\Uuid;
 use Auth;
 use JWTAuth;
-
 use App\User;
 
 /**
@@ -104,8 +102,14 @@ class UserController extends Controller
      * route : /api/users/{id}
      * methode : DELETE
      */
-    public function delete(Request $request) {
-        //A faire
+    public function delete(Request $request, $id) {
+        $user = Auth::user();
+
+        if($user==null || $user->id!= $id)
+            return response()->error("Vous ne pouvez pas effectuer cette action", 401);
+
+        $user->delete();
+        return response()->noContent();
     }
 
     /**
