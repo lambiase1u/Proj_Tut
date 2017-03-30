@@ -8,7 +8,6 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Webpatser\Uuid\Uuid;
-use DateTime;
 
 class AuthController extends Controller
 {
@@ -62,7 +61,7 @@ class AuthController extends Controller
 
         $token = JWTAuth::fromUser($user);
 
-        return response()->success(compact('user', 'token'));
+        return response()->created(compact('user', 'token'));
     }
 }
 

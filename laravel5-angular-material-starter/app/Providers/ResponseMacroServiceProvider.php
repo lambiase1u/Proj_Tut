@@ -30,7 +30,7 @@ class ResponseMacroServiceProvider extends ServiceProvider
             ], 201);
         });
 
-        Response::macro('noContent', function($message) {
+        Response::macro('noContent', function($message="Aucun contenu") {
             return Response::json([
                 'errors' => false,
                 'message' => $message,

@@ -73,11 +73,12 @@ class Event extends Model
      * @param $user utilisateur a tester
      * @return bool egal a true si l'utilisateur a le droit d'acceder a l'evneement
      */
-    public function isAccessible(){
+    public function isAccessible($user=null){
         $res = true;
 
         if(!$this->public) {
-            $user = User::findAuthorOfRequest();
+            if($user ==null)
+                $user = User::findAuthorOfRequest();
             if (!$user)
                 $res = false;
             else {
@@ -94,6 +95,7 @@ class Event extends Model
         $this->organizers()->detach();
         $this->participants()->detach();
         $this->invitations()->detach();
+        $this->comments()->delete();
 
         return parent::delete();
     }

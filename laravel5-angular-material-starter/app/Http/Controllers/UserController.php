@@ -4,11 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
 use Webpatser\Uuid\Uuid;
 use Auth;
 use JWTAuth;
-
 use App\User;
 
 /**
@@ -24,21 +22,21 @@ class UserController extends Controller
     public function findAll(Request $request) {
         $from = 0;
         $size = User::count();
-        
-        if(isset($request->from)) 
+
+        if(isset($request->from))
             $from = $request->from - 1;
-         
+
         if(isset($request->to))
             $size = $request->to - $from;
-    
+
         $users = User::take($size)->skip($from)->get();
-        
-        if(count($users) != 0) 
+
+        if(count($users) != 0)
             return response()->json($users);
         else
             return response()->error('Aucun utilisateur sélectionné.', 204);
     }
-    
+
     /**
      * Methode permettant de recuperer une utilisateur a partir de son id
      * reoute : /api/users/{id}
@@ -46,29 +44,72 @@ class UserController extends Controller
      */
     public function findById(Request $request, $id) {
         $user = User::find($id);
-        
+
         if($user != null)
             return response()->json($user);
-        else 
+        else
             return response()->error('Aucun utilisateur correspondant à l\'identifiant n\'a été trouvée.', 404);
     }
-    
+
     /**
      * Methode permettant de mettre a jour un utilisateur
      * route : /api/users/{id}
      * methode : PUT
      */
-     public function update(Request $request, $id) {
-        //A faire
+    public function update(Request $request, $id) {
+        $currentUser = Auth::user();
+        $requestUser = User::find($id);
+        $new = false;
+        $validateEmail = 'required|email';
+        if($requestUser == null){
+            $requestUser = new User();
+            $requestUser->id = Uuid::generate();
+            $validateEmail.= '|unique:users';
+            $new = true;
+        } else {
+            if ($requestUser != $currentUser)
+                return response()->error("Vous n'êtes pas autorisé à modifier cet utilisateur", 401);
+        }
+        $date_Time = new \DateTime();
+        $current_date = $date_Time->createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
+        $adult = ($current_date->format('Y') - 18) . '-' . $current_date->format('m') . '-' . $current_date->format('d');
+
+        $this->validate($request, [
+            'name' => 'required|min:3',
+            'firstName' => 'required|min:3',
+            'email' => $validateEmail,
+            'password' => 'required|min:8',
+            'birthdate' => 'required|date|before:'.$adult
+        ]);
+
+        $requestUser->name = trim($request->name);
+        $requestUser->firstName = trim($request->firstName);
+        $requestUser->email = trim(strtolower($request->email));
+        $requestUser->password = bcrypt($request->password);
+        $requestUser->birthdate = trim($request->birthdate);
+
+        $requestUser->save();
+
+        if($new) {
+            $token = JWTAuth::fromUser($requestUser);
+            return response()->created(compact('requestUser', 'token'));
+        } else
+            return response()->success(compact('requestUser'));
     }
-    
+
     /**
      * Methode permettant de supprimer un utilisateur
      * route : /api/users/{id}
      * methode : DELETE
      */
-    public function delete(Request $request) {
-       //A faire
+    public function delete(Request $request, $id) {
+        $user = Auth::user();
+
+        if($user==null || $user->id!= $id)
+            return response()->error("Vous ne pouvez pas effectuer cette action", 401);
+
+        $user->delete();
+        return response()->noContent();
     }
 
     /**
@@ -77,24 +118,12 @@ class UserController extends Controller
      * methode : GET
      */
     public function findMe(){
-        $user = null;
+        $user = Auth::user();
 
-        try {
-            $user = JWTAuth::parseToken()->authenticate();
-        }
-        catch (TokenExpiredException $e) {
-            return response()->error('Token has expired', 500);
-        }
-        catch (TokenInvalidException $e) {
-            return response()->error('Token is invalid', 500);
-        }
-        catch (JWTException $e) {
-            return response()->error('Token is missing', 500);
-        }
-
-        return response()->success(compact('user'));
-
-
+        if($user == null)
+            return response()->error("Vous n'êtes pas connecté." , 401);
+        else
+            return response()->success(compact('user'));
     }
 
 }

@@ -35,32 +35,33 @@ class User extends Authenticatable
      * Commentaires sur des Evenements
      */
 	public function comments() {
-		return $this->hasMany('\app\Comment', 'idUser');
+		return $this->hasMany('\App\Comment', 'idUser');
 	}
     
     /**
      * Evenements ou l'utilisateur est organisateur
      */
 	public function eventsOrganization() {
-		return $this->belongsToMany('\app\Event', 'organizer', 'idEvent', 'idEvent');
+		return $this->belongsToMany('\App\Event', 'organizer', 'idUser', 'idEvent');
 	}
     
     /**
      * Evenements ou l'utilisateur est invite
      */
 	public function eventsInvitations() {
-		return $this->belongsToMany('\app\Event', 'invitation', 'idUser', 'idActivity');
+		return $this->belongsToMany('\App\Event', 'invitation', 'idUser', 'idActivity');
 	}
     
     /**
      * Evenements auxuqles l'utilisateur participe
      */
 	public function eventsParticipations() {
-		return $this->belongsToMany('\app\User', 'participation', 'idUser', 'idActivity');
+		return $this->belongsToMany('\App\User', 'participation', 'idUser', 'idActivity');
 	}
 
     /**
-     * Methode statique qui recupere l'user qui fait la requete si il est connecte
+     * Methode statique qui recupere l'user qui fait la requete si il est connecte mais que la route
+     * n'oblige en rien l'utilisateur d'être connecté
      * @return user ou null si aucun utilisateur n'est connecté
      */
     public static function findAuthorOfRequest(){
@@ -85,37 +86,35 @@ class User extends Authenticatable
         return $this->isOrganizer($event) || $this->isInvited($event);
     }
 
-    public function isOrganizer($event, $organizers = null){
-        $found = false;
-        if($organizers == null)
-            $organizers = $event->organizers;
-        foreach ($organizers as $organizer){
-            if($organizer->id == $this->id){
-                $found = true;
-                break;
-            }
-        }
-        return $found;
+    public function isOrganizer($event){
+        $organizer = Organizer::where('idEvent', '=', $event->id)->where('idUser', '=', $this->id)->first();
+        return ($organizer != null);
     }
 
     public function isInvited($event){
-        $found = false;
-        $invitations = $event->invitations;
-        foreach ($invitations as $invitation){
-            if($invitation->id == $this->id){
-                $found = true;
-                break;
-            }
-        }
-        return $found;
+        $invitation = Invitation::where('idActivity', '=', $event->id)->where('idUser', '=', $this->id)->first();
+        return ($invitation != null);
     }
 
 
+    /**
+     * Surcharge de la methode de suppression permettant de supprimer en cascades les données relatives a l'utilisateur
+     */
     public function delete()
     {
+        //Recuperation des evenements ou l'utilisateur est le seul organisateur, et suppression de ceux-ci
+        $eventsOrganises = $this->eventsOrganization;
+        foreach ($eventsOrganises as $eventsOrganise){
+            $organisateurs = $eventsOrganise->organizers;
+            if($organisateurs->count() < 2) {
+                $eventsOrganise->delete();
+            }
+        }
+
         $this->eventsOrganization()->detach();
         $this->eventsInvitations()->detach();
         $this->eventsParticipations()->detach();
+        $this->comments()->delete();
 
         return parent::delete();
     }

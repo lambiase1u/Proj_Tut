@@ -29,6 +29,23 @@ class CommentsController extends Controller
         else
             return response()->error('Aucun commentaire correspondant à l\'id fourni n\'a été trouvé.', 404);
     }
+
+    /**
+     * Methode permettant de recuperer tous les commentaires d'un evenement grace a son id
+     * @param $id id de l'evenement
+     * @return mixed reponse contenant tous les commentaires de l'evenement
+     */
+    public function findAllByEvent($id){
+        $event = Event::find($id);
+        if($event == null)
+            return response()->noContent("Aucun evenement correspondant a l'identifiant n'a été trouvé");
+
+        $comments = $event->comments;
+        if($comments->count() == 0)
+            return response()->noContent("Il n'y a aucun commentaire sur cet événement.");
+        else
+            return response()->success(compact('comments'));
+    }
     
     /**
      * Methode permettant d'ajouter un commentaire'
