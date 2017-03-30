@@ -75,8 +75,8 @@ $api->group(['middleware' => ['api', 'api.auth']], function ($api) {
     $api->delete('events/{id}/participate', 'ParticipationController@removeParticipation');
 
     //Invitations routes
-    $api->post('events/{id}/invitation', 'InvitationController@invitation');
-    $api->delete('events/{id}/invitation', 'InvitationController@deleteInvitation');
+    $api->post('events/{id}/invitations', 'InvitationController@invitation');
+    $api->delete('events/{id}/invitations', 'InvitationController@deleteInvitation');
 
     //Comments routes
     $api->post('events/{id}/comments', 'CommentsController@addComment');

@@ -86,29 +86,14 @@ class User extends Authenticatable
         return $this->isOrganizer($event) || $this->isInvited($event);
     }
 
-    public function isOrganizer($event, $organizers = null){
-        $found = false;
-        if($organizers == null)
-            $organizers = $event->organizers;
-        foreach ($organizers as $organizer){
-            if($organizer->id == $this->id){
-                $found = true;
-                break;
-            }
-        }
-        return $found;
+    public function isOrganizer($event){
+        $organizer = Organizer::where('idEvent', '=', $event->id)->where('idUser', '=', $this->id)->first();
+        return ($organizer != null);
     }
 
     public function isInvited($event){
-        $found = false;
-        $invitations = $event->invitations;
-        foreach ($invitations as $invitation){
-            if($invitation->id == $this->id){
-                $found = true;
-                break;
-            }
-        }
-        return $found;
+        $invitation = Invitation::where('idActivity', '=', $event->id)->where('idUser', '=', $this->id)->first();
+        return ($invitation != null);
     }
 
 
