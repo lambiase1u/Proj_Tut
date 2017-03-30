@@ -56,7 +56,7 @@ class User extends Authenticatable
      * Evenements auxuqles l'utilisateur participe
      */
 	public function eventsParticipations() {
-		return $this->belongsToMany('\App\User', 'participation', 'idUser', 'idActivity');
+		return $this->belongsToMany('\App\Event', 'participation', 'idUser', 'idActivity');
 	}
 
     /**
