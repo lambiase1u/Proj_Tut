@@ -1,29 +1,28 @@
 export function RoutesConfig($stateProvider, $urlRouterProvider) {
-	'ngInject';
+    'ngInject';
 
-	let getView = (viewName) => {
-		return `./views/app/pages/${viewName}/${viewName}.page.html`;
-	};
+    let getView = (viewName) => {
+        return `./views/app/pages/${viewName}/${viewName}.page.html`;
+    };
 
-	$urlRouterProvider.otherwise('/');
-
+    $urlRouterProvider.otherwise('/');
 
 
     $stateProvider
-		.state('app', {
-			abstract: true,
+        .state('app', {
+            abstract: true,
             data: {},//{auth: true} would require JWT auth
-			views: {
-				header: {
-					templateUrl: getView('header')
-				},
-				footer: {
-					templateUrl: getView('footer')
-				},
-				main: {}
-			}
-		})
-		.state('app.landing', {
+            views: {
+                header: {
+                    templateUrl: getView('header')
+                },
+                footer: {
+                    templateUrl: getView('footer')
+                },
+                main: {}
+            }
+        })
+        .state('app.landing', {
             url: '/',
             views: {
                 'main@': {
@@ -32,14 +31,14 @@ export function RoutesConfig($stateProvider, $urlRouterProvider) {
             }
         })
         .state('app.login', {
-			url: '/login',
-            redirectTo: 'app.create_post',
-			views: {
-				'main@': {
-					templateUrl: getView('login')
-				}
-			}
-		})
+            url: '/login',
+            redirectTo: 'app.users_me',
+            views: {
+                'main@': {
+                    templateUrl: getView('login')
+                }
+            }
+        })
         .state('app.register', {
             url: '/register',
             views: {
@@ -57,12 +56,13 @@ export function RoutesConfig($stateProvider, $urlRouterProvider) {
             }
         })
         .state('app.users_me', {
-        url: '/users/self',
-        views: {
-            'main@': {
-                templateUrl: getView('users') //???
+            url: '/users/self',
+            data: {auth: true},
+            views: {
+                'main@': {
+                    templateUrl: getView('users') //???
+                }
             }
-        }
         })
         .state('app.users_all', {
             url: '/users/all',
@@ -108,13 +108,13 @@ export function RoutesConfig($stateProvider, $urlRouterProvider) {
         })
 
         .state('app.event_id', {
-        url: '/events/{id:(?:[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12})}',
-        data: {auth: true},//{auth: true} would require JWT auth
-        views: {
-            'main@': {
-                templateUrl: getView('landing')
+            url: '/events/{id:(?:[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12})}',
+            data: {auth: true},//{auth: true} would require JWT auth
+            views: {
+                'main@': {
+                    templateUrl: getView('landing')
+                }
             }
-        }
         })
         .state('app.event_create', {
             url: '/events/create',
@@ -125,7 +125,6 @@ export function RoutesConfig($stateProvider, $urlRouterProvider) {
                 }
             }
         })
-
 
 
     ;
