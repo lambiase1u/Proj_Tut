@@ -1,17 +1,19 @@
-<style>body[ng-cloak] {
-    display: none;
-}
+<style>
 
-/* Important to set height for column layout */
-.boxWithHeight {
-    box-sizing: border-box;
-    height: 100%;
-}
+    body[ng-cloak] {
+        display: none;
+    }
 
-.a, section {
-    border: 5px solid rgba(85, 97, 85, 0.27);
-    margin: 5px;
-}
+    /* Important to set height for column layout */
+    .boxWithHeight {
+        box-sizing: border-box;
+        height: 100%;
+    }
+
+    .a, section {
+        border: 5px solid rgba(85, 97, 85, 0.27);
+        margin: 5px;
+    }
 
 </style>
 
@@ -53,12 +55,41 @@
         <section flex="20">
             <h2>Derniere Participation: </h2>
 
-
             <div ng-if="vm.dataLoaded && vm.lastParticipation">
-                <slick infinite="true" slides-to-show="3" slides-to-scroll="3" dots="true" arrows="true"
+                <slick infinite="true" slides-to-show="{{vm.nb_carousel_last_participation}}" slides-to-scroll="{{vm.nb_carousel_last_participation}}" dots="true" arrows="true"
                        init-onload="true" data="vm.lastParticipation">
                     <div ng-repeat="last in vm.lastParticipation track by $index">
-                        {{last}}
+                        <md-card>
+                            <md-card-header>
+                                <md-card-header-text>
+                                    <span class="md-title">{{last[0].title}}</span>
+                                    <span class="md-subhead">{{last[0].date}}</span>
+                                </md-card-header-text>
+                            </md-card-header>
+                            <div class="md-card-image" map-lazy-load="https://maps.google.com/maps/api/js?key=AIzaSyAFosuj-n-qIEM_BRqt2JX-YIhfno9138k">
+                                <ng-map zoom="11" center="[40.74, -74.18]" >
+                                    <marker ng-repeat="p in vm.positions"
+                                            position="{{p.pos}}" title="pos: {{p.pos}}"></marker>
+                                </ng-map>
+
+                            </div>
+                            <md-card-title>
+                                <md-card-title-text>
+                                    <span class="md-headline">Description :</span>
+                                    <span class="md-subhead">Nombre de participants: {{last['nbParticipant']}}/{{last[0].capacity}}</span>
+                                </md-card-title-text>
+                            </md-card-title>
+                            <md-card-content>
+                                <p>
+                                    {{last[0].description}}
+                                </p>
+                            </md-card-content>
+                            <md-card-actions layout="column" layout-align="start">
+                                <md-button md-colors="{background: 'green'}" md-colors-watch="false">Participer</md-button>
+                                <md-button md-colors="{background: 'blue'}">Détails</md-button>
+                            </md-card-actions>
+                        </md-card>
+
                     </div>
                 </slick>
             </div>

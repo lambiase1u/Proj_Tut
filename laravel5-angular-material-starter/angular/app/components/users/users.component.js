@@ -1,5 +1,5 @@
 class UsersController {
-    constructor(API, ToastService, $state, $log) {
+    constructor(API, ToastService, $state, $log, $http) {
         'ngInject';
 
         this.API = API;
@@ -7,8 +7,12 @@ class UsersController {
         this.ToastService = ToastService;
         this.user = null;
         this.$log = $log;
-        this.lastParticipation =null;
+        this.lastParticipation = null;
         this.dataLoaded = false;
+        this.nb_carousel_last_participation = 3;
+        this.nb_event_carousel_last_participation = 9;
+        this.$http = $http;
+
 
     }
 
@@ -16,9 +20,9 @@ class UsersController {
         let id = this.$state.params.id;
 
         this.API.all('users/' + id).get('').then((response) => {
-            this.user =  response.data.user;
+            this.user = response.data.user;
             this.participation();
-            this.$log.log( response.data.user);
+            this.$log.log(response.data.user);
         });
     }
 
@@ -32,33 +36,52 @@ class UsersController {
     findMe() {
         this.API.all('users/self').get('').then((response) => {
             this.user = response.data.user;
-            this.$log.log( response.data.user);
+            this.$log.log(response.data.user);
             this.participation();
         });
     }
 
-    participation(){
-        this.$log.log('users/'+this.user.id+'/participe');
+    participation() {
+        this.$log.log('users/' + this.user.id + '/participate');
 
         let ctrl = this;
 
-        this.API.all('users/'+this.user.id+'/participe').get('').then((response)=>{
-            this.$log.log(response);
+
+        this.API.all('users/' + this.user.id + '/participate/' + this.nb_event_carousel_last_participation).get('').then((response) => {
+            this.$log.log(response[0]);
             this.lastParticipation = response;
-        }).finally(function() {
+
+        }).finally(function () {
             ctrl.dataLoaded = true;
+
+                let geocoder = new google.maps.Geocoder;
+
+                angular.forEach(ctrl.lastParticipation, function (event) {
+
+                    geocoder.geocode({'placeId': event.placeId}, function (results, status) {
+
+                        if (status === google.maps.GeocoderStatus.OK) {
+                            console.log(results);
+                        } else {
+
+                            console.log('fuck');
+                        }
+
+                    });
+
+                });
 
         });
 
     }
 
-    carouselInit(){
+    carouselInit() {
         console.log(this.dataLoaded);
 
-        $timeout(function() {
+        $timeout(function () {
             ctrl.ready = true;
         }, 1000);
-       // ;
+        // ;
     }
 
     $onInit() {
