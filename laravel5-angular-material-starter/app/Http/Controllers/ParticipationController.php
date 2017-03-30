@@ -54,16 +54,17 @@ class ParticipationController extends Controller
                     return response()->error('Votre participation a déjà été enregistrée.', 400); 
                 } else {
                     $participations = $user->eventsParticipations;
-                    $chevauchementParticipation = false;
+                    
+                    $chevauchementParticipation = null;
                     
                     foreach($participations as $participation) {
                         if (!(($participation->dateFin < $event->dateDebut) || ($event->dateFin < $participation->dateDebut))) {
-                            $chevauchementParticipation = true;
+                            $chevauchementParticipation = $participation;
                             break;
                         }   
                     }
                     
-                    if(!$chevauchementParticipation) {
+                    if($chevauchementParticipation == null) {
                         $participation = new Participation();
                         $participation->idUser = $user->id;
                         $participation->idActivity = $id;
@@ -79,7 +80,7 @@ class ParticipationController extends Controller
 
                         return response()->success('Votre participation a bien été prise en compte.', 201);    
                     } else {
-                        return response()->error('Vous avez déjà une participation enregistrée se déroulant au même moment.', 400);
+                        return response()->json(array('message' => 'Vous avez déjà une participation enregistrée se déroulant au même moment.', 'alreadyExistingEvent' => $chevauchementParticipation), 400);
                     }
                 }
             }
