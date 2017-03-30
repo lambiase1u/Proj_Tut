@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Event;
+use App\User;
 use Illuminate\Http\Request;
 use Webpatser\Uuid\Uuid;
 use Auth;
@@ -42,8 +43,9 @@ class EventController extends Controller
                 ->header('Content-Type', 'application/json');
         else {
             $listEvents = array();
+            $user = User::findAuthorOfRequest();
             foreach ($events as $event){
-                if($event->isAccessible())
+                if($event->isAccessible($user))
                     array_push($listEvents, $event);
             }
             return response()->success(compact('listEvents'));
@@ -117,38 +119,6 @@ class EventController extends Controller
 
     }
 
-    /**
-     * Methode permettant de recuperer tous les commentaires d'un evenement grace a son id
-     * @param $id id de l'evenement
-     * @return mixed reponse contenant tous les commentaires de l'evenement
-     */
-    public function findAllComments($id){
-        $event = Event::find($id);
-        if($event == null)
-            return response()->noContent("Aucun evenement correspondant a l'identifiant n'a été trouvé");
-
-        $comments = $event->comments;
-        if($comments->count() == 0)
-            return response()->noContent("Il n'y a aucun commentaire sur cet événement.");
-        else
-            return response()->success(compact('comments'));
-    }
-
-    public function findAllInvitations($id){
-        $event = Event::find($id);
-        if($event == null)
-            return response()->noContent("Aucun evenement correspondant a l'identifiant n'a été trouvé");
-
-        //verification de l'accessibilité a l'evenement
-        if(!$event->isAccessible())
-            return response()->error("L'événement est privé", 401);
-
-        $invitations = $event->invitations;
-        if($invitations->count() == 0)
-            return response()->noContent("Il n'y a aucune invitations sur cet événement.");
-        else
-            return response()->success(compact('invitations'));
-    }
 
     /*******************************************************************************************************************
      *******************************************************************************************************************

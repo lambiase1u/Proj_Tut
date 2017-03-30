@@ -38,7 +38,7 @@ $api->group(['middleware' => ['api']], function ($api) {
     $api->get('events/', 'EventController@findAll');
 
     //Comments routes
-    $api->get('events/{id}/comments', 'EventController@findAllComments');
+    $api->get('events/{id}/comments', 'CommentsController@findAllByEvent');
 
     $api->get('comments/{idComment}', 'CommentsController@findCommentById');
 
@@ -46,7 +46,7 @@ $api->group(['middleware' => ['api']], function ($api) {
     $api->get('events/{id}/organizers', 'OrganizerController@findAll');
 
     //Invitations routes
-    $api->get('events/{id}/invitations', 'EventController@findAllInvitations');
+    $api->get('events/{id}/invitations', 'InvitationController@findAllByEvent');
 
     //Users routes
     $api->get('users/', 'UserController@findAll');

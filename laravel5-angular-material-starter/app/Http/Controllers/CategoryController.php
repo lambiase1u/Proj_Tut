@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -57,10 +58,17 @@ class CategoryController extends Controller
         else {
             $events = $categorie->events;
             
-            if(count($events) != 0)
-                return response()->json($events);
+            if(count($events) != 0) {
+                //on recupere l'utilisateur afin de supprimer les evenements qui ne lui sont pas accessibles
+                $user = User::findAuthorOfRequest();
+                $eventsFiltered = array();
+                foreach ($events as $event)
+                    if($event->isAccessible($user))
+                        array_push($eventsFiltered, $event);
+                return response()->json($eventsFiltered);
+            }
             else
-                return response()->error('Aucun événement trouvé.', 204);
+                return response()->noContent('Aucun événement trouvé.');
         }
     }
     

@@ -77,7 +77,27 @@ class InvitationController extends Controller
         } else
             return response()->error('Aucun événement correspondant à cet id n\'a été trouvé.', 404);
     }
-    
+
+    /**
+     * Methode permettant de lister les inviations a participer a un evenement
+     * route : events/:id/invitations
+     */
+    public function findAllByEvent($id){
+        $event = Event::find($id);
+        if($event == null)
+            return response()->noContent("Aucun evenement correspondant a l'identifiant n'a été trouvé");
+
+        //verification de l'accessibilité a l'evenement
+        if(!$event->isAccessible())
+            return response()->error("L'événement est privé", 401);
+
+        $invitations = $event->invitations;
+        if($invitations->count() == 0)
+            return response()->noContent("Il n'y a aucune invitations sur cet événement.");
+        else
+            return response()->success(compact('invitations'));
+    }
+
     /**
      * Methode permettant de supprimer l'invitation a participer a un evenement
      * route : events/:id/invitation
