@@ -21,54 +21,58 @@ class UserController extends Controller
      * route : /api/users
      * methode : GET
      */
-    public function findAll(Request $request) {
+    public function findAll(Request $request)
+    {
         $from = 0;
         $size = User::count();
-        
-        if(isset($request->from)) 
+
+        if (isset($request->from))
             $from = $request->from - 1;
-         
-        if(isset($request->to))
+
+        if (isset($request->to))
             $size = $request->to - $from;
-    
+
         $users = User::take($size)->skip($from)->get();
-        
-        if(count($users) != 0) 
+
+        if (count($users) != 0)
             return response()->json($users);
         else
             return response()->error('Aucun utilisateur sélectionné.', 204);
     }
-    
+
     /**
      * Methode permettant de recuperer une utilisateur a partir de son id
      * reoute : /api/users/{id}
      * methode : GET
      */
-    public function findById(Request $request, $id) {
+    public function findById(Request $request, $id)
+    {
         $user = User::find($id);
-        
-        if($user != null)
+
+        if ($user != null)
             return response()->json($user);
-        else 
+        else
             return response()->error('Aucun utilisateur correspondant à l\'identifiant n\'a été trouvée.', 404);
     }
-    
+
     /**
      * Methode permettant de mettre a jour un utilisateur
      * route : /api/users/{id}
      * methode : PUT
      */
-     public function update(Request $request, $id) {
+    public function update(Request $request, $id)
+    {
         //A faire
     }
-    
+
     /**
      * Methode permettant de supprimer un utilisateur
      * route : /api/users/{id}
      * methode : DELETE
      */
-    public function delete(Request $request) {
-       //A faire
+    public function delete(Request $request)
+    {
+        //A faire
     }
 
     /**
@@ -76,19 +80,17 @@ class UserController extends Controller
      * route : /api/users/self
      * methode : GET
      */
-    public function findMe(){
+    public function findMe()
+    {
         $user = null;
 
         try {
             $user = JWTAuth::parseToken()->authenticate();
-        }
-        catch (TokenExpiredException $e) {
+        } catch (TokenExpiredException $e) {
             return response()->error('Token has expired', 500);
-        }
-        catch (TokenInvalidException $e) {
+        } catch (TokenInvalidException $e) {
             return response()->error('Token is invalid', 500);
-        }
-        catch (JWTException $e) {
+        } catch (JWTException $e) {
             return response()->error('Token is missing', 500);
         }
 
@@ -98,12 +100,22 @@ class UserController extends Controller
     }
 
 
-    public  function  participe(Request $request,$id){
+    public function participe(Request $request, $id, $nb_event)
+    {
         $user = User::find($id);
-        if($user != null)
-            return response()->json($user->eventsParticipations);
-        else
+        if ($user != null) {
+            $event = $user->eventsParticipations->take($nb_event);
+            $res =[];
+
+            foreach ($event as $val) {
+                $nb_participant =$val->participants->count();
+                array_push($res, ['nbParticipant' => $nb_participant, $val]);
+            }
+
+            return response()->json($res);
+        } else {
             return response()->error('Aucun utilisateur correspondant à l\'identifiant n\'a été trouvée.', 404);
+        }
     }
 
 }

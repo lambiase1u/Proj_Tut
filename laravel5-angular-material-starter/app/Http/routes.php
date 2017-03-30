@@ -51,7 +51,7 @@ $api->group(['middleware' => ['api']], function ($api) {
     //Users routes
     $api->get('users/', 'UserController@findAll');
     $api->get('users/{id}', 'UserController@findById')->where('id', '(\w{8}(-\w{4}){3}-\w{12}?)');
-    $api->get('users/{id}/participe', 'UserController@participe')->where('id', '(\w{8}(-\w{4}){3}-\w{12}?)');
+    $api->get('users/{id}/participate/{nb_event}', 'UserController@participe')->where('id', '(\w{8}(-\w{4}){3}-\w{12}?)');
 
     //Categories routes
     $api->get('categories/', 'CategoryController@findAll');
@@ -74,6 +74,7 @@ $api->group(['middleware' => ['api', 'api.auth']], function ($api) {
     //Participations routes
     $api->post('events/{id}/participate', 'ParticipationController@participate');
     $api->delete('events/{id}/participate', 'ParticipationController@removeParticipation');
+
 
     //Invitations routes
     $api->post('events/{id}/invitation', 'InvitationController@invitation');
