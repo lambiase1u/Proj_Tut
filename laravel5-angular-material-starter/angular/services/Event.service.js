@@ -139,5 +139,38 @@ export class EventService {
         else
             return false;
     }
+    
+    /**
+     * Methode permettant de recuperer la liste des invitations a un evenement
+     * @param data : tableau des donnees utiles : [id: id de l'evenement]
+     */
+    getInvitations(data) {
+        if(data.id !== undefined)
+            return this.API.one('events', data.id).all('invitations').get('');
+        else
+            return false;
+    }
+    
+    /**
+     * Methode permettant d'ajouter une invitation a un evenement
+     * @param data : tableau des donnees utiles : [id: id de l'evenement, idUser: id de l'utilisateur a inviter]
+     */
+    addInvitation(data) {
+        if(data.id !== undefined && data.idUser !== undefined)
+            return this.API.one('events', data.id).all('invitations').post(data);
+        else
+            return false;
+    }
+    
+    /**
+     * Methode permettant de supprimer une invitation a un evenement
+     * @param data : tableau des donnees utiles : [id: id de l'evenement, idUser: id de l'utilisateur a inviter]
+     */
+    deleteInvitation(data) {
+        if(data.id !== undefined && data.idUser !== undefined)
+            return this.API.one('events', data.id).all('invitations').remove(data);
+        else
+            return false;
+    }
 }
 
