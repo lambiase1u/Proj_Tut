@@ -52,7 +52,10 @@ export class EventService {
      * @param data : tableau des données utiles [id: id de l'evenement]
      */
     delete(data) {
-        return this.API.one('events', data.id).remove();
+        if(data.id !== undefined)
+            return this.API.one('events', data.id).remove();
+        else
+            return false;
     }
     
     /**
@@ -71,7 +74,10 @@ export class EventService {
      *  ]
      */
     update(data) {
-        return this.API.one('events', data.id).put(data); 
+        if(data.id !== undefined)
+            return this.API.one('events', data.id).put(data); 
+        else
+            return false;
     }
     
     /**

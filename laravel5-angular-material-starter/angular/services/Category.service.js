@@ -58,7 +58,10 @@ export class CategoryService{
      * @param data : tableau des données utiles [id: id de la categorie]
      */
     delete(data) {
-        return this.API.one('categories', data.id).remove();
+        if(data.id !== undefined)
+            return this.API.one('categories', data.id).remove();
+        else
+            return false;
     }
     
     /**
@@ -71,7 +74,10 @@ export class CategoryService{
      *  ]
      */
     update(data) {
-        return this.API.one('categories', data.id).put(data); 
+        if(data.id !== undefined)
+            return this.API.one('categories', data.id).put(data);
+        else
+            return false;
     }
 }
 
