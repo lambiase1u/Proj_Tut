@@ -8,42 +8,64 @@
             <md-button ng-click="vm.event_create()" md-no-ink class="md-primary">Créer un évènement</md-button>
         </div>
         <div class="row">
-            <md-content class="md-padding" layout-xs="column" layout="row">
-                <div flex-xs flex-gt-xs="50" layout="row">
-                    <md-card ng-repeat="event in vm.events ">
-                        <img ng-src="" class="md-card-image" alt="Image ou Map">
-                        <div id="map"></div>
-                        <md-card-header>
-                            <md-card-avatar>
-                                <img src="img/logo.svg"/>
-                            </md-card-avatar>
-                            <md-card-header-text>
-                                <span class="md-title">{{event.organizers.firstName}}</span>
-                                <span class="md-subhead">{{event.organizers.name}}</span>
-                            </md-card-header-text>
-                        </md-card-header>
-                        <md-card-title>
-                            <md-card-title-text>
-                                <span class="md-headline">{{ event.title}}</span>
 
-                            </md-card-title-text>
-                        </md-card-title>
-                        <md-card-actions layout="row" layout-align="start center">
-                            <md-card-icon-actions>
+            <section layout="row" flex>
 
-                            </md-card-icon-actions>
-                            <md-button  md-no-ink class="md-primary"><a ui-sref="app.event_id({id: event.id})">Voir</a></md-button>
-                            <md-button ng-show="event.organizers.id == vm.user.id"  md-no-ink class="md-primary"><a ui-sref="app.event_id({id: event.id})">Editer</a></md-button>
-                            <md-button ng-click="vm.participate(event.id)">Participer</md-button>
-                        </md-card-actions>
-                        <md-card-content>
-                            <p>
-                                {{ event.description }}
-                            </p>
-                        </md-card-content>
-                    </md-card>
-                </div>
-            </md-content>
+                <md-sidenav
+                        class="md-sidenav-left"
+                        md-component-id="left"
+                        md-is-locked-open="$mdMedia('gt-md')"
+                        md-whiteframe="4">
+
+                    <md-toolbar class="md-theme-indigo">
+                        <h1 class="md-toolbar-tools">Détails</h1>
+                        <md-button class="md-icon-button">
+                            <md-icon>close</md-icon>
+                        </md-button>
+                    </md-toolbar>
+                    <md-content layout-padding>
+                        <p hide show-gt-md>
+                            <md-card ng-show="vm.event.title">
+                                <md-card-header>
+                                    <md-card-avatar>
+                                        <img src="img/logo.svg"/>
+                                    </md-card-avatar>
+                                    <md-card-header-text>
+                                        <span class="md-title">{{vm.event.title}}</span>
+                                    </md-card-header-text>
+                                </md-card-header>
+                                <md-card-title>
+                                    <md-card-title-text>
+                                        <span class="md-headline">{{ vm.event.description}}</span>
+                                    </md-card-title-text>
+                                </md-card-title>
+                                <md-card-actions layout="row" layout-align="start center">
+                                    <md-card-icon-actions>
+
+                                    </md-card-icon-actions>
+                                    <md-button  md-no-ink class="md-primary"><a ui-sref="app.event_id({id: vm.event.id})">Voir</a></md-button>
+                                    <md-button ng-show="event.organizers.id == vm.user.id"  md-no-ink class="md-primary"><a ui-sref="app.event_id({id: vm.event.id})">Editer</a></md-button>
+                                    <md-button ng-click="vm.participate(event.id)">Participer</md-button>
+                                </md-card-actions>
+                                <md-card-content>
+
+                                </md-card-content>
+                            </md-card>
+                        </p>
+                    </md-content>
+
+                </md-sidenav>
+
+                <md-content flex layout-padding>
+
+                    <div  map-lazy-load="https://maps.google.com/maps/api/js?key=AIzaSyAFosuj-n-qIEM_BRqt2JX-YIhfno9138k">
+                        <ng-map style="height: 800px" zoom="8" center="current-location" >
+                            <marker ng-repeat="p in vm.positions" position="{{p.pos}}" title="pos: {{p.pos}}" on-click="vm.details({{p}})"> </marker>
+                        </ng-map>
+                    </div>
+                </md-content>
+            </section>
+
         </div>
     </div>
     <div ng-switch-when="app.event_id">
@@ -80,10 +102,5 @@
 </div>
 
 
-<div map-lazy-load="https://maps.google.com/maps/api/js?key=AIzaSyAFosuj-n-qIEM_BRqt2JX-YIhfno9138k">
-    <ng-map zoom="11" center="[40.74, -74.18]" >
-        <marker ng-repeat="p in vm.positions"
-                position="{{p.pos}}" title="pos: {{p.pos}}"></marker>
-    </ng-map>
 
-</div>
+

@@ -1,3 +1,5 @@
+let vm;
+
 class EventsController{
     constructor(API,$log,$state,ToastService,NgMap){
         'ngInject';
@@ -10,18 +12,10 @@ class EventsController{
        this.$state = $state;
        this.ToastService = ToastService;
        this.user = null;
-        this.map = NgMap;
+       this.map = NgMap;
+       vm=this;
 
-
-       this.positions =[
-            {pos:[40.71, -74.21]},
-            {pos:[41.72, -73.20]},
-            {pos:[42.73, -72.19]},
-            {pos:[43.74, -71.18]},
-            {pos:[44.75, -70.17]},
-            {pos:[45.76, -69.16]},
-            {pos:[46.77, -68.15]}
-        ];
+       this.positions =[];
     }
 
 
@@ -32,6 +26,15 @@ class EventsController{
         });
     }
 
+    /**
+     * Méthode permettant d'afficher un évènement sur la sidebar de la page d'accueil 'landing" suite à un click
+     * @param object_map, par défaut en 1er argument, imposé par ngMap
+     * @param event, l'évènement passé en paramètre dans la vue ( 'p' dans notre cas )
+     */
+    details(object_map,event){
+        vm.event = event.details;
+        vm.$log.log(vm.event);
+    }
 
     findAll(){
 
@@ -39,13 +42,35 @@ class EventsController{
 
         let log = this.$log;
         let api = this.API;
+        let vm = this;
+        let geocoder = new google.maps.Geocoder;
 
-
+        /**
+         * Appel a l'API pour récuperer tous les évènements
+         */
         this.API.all('events').get('').then((response) => {
            // this.$log.log(response.data.listEvents);
             this.events = response.data.listEvents;
 
+            /**
+             * On récupère les coordonnés de tous les évènements à partir de leur placeID grâce a l'API de google geocode
+             */
+            angular.forEach(this.events , function(event){
 
+                geocoder.geocode({'placeId': event.placeId}, function(results, status) {
+                    if (status === google.maps.GeocoderStatus.OK) {
+
+                        vm.positions.push({pos:[results[0].geometry.location.lat(), results[0].geometry.location.lng()],details:event},)
+                    } else {
+                    }
+                });
+
+            });
+
+            /**
+             * On ajoute au tableau d'évènement, les données relatives aux organisateurs afin de savoir si l'utilisateur
+             * courant est le proprietaire
+             */
             angular.forEach(this.events , function(key){
                // log.log(key);
 
@@ -55,6 +80,7 @@ class EventsController{
                     if(!angular.isUndefined(response)){
 
                         key.organizers = response.data.organizers[0];
+                        key.show = false;
                         //log.log(key);
                     }
 
@@ -68,12 +94,9 @@ class EventsController{
 
         });
 
-
-
-
-
-
     }
+
+
 
 
     findOne(){
@@ -87,10 +110,16 @@ class EventsController{
     }
 
 
-
+    /**
+     * Methode de base , permet de remplir le tableau d'events si on est sur la page d'accueil ( landing )
+     * et la variable event si on est sur une page d'un evenement précis grace à son id
+     */
     $onInit(){
 
         this.findMe();
+        let log = this.$log;
+
+
 
         switch(this.$state.$current.self.name){
             case "app.landing" :
@@ -102,8 +131,10 @@ class EventsController{
         }
 
 
-
     }
+
+
+
 
 
 
