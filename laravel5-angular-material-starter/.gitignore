@@ -8,8 +8,8 @@ Homestead.json
 npm-debug.log
 public/storage
 public/views
-public/js
-public/css
+public/js/
+public/css/
 public/build
 composer.json
 config/jwt.php

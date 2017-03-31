@@ -18,16 +18,22 @@ class UsersController {
 
     }
 
+  /*
+  * retourne l'utilsateur correspondant a l'id dans la route 
+  */
     findOneUser() {
         let id = this.$state.params.id;
 
         this.API.all('users/' + id).get('').then((response) => {
             this.user = response.data.user;
             this.participation();
-            this.$log.log(response.data.user);
+         // this.$log.log(response.data.user);
         });
     }
 
+  /**
+  *permet de recuperer tout les utilisateurs
+  -*/
     findAllUsers() {
         this.API.all('users').get('').then((response) => {
             // this.user =  response.data.user;
@@ -35,10 +41,13 @@ class UsersController {
         });
     }
 
+  /*
+  * permet de recuperer l'utilisateur actuellement connecté 
+  */
     findMe() {
         this.API.all('users/self').get('').then((response) => {
             this.user = response.data.user;
-            this.$log.log(response.data.user);
+            //this.$log.log(response.data.user);
             this.participation();
             this.invitation();
         })
@@ -46,17 +55,20 @@ class UsersController {
 
     invitation(){
         this.API.all('users/'+this.user.id+'/invitation').get('').then((response) => {
-            this.$log.log(response.data);
+           // this.$log.log(response.data);
             this.invitations = response;
         });
     }
 
+  /*
+  * Permet de recuperer toute les évenements (localisation aussi) d'un utilisateurs et d'initializé les cartes google map
+  */
     participation() {
-        this.$log.log('users/' + this.user.id + '/participate');
+        //this.$log.log('users/' + this.user.id + '/participate');
 
         let ctrl = this;
         this.API.all('users/' + this.user.id + '/participate/' + this.nb_event_carousel_last_participation).get('').then((response) => {
-            this.$log.log(response[0]);
+           // this.$log.log(response[0]);
             this.lastParticipation = response;
 
         }).finally(function () {
@@ -75,7 +87,6 @@ class UsersController {
                 );
             });
 
-            console.log(ctrl.position);
 
             /*coté front c'est la galere
              if (eventLocationLoad == false) {
@@ -109,20 +120,27 @@ class UsersController {
 
              }
              **/
-            console.log(ctrl.lastParticipation);
         });
 
 
     }
 
+  /*
+  * Le timeout permet d'afficher le caroussel comme il se doit 
+  * j'ai trouvé cette solution directement dans les issues du dépot slick carousel
+  */
     carouselInit() {
-        console.log(this.dataLoaded);
 
         $timeout(function () {
             this.ready = true;
         }, 1000);
         // ;
     }
+
+    /**
+     * Methode de base , permettant de variables les bonnes variables pour la vue, celle ci fait le meme traitement
+     * pour afficher les bonnes DIV HTML
+     */
 
     $onInit() {
 

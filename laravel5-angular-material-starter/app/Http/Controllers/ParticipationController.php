@@ -53,20 +53,35 @@ class ParticipationController extends Controller
                 if($participationExistante != null) {
                     return response()->error('Votre participation a déjà été enregistrée.', 400); 
                 } else {
-                    $participation = new Participation();
-                    $participation->idUser = $user->id;
-                    $participation->idActivity = $id;
-                    $participation->save();    
-
-                    $invitation = Invitation::where('idUser', '=', $user->id)->where('idActivity', '=', $event->id);
-                    $invitationRow = $invitation->first();
-
-                    if($invitationRow != null) {
-                        $invitation->answered = true;
-                        $invitation->save();
+                    $participations = $user->eventsParticipations;
+                    
+                    $chevauchementParticipation = null;
+                    
+                    foreach($participations as $participation) {
+                        if (!(($participation->dateFin < $event->dateDebut) || ($event->dateFin < $participation->dateDebut))) {
+                            $chevauchementParticipation = $participation;
+                            break;
+                        }   
                     }
+                    
+                    if($chevauchementParticipation == null) {
+                        $participation = new Participation();
+                        $participation->idUser = $user->id;
+                        $participation->idActivity = $id;
+                        $participation->save();    
 
-                    return response()->success('Votre participation a bien été prise en compte.', 201);  
+                        $invitation = Invitation::where('idUser', '=', $user->id)->where('idActivity', '=', $event->id);
+                        $invitationRow = $invitation->first();
+
+                        if($invitationRow != null) {
+                            $invitation->answered = true;
+                            $invitation->save();
+                        }
+
+                        return response()->success('Votre participation a bien été prise en compte.', 201);    
+                    } else {
+                        return response()->json(array('message' => 'Vous avez déjà une participation enregistrée se déroulant au même moment.', 'alreadyExistingEvent' => $chevauchementParticipation), 400);
+                    }
                 }
             }
         } else
