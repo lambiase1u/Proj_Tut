@@ -1,5 +1,5 @@
 class UsersController {
-    constructor(API, ToastService, $state, $log, $http) {
+    constructor(API, ToastService, $state, $log) {
         'ngInject';
 
         this.API = API;
@@ -11,7 +11,6 @@ class UsersController {
         this.dataLoaded = false;
         this.nb_carousel_last_participation = 3;
         this.nb_event_carousel_last_participation = 9;
-        this.$http = $http;
         this.position = [];
         this.invitations=[];
 
