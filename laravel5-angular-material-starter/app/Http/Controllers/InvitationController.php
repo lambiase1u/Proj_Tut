@@ -102,7 +102,7 @@ class InvitationController extends Controller
                 if(!$invitationRow->answered) {
                     $invitation->delete();
 
-                    return response()->success('La participation a bien été supprimée.');
+                    return response()->success('L\'invitation a bien été supprimée.');
                 } else
                     return response()->error('L\'utilisateur a déjà répondu à l\'invitation.', 400);
             } else
