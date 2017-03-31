@@ -104,11 +104,7 @@ class CommentsController extends Controller
      * route : /comments/:id
      * methode : DELETE
      */
-    public function removeComment(Request $request, $id) {
-        $this->validate($request, [
-            'comment' => 'required'
-        ]);
-        
+    public function removeComment(Request $request, $id) {        
         $comment = Comment::find($id);
         
         if($comment != null) {
