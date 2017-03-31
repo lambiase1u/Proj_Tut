@@ -172,5 +172,60 @@ export class EventService {
         else
             return false;
     }
+    
+    /**
+     * Methode permettant de recuperer les commentaires sur un evenement
+     * @param data : tableau des donnees utiles : [id: id de l'evenement]
+     */
+    getComments(data) {
+        if(data.id !== undefined)
+            return this.API.one('events', data.id).all('comments').get('');
+        else
+            return false;
+    }
+    
+    /**
+     * Methode permettant de recuperer un commentaire sur un evenement
+     * @param data : tableau des donnees utiles : [id: id du commentaire]
+     */
+    getOneComment(data) {
+        if(data.id !== undefined)
+            return this.API.one('comments', data.id).get('');
+        else
+            return false;
+    }
+    
+    /**
+     * Methode permettant d'ajouter un commentaire sur un evenement
+     * @param data : tableau des donnees utiles : [id: id de l'evenement, comment: commentaire]
+     */
+    addComment(data) {
+        if(data.id !== undefined)
+            return this.API.one('events', data.id).all('comments').post(data);
+        else
+            return false;
+    }
+    
+    /**
+     * Methode permettant de modifier un commentaire sur un evenement
+     * @param data : tableau des donnees utiles : [id: id du commentaire, comment: commentaire modifie]
+     */
+    updateComment(data) {
+        if(data.id !== undefined)
+            return this.API.one('comments', data.id).put(data);
+        else 
+            return false;
+    }
+    
+    /**
+     * Methode permettant de supprimer un commentaire sur un evenement
+     * @param data : tableau des donnees utiles : [id: id du commentaire]
+     */
+    deleteComment(data) {
+        if(data.id !== undefined)
+            return this.API.one('comments', data.id).remove();
+        else
+            return false;
+    }
 }
 
