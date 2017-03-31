@@ -40,7 +40,8 @@ class UsersController {
             this.user = response.data.user;
             this.$log.log(response.data.user);
             this.participation();
-        });
+            this.invitation();
+        })
     }
 
     invitation(){
@@ -58,7 +59,6 @@ class UsersController {
             this.$log.log(response[0]);
             this.lastParticipation = response;
 
-
         }).finally(function () {
             ctrl.dataLoaded = true;
 
@@ -74,6 +74,7 @@ class UsersController {
                     }
                 );
             });
+
             console.log(ctrl.position);
 
             /*coté front c'est la galere
@@ -118,7 +119,7 @@ class UsersController {
         console.log(this.dataLoaded);
 
         $timeout(function () {
-            ctrl.ready = true;
+            this.ready = true;
         }, 1000);
         // ;
     }
