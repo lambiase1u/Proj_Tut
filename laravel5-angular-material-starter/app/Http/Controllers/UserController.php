@@ -16,6 +16,8 @@ use App\User;
  */
 class UserController extends Controller
 {
+    const APIKEY = 'AIzaSyAFosuj-n-qIEM_BRqt2JX-YIhfno9138k';
+
     /**
      * Methode permettant de recuperer la liste des utilisateurs
      * route : /api/users
@@ -105,11 +107,16 @@ class UserController extends Controller
         $user = User::find($id);
         if ($user != null) {
             $event = $user->eventsParticipations->take($nb_event);
-            $res =[];
+            $res = [];
+            $json = null;
 
             foreach ($event as $val) {
-                $nb_participant =$val->participants->count();
-                array_push($res, ['nbParticipant' => $nb_participant, $val]);
+                $nb_participant = $val->participants->count();
+
+                //si je recupere les événements places ici la requete et longue.
+                $json = json_decode(file_get_contents("https://maps.googleapis.com/maps/api/place/details/json?placeid=" . $val->placeId . "&key=" . self::APIKEY), true);
+                $location = $json['result']['geometry']['location'];
+                array_push($res, ['nbParticipant' => $nb_participant, $val, 'pos' => ['lat' => $location['lat'], 'long' => $location['lng']]]);
             }
 
             return response()->json($res);

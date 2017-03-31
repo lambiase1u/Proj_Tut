@@ -12,6 +12,7 @@ class UsersController {
         this.nb_carousel_last_participation = 3;
         this.nb_event_carousel_last_participation = 9;
         this.$http = $http;
+        this.position = [];
 
 
     }
@@ -45,33 +46,63 @@ class UsersController {
         this.$log.log('users/' + this.user.id + '/participate');
 
         let ctrl = this;
-
-
         this.API.all('users/' + this.user.id + '/participate/' + this.nb_event_carousel_last_participation).get('').then((response) => {
             this.$log.log(response[0]);
             this.lastParticipation = response;
 
+
         }).finally(function () {
             ctrl.dataLoaded = true;
 
-                let geocoder = new google.maps.Geocoder;
+            let eventLocationLoad = false;
 
-                angular.forEach(ctrl.lastParticipation, function (event) {
+            angular.forEach(ctrl.lastParticipation, function (location) {
+                ctrl.position.push(
+                    {
+                        pos: [
+                            location.pos.lat,
+                            location.pos.long
+                        ]
+                    }
+                );
+            });
+            console.log(ctrl.position);
 
-                    geocoder.geocode({'placeId': event.placeId}, function (results, status) {
+            /*coté front c'est la galere
+             if (eventLocationLoad == false) {
+             let geocoder = new google.maps.Geocoder;
+             angular.forEach(ctrl.lastParticipation, function (event) {
 
-                        if (status === google.maps.GeocoderStatus.OK) {
-                            console.log(results);
-                        } else {
+             geocoder.geocode({'placeId': event.placeId}, function (results, status) {
 
-                            console.log('fuck');
-                        }
+             if (status === google.maps.GeocoderStatus.OK) {
 
-                    });
+             angular.forEach(results, function (pos) {
 
-                });
+             event.pos = {
+             pos: [
+             pos.geometry.location.lat(),
+             pos.geometry.location.lng()
+             ]
+             }
 
+             });
+
+
+             } else {
+
+             console.log('fuck');
+             }
+
+             });
+
+             });
+
+             }
+             **/
+            console.log(ctrl.lastParticipation);
         });
+
 
     }
 
