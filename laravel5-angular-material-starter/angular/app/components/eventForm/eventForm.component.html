@@ -2,83 +2,89 @@
 
     <div>
         <md-input-container>
-            <label>title</label>
-            <input type="text" ng-model="event.title">
+            <label>Nom de l'événement</label>
+            <input type="text" ng-model="event.title" required>
         </md-input-container>
     </div>
 
     <div>
-        <md-input-container class="">
-            <label>Date</label>
-            <md-datepicker ng-model="event.date" md-placeholder="dd/mm/yyyy" md-open-on-focus></md-datepicker>
-        </md-input-container>
+        <span>
+            <md-input-container class="dateInput">
+                <label>Début</label>
+                <md-datepicker ng-model="event.dateDebut" md-placeholder="dd/mm/yyyy" md-open-on-focus required></md-datepicker>
+            </md-input-container>
+        </span>
+        <span class="time">
+            <md-input-container class="timeInput">
+              <md-select ng-model="event.heureDebut" placeholder="Heure" required>
+                <md-option ng-value="opt" ng-repeat="opt in event.range(24)">{{ opt }}</md-option>
+              </md-select>
+            </md-input-container>
+        </span>
+        <span class="time">
+            <md-input-container class="timeInput">
+              <md-select ng-model="event.minuteDebut" placeholder="Minutes" required>
+                <md-option ng-value="opt" ng-repeat="opt in event.range(60)">{{ opt }}</md-option>
+              </md-select>
+            </md-input-container>
+        </span>
     </div>
+
+    <div>
+        <span>
+            <md-input-container class="dateInput">
+                <label>Fin</label>
+                <md-datepicker ng-model="event.dateFin" md-placeholder="dd/mm/yyyy" md-open-on-focus></md-datepicker>
+            </md-input-container>
+        </span>
+        <span class="time">
+            <md-input-container class="timeInput">
+                <md-select ng-model="event.heureFin" placeholder="Heure">
+                    <md-option ng-value="opt" ng-repeat="opt in event.range(24)">{{ opt }}</md-option>
+                </md-select>
+            </md-input-container>
+        </span class="time">
+        <span>
+            <md-input-container class="timeInput">
+                <md-select ng-model="event.minuteFin" placeholder="Minutes">
+                    <md-option ng-value="opt" ng-repeat="opt in event.range(60)">{{ opt }}</md-option>
+                </md-select>
+            </md-input-container>
+        </span>
+    </div>
+    
 
     <div>
         <md-input-container class="md-block" flex-gt-sm>
-            <label>Max people</label>
-            <input name="capacity" ng-model="event.capacity" placeholder="123" md-maxlength="5">
+            <label>Capacité d'accueil (en nombre de personnes)</label>
+            <input name="capacity" type="number" ng-model="event.capacity" placeholder="Capacité d'accueil" md-min="0" required>
         </md-input-container>
     </div>
-
 
     <div>
         <md-input-container class="md-block">
             <label>Description</label>
-            <textarea ng-model="event.description" md-maxlength="150" rows="5" md-select-on-focus></textarea>
+            <textarea ng-model="event.description" md-minlength="15" md-maxlength="150" rows="5" md-select-on-focus required></textarea>
         </md-input-container>
     </div>
-
-
 
     <div>
         <md-input-container>
-            <label>Catégories</label>
-            <md-select ng-model="event.category_picked"
-                       md-on-close="clearSearchTerm()"
-                       data-md-container-class="selectdemoSelectHeader"
-                       multiple>
-                <md-select-header class="demo-select-header">
-                    <input ng-model="event.categories"
-                           type="search"
-                           placeholder="Choisir une catégorie.."
-                           class="demo-header-searchbox md-text">
-                </md-select-header>
-                <md-optgroup label="categories">
-                    <md-option ng-value="category.id" ng-repeat="category in event.categories |
-              filter:searchTerm">{{category.title}}</md-option>
-                </md-optgroup>
+            <label>Catégorie</label>
+            <md-select ng-model="event.category_picked" required>
+                <md-option ng-value="category.id" ng-repeat="category in event.categories">{{category.title}}</md-option>
             </md-select>
-        </md-input-container>
+        </md-input-container> 
     </div>
-
 
     <div>
-
-
-
-      <!-- <md-input-container class="md-icon-float md-block">
-
-
-            <label>Définissez un lieu</label>
-
-            <input g-places-autocomplete ng-model="event.place" type="text">
-        </md-input-container>
--->
-
-
         <md-input-container class="md-icon-float md-block">
-
             <label>Définissez un lieu</label>
-
             <div map-lazy-load="https://maps.google.com/maps/api/js?key=AIzaSyAFosuj-n-qIEM_BRqt2JX-YIhfno9138k&libraries=places">
-                <input places-auto-complete placeholder=""  on-place-changed="event.placeChanged()"  size=40/> <br/>
+                <input places-auto-complete placeholder=""  on-place-changed="event.placeChanged()"  size=40 required/> <br/>
             </div>
-
         </md-input-container>
-
     </div>
-
 
     <div>
         <md-input-container>
@@ -88,38 +94,6 @@
         </md-input-container>
     </div>
 
-    <!--
-    <div>
-        <md-input-container>
-            <label>Category</label>
-            <md-select ng-model="event.idCategorie" md-selected-text="getSelectedText()">
-                <md-optgroup label="Category">
-                    <md-option ng-value="category" ng-repeat="category in event.categories">Item {{category}}
-                    </md-option>
-                </md-optgroup>
-            </md-select>
-        </md-input-container>
-    </div>
-
-    <div>
-        <md-input-container>
-            <label>placeId</label>
-            <md-select ng-model="event.placeId" md-selected-text="getSelectedText()">
-                <md-optgroup label="Category">
-                    <md-option ng-value="place" ng-repeat="place in event.places">Item {{place}}</md-option>
-                </md-optgroup>
-            </md-select>
-        </md-input-container>
-    </div>
-
-    <div>
-        <md-input-container>
-            <label>Link to another event :</label>
-            <input ng-model="event.idParent" type="text">
-        </md-input-container>
-    </div>
-    -->
-
-    <md-button type="submit" class="md-primary md-raised">Create post</md-button>
+    <md-button type="submit" class="md-primary md-raised">Créer l'événement</md-button>
 
 </form>
