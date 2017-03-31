@@ -117,5 +117,27 @@ export class EventService {
         else
             return false;
     }
+    
+    /**
+     * Methode permettant d'ajouter un participant a un evenement
+     * @param data : tableau des donnees utiles : [id: id de l'evenement]
+     */
+    addParticipant(data) {
+        if(data.id !== undefined)
+            return this.API.one('events', data.id).all('participate').post();
+        else
+            return false;
+    }
+    
+    /**
+     * Methode permettant de supprimer un participant a un evenement
+     * @param data : tableau des donnees utiles : [id: id de l'evenement]
+     */
+    deleteParticipant(data) {
+        if(data.id !== undefined)
+            return this.API.one('events', data.id).all('participate').remove();
+        else
+            return false;
+    }
 }
 
