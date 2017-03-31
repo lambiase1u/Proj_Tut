@@ -28,7 +28,7 @@ export class EventService {
         else
             return false;
     }
-    
+        
     /**
      * Methode permettant de creer un evenement avec les donnees necessaires
      * @param data : tableau des donnees utiles :
@@ -224,6 +224,16 @@ export class EventService {
     deleteComment(data) {
         if(data.id !== undefined)
             return this.API.one('comments', data.id).remove();
+        else
+            return false;
+    }
+    
+    /**
+     * Methode permettant de recuperer les informations Google sur un point d'interet associe a l'evenement
+     */
+    getPlace(data) {
+        if(data.id !== undefined)
+            return this.API.one('events', data.id).all('place').get('');
         else
             return false;
     }
