@@ -13,6 +13,7 @@ class UsersController {
         this.nb_event_carousel_last_participation = 9;
         this.$http = $http;
         this.position = [];
+        this.invitations=[];
 
 
     }
@@ -39,6 +40,13 @@ class UsersController {
             this.user = response.data.user;
             this.$log.log(response.data.user);
             this.participation();
+        });
+    }
+
+    invitation(){
+        this.API.all('users/'+this.user.id+'/invitation').get('').then((response) => {
+            this.$log.log(response.data);
+            this.invitations = response;
         });
     }
 

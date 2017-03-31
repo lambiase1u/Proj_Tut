@@ -101,6 +101,17 @@ class UserController extends Controller
 
     }
 
+    public function invitations(Request $request, $idUser)
+    {
+        $user = User::find($idUser);
+        if ($user != null) {
+            $invitation = $user->eventsInvitations;
+            return response()->json($invitation);
+        } else {
+            return response()->error('Aucun utilisateur correspondant à l\'identifiant n\'a été trouvée.', 404);
+        }
+
+    }
 
     public function participe(Request $request, $id, $nb_event)
     {

@@ -23,7 +23,34 @@
                 </md-card-actions>
             </md-card>
 
-            <section flex>flex</section>
+            <section flex>
+                <md-list flex style="padding:0px;">
+                    <md-toolbar class="md-accent"  md-colors="{background: 'blue-grey'}">
+                        <div class="md-toolbar-tools">
+                            <h2 >Invitations : </h2>
+                            <span flex></span>
+                        </div>
+                    </md-toolbar>
+                    <md-list-item class="md-3-line" ng-repeat="invitation in vm.invitations" ng-click="null"
+                                  ng-if="vm.invitations.length > 0">
+
+                        <div class="md-list-item-text" layout="column">
+                            <h3>{{ invitation.title }}</h3>
+                            <h4>{{ invitation.date }}</h4>
+                            <p>{{ invitation.description }}</p>
+                        </div>
+                        <md-button class="md-secondary">Respond</md-button>
+                        <md-divider ng-if="!$last"></md-divider>
+                    </md-list-item>
+
+                    <md-list-item class="md-3-line" ng-if="vm.invitations.length === 0">
+                        <div class="md-list-item-text" layout="column">
+                            <h3> Aucune invitation pour le moment</h3>
+                        </div>
+                    </md-list-item>
+
+                </md-list>
+            </section>
         </section>
     </div>
     <div flex layout="column" class="boxWithHeight" layout-padding>
@@ -36,7 +63,8 @@
             <h2>Derniere Participation: </h2>
 
             <div ng-if="vm.dataLoaded && vm.lastParticipation">
-                <slick infinite="true" slides-to-show="{{vm.nb_carousel_last_participation}}" slides-to-scroll="{{vm.nb_carousel_last_participation}}" dots="true" arrows="true"
+                <slick infinite="true" slides-to-show="{{vm.nb_carousel_last_participation}}"
+                       slides-to-scroll="{{vm.nb_carousel_last_participation}}" dots="true" arrows="true"
                        init-onload="true" data="vm.lastParticipation">
                     <div ng-repeat="last in vm.lastParticipation track by $index">
                         <md-card>
@@ -47,12 +75,13 @@
                                 </md-card-header-text>
                             </md-card-header>
 
-                            <div class="md-card-image" map-lazy-load="https://maps.google.com/maps/api/js?key=AIzaSyAFosuj-n-qIEM_BRqt2JX-YIhfno9138k">
-                                <ng-map zoom="11" center="[{{last.pos.lat}}, {{last.pos.long}}]" >
+                            <div class="md-card-image"
+                                 map-lazy-load="https://maps.google.com/maps/api/js?key=AIzaSyAFosuj-n-qIEM_BRqt2JX-YIhfno9138k">
+                                <ng-map zoom="11" center="[{{last.pos.lat}}, {{last.pos.long}}]">
                                     <marker ng-repeat="p in vm.position"
                                             position="{{p.pos}}" title="pos: {{p.pos}}"></marker>
                                 </ng-map>
-                                </div>
+                            </div>
                             <md-card-title>
                                 <md-card-title-text>
                                     <span class="md-headline">Description :</span>
@@ -65,7 +94,8 @@
                                 </p>
                             </md-card-content>
                             <md-card-actions layout="column" layout-align="start">
-                                <md-button md-colors="{background: 'green'}" md-colors-watch="false">Participer</md-button>
+                                <md-button md-colors="{background: 'green'}" md-colors-watch="false">Participer
+                                </md-button>
                                 <md-button md-colors="{background: 'blue'}">Détails</md-button>
                             </md-card-actions>
                         </md-card>
