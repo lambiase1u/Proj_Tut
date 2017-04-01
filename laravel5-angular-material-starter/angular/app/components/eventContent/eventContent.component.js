@@ -5,13 +5,14 @@ class EventContentController{
     /**
      * Injection des dependances necessaires dans le constructeur, ici, des acces API
      */
-    constructor(EventService, UserService, CategoryService, ToastService, $state, $sce, $filter, $auth){
+    constructor(EventService, UserService, CategoryService, ToastService, DialogService, $state, $sce, $filter, $auth){
         'ngInject';
 
         this.EventService = EventService;
         this.UserService = UserService;
         this.CategoryService = CategoryService;
         this.ToastService = ToastService;
+        this.DialogService = DialogService;
         this.$state = $state;
         this.$sce = $sce;
         this.$filter = $filter;
@@ -28,6 +29,10 @@ class EventContentController{
         
         this.visibleDirections = false;
         this.userParticipation = false;
+        
+        this.alreadyExistingEventDialog = function() {
+          this.DialogService.fromTemplate('alreadyExistingEventDialog');
+        };
     }
     
     /**
@@ -232,10 +237,27 @@ class EventContentController{
                 },
                 (error) => {
                     console.log(error);
+                    this.ToastService.error(error.data.message + " Il s'agit de : " + error.data.alreadyExistingEvent.title + ".");
+                    
+                    this.DialogService.confirm(error.data.message, error.data.message + " Il s'agit de " + error.data.alreadyExistingEvent.title + ". Sa description est : \"" + error.data.alreadyExistingEvent.description + "\" Voulez-vous retirer votre participation déjà existant pour pouvoir tout de même vous inscrire ?", 'Oui', 'Non').then(
+                        () => {
+                            this.EventService.deleteParticipant({ id: error.data.alreadyExistingEvent.id }).then(
+                                (success) => {
+                                    this.EventService.addParticipant(data).then(
+                                        (success) => {
+                                            this.ToastService.show(success.data);
+                                            this.userParticipation = true;
+                                            this.getParticipants(data);
+                                        }
+                                    );   
+                                }
+                            );
+                        }
+                    );
                 }
             );   
         } else {
-            ToastService.error('Vous devez être authentifié pour pouvoir participer à un événement.');
+            this.ToastService.error('Vous devez être authentifié pour pouvoir participer à un événement.');
         } 
     }
     
@@ -259,7 +281,7 @@ class EventContentController{
                 }
             );   
         } else {
-            ToastService.error('Vous devez être authentifié pour retirer votre participation à un événement.');
+            this.ToastService.error('Vous devez être authentifié pour retirer votre participation à un événement.');
         } 
     }
     
