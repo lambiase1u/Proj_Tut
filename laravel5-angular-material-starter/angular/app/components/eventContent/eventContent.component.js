@@ -17,6 +17,7 @@ class EventContentController{
         this.place = null;
         this.organizers = null;
         this.participants = null;
+        this.category = null;
     }
     
     /**
@@ -27,6 +28,12 @@ class EventContentController{
             (responseSuccess) => {
                 //La requete a fonctionne
                 this.event = responseSuccess.data.event;
+                
+                var dataCategory = {
+                    id: this.event.idCategorie
+                }
+                
+                this.getCategory(dataCategory);
             },
             (responseError) => {
                 this.$state.go('app.landing');
@@ -42,6 +49,7 @@ class EventContentController{
             (responseSuccess) => {
                 //On a trouve le point d'interet google associe
                 this.place = responseSuccess.result;
+                console.log(responseSuccess.result);
             },
             (responseError) => {
                 //On n'a pas trouve de point d'interet associe
@@ -64,6 +72,21 @@ class EventContentController{
                 console.log('Erreur');
             }
         );    
+    }
+    
+    /**
+     * Methode permettant de recuperer la categorie d'un evenement
+     */
+    getCategory(data) {
+        this.CategoryService.findOne(data).then(
+            (responseSuccess) => {
+                //On a recupere la categorie
+                this.category = responseSuccess;
+            },
+            (responseSuccess) => {
+                //On n'a pas trouve la categorie
+            }
+        );  
     }
     
     /**
@@ -100,7 +123,7 @@ class EventContentController{
         this.getEvent(data);
         this.getPlace(data);
         this.getOrganizers(data);
-        this.getParticipants(data);        
+        this.getParticipants(data);
     }
 }
 

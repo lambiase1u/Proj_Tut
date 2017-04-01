@@ -2,14 +2,26 @@
     <div flex="70" flex-xs="100">
         <!--Ligne gauche-->
         <md-card>
-            <img ng-src="{{imagePath}}" class="md-card-image" alt="Washed Out">
+            <ng-map 
+                    id="cover"
+                    zoom="16"
+                    center="[{{vm.place.geometry.location.lat}}, {{vm.place.geometry.location.lng}}]"
+                    disable-default-u-i="true"
+                    disable-double-click-zoom="true"
+                    draggable="false">
+                <marker position="{{vm.place.geometry.location.lat}},{{vm.place.geometry.location.lng}}" title="{{vm.place.name}}" animation="Animation.BOUNCE">
+                </marker>
+            </ng-map>
             <md-card-title>
-              <md-card-title-text>
-                <span class="md-headline">{{vm.event.title}}</span>
-              </md-card-title-text>
+                <date date="{{vm.event.dateDebut | date:'dd'}}"></date>
+                <md-card-title-text>
+                    <span class="md-headline">{{vm.event.title}}</span>
+                    <span class="md-subhead">{{vm.category.title}}</span>
+                </md-card-title-text>
             </md-card-title>
+            <md-divider></md-divider>
             <md-card-actions layout="row" layout-align="start center">
-              <md-button>Participer</md-button>
+              <md-button class="md-raised md-primary">Participer</md-button>
             </md-card-actions>
             <md-card-content>
               <p>
