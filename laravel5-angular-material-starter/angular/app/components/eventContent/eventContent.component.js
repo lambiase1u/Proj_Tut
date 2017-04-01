@@ -26,6 +26,7 @@ class EventContentController{
         this.comments = null;
         this.directions = null;
         this.user = null;
+        this.invitations = null;
         
         this.visibleDirections = false;
         this.userParticipation = false;
@@ -177,6 +178,25 @@ class EventContentController{
     }
     
     /**
+     * Methode permettant de recuperer les invites
+     */
+    getGuests(data) {
+        this.EventService.getInvitations(data).then(
+            (responseSuccess) => {
+                //On a recupere les participants
+                if(responseSuccess !== undefined)
+                    this.invitations = responseSuccess.data.invitations;
+                else
+                    this.invitations = [];
+            },
+            (responseError) => {
+                //On n'a pas trouve l'evenement associe
+                console.log('Erreur');
+            }
+        );     
+    }
+    
+    /**
      * Methode permettant de calculer si l'utilisateur dispose d'assez de temps pour se rendre sur les lieux de l'evenement
      */
     enoughTime() {
@@ -325,6 +345,7 @@ class EventContentController{
         this.getOrganizers(data);
         this.getParticipants(data);
         this.getComments(data);
+        this.getGuests(data);
         this.getAuthenticatedUser();
     }
 }

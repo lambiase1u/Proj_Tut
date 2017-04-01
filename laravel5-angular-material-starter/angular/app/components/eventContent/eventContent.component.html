@@ -228,5 +228,28 @@
                 </p>
             </md-card-content>
         </md-card>
+        <md-card>
+            <md-card-title>
+              <md-card-title-text>
+                <span class="md-headline">Invités <em>({{vm.invitations.length}})</em></span>
+              </md-card-title-text>
+            </md-card-title>
+            <md-card-content>
+                <md-list class="md-dense" flex>
+                    <md-list-item class="md-3-line" ng-repeat="invite in vm.invitations">
+                      <img ng-src="img/icons/userIcon.png" class="md-avatar" alt="Icone Utilisateur" />
+                      <div class="md-list-item-text" layout="column">
+                        <h3>{{ invite.firstName }} {{ invite.name }}</h3>
+                        <h4>{{ invite.birthdate | date:'dd/MM/yyyy'}}</h4>
+                        <p>{{ invite.description }}</p>
+                      </div>
+                    </md-list-item>
+                </md-list>
+                <md-divider ></md-divider>
+                <p id="organizerButtons">
+                    <md-button class="md-raised md-primary" md-colors="{background: 'blue'}">Inviter des Amis</md-button>
+                </p>
+            </md-card-content>
+        </md-card>
     </div>
 </div>
