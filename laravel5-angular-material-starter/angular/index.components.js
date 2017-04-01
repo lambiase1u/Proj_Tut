@@ -1,3 +1,4 @@
+import {DateComponent} from './app/components/date/date.component';
 import {EventContentComponent} from './app/components/eventContent/eventContent.component';
 import {UpdateUserComponent} from './app/components/update_user/update_user.component';
 import {EventsComponent} from './app/components/events/events.component';
@@ -13,6 +14,7 @@ import {CreatePostFormComponent} from './app/components/create_post_form/create_
 
 
 angular.module('app.components')
+	.component('date', DateComponent)
 	.component('eventContent', EventContentComponent)
 	.component('updateUser', UpdateUserComponent)
 	.component('events', EventsComponent)
