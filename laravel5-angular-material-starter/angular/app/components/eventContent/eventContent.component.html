@@ -13,7 +13,7 @@
                 </marker>
             </ng-map>
             <md-card-title>
-                <date date="{{vm.event.dateDebut | date:'dd'}}"></date>
+                <date date="{{vm.event.dateDebut}}"></date>
                 <md-card-title-text>
                     <span class="md-headline">{{vm.event.title}}</span>
                     <span class="md-subhead">{{vm.category.title}}</span>
@@ -22,11 +22,77 @@
             <md-divider></md-divider>
             <md-card-actions layout="row" layout-align="start center">
               <md-button class="md-raised md-primary">Participer</md-button>
+              <md-button class="md-raised md-primary">Inviter des Amis</md-button>
             </md-card-actions>
             <md-card-content>
-              <p>
-               {{vm.event.description}}
-              </p>
+                <md-list class="md-dense" flex>
+                    <h2>Informations de base</h2>
+                    <md-list-item class="md-2-line">
+                      <img ng-src="img/icons/addressIcon.png" class="md-avatar" alt="Lieu" />
+                      <div class="md-list-item-text">
+                        <h3> {{vm.place.name}} </h3>
+                        <p> Où ? </p>
+                      </div>
+                    </md-list-item>
+                    <md-list-item class="md-2-line">
+                      <img ng-src="img/icons/eventIcon.png" class="md-avatar" alt="Date" />
+                      <div class="md-list-item-text">
+                        <h3>Du {{vm.event.dateDebut}} au {{vm.event.dateFin}}</h3>
+                        <p> Quand ? </p>
+                      </div>
+                    </md-list-item>
+                    <md-divider></md-divider>
+                    <h2>Informations sur le lieu</h2>
+                    <md-list-item class="md-2-line">
+                      <img ng-src="img/icons/addressIcon.png" class="md-avatar" alt="Adresse" />
+                      <div class="md-list-item-text">
+                        <h3> {{vm.place.formatted_address}} </h3>
+                        <p> Adresse complète </p>
+                      </div>
+                    </md-list-item>
+                    <md-list-item class="md-2-line">
+                      <img ng-src="img/icons/phoneIcon.png" class="md-avatar" alt="Téléphone" />
+                      <div class="md-list-item-text">
+                        <h3> {{vm.place.formatted_phone_number}} </h3>
+                        <p> Téléphone du lieu </p>
+                      </div>
+                    </md-list-item>
+                    <md-list-item class="md-2-line">
+                      <img ng-src="img/icons/websiteIcon.png" class="md-avatar" alt="Site web" />
+                      <div class="md-list-item-text">
+                        <h3> <a href="{{vm.place.website}}">{{vm.place.website}}</a> </h3>
+                        <p> Site web du lieu </p>
+                      </div>
+                    </md-list-item>
+                    <h2>Informations complémentaires</h2>
+                    <md-list-item class="md-2-line">
+                      <img ng-src="{{vm.place.icon}}" class="md-avatar" alt="Type" />
+                      <div class="md-list-item-text">
+                        <h3>{{vm.place.types[0] | capitalize}}</h3>  
+                        <p> Type de Lieu </p>
+                      </div>
+                    </md-list-item>
+                    <md-list-item class="md-2-line">
+                        <img ng-show="vm.place.opening_hours.open_now === false" ng-src="img/icons/closedIcon.png" class="md-avatar" alt="Fermé" />
+                        <img ng-show="vm.place.opening_hours.open_now === true" ng-src="img/icons/openIcon.png" class="md-avatar" alt="Ouvert" />
+                        <div class="md-list-item-text">
+                            <h3><span ng-show="vm.place.opening_hours.open_now === true">Oui</span><span ng-show="vm.place.opening_hours.open_no === false">Non</span></h3>  
+                            <p> Ouvert en ce moment ? </p>
+                        </div>
+                    </md-list-item>
+                </md-list>
+            </md-card-content>
+        </md-card>
+        <md-card>
+            <md-card-title>
+              <md-card-title-text>
+                <span class="md-headline">Description</span>
+              </md-card-title-text>
+            </md-card-title>
+            <md-card-content>
+                <p>
+                    {{vm.event.description}}
+                </p>
             </md-card-content>
         </md-card>
     </div>
@@ -41,7 +107,7 @@
             <md-card-content>
                 <md-list class="md-dense" flex>
                     <md-list-item class="md-3-line" ng-repeat="organizer in vm.organizers">
-                      <img ng-src="img/icons/userIcon.png" class="md-avatar" alt="{{item.who}}" />
+                      <img ng-src="img/icons/userIcon.png" class="md-avatar" alt="Icone Utilisateur" />
                       <div class="md-list-item-text" layout="column">
                         <h3>{{ organizer.firstName }} {{ organizer.name }}</h3>
                         <h4>{{ organizer.birthdate | date:'dd/MM/yyyy'}}</h4>
