@@ -48,6 +48,9 @@ $api->group(['middleware' => ['api']], function ($api) {
 
     //Invitations routes
     $api->get('events/{id}/invitations', 'InvitationController@findAllByEvent');
+    
+    //Participants routes
+    $api->get('events/{id}/participants', 'ParticipationController@findAll');
 
     //Users routes
     $api->get('users/', 'UserController@findAll');
