@@ -23,41 +23,65 @@
             <md-card-actions layout="row" layout-align="start center">
               <md-button class="md-raised md-primary" md-colors="{background: 'green'}">Participer</md-button>
               <md-button class="md-raised md-primary" md-colors="{background: 'blue'}">Inviter des Amis</md-button>
+            <md-button class="md-raised md-primary" md-colors="{background: 'purple'}">Comment m'y rendre ?</md-button>
             </md-card-actions>
             <md-card-content>
+                <h2>Que dois-je savoir ?</h2>
+                <div layout="row" layout-xs="column">
+                    <div flex="50" flex-xs="100">
+                        <md-list class="md-dense" flex>
+                            <md-list-item class="md-2-line">
+                              <img ng-src="img/icons/addressIcon.png" class="md-avatar" alt="Lieu" />
+                              <div class="md-list-item-text">
+                                <h3> {{vm.place.name}} </h3>
+                                <p> Où nous retrouvons-nous ? </p>
+                              </div>
+                            </md-list-item>
+                            <md-list-item class="md-2-line">
+                              <img ng-src="img/icons/eventIcon.png" class="md-avatar" alt="Date" />
+                              <div class="md-list-item-text">
+                                <h3>Du {{vm.event.dateDebut}} au {{vm.event.dateFin}}</h3>
+                                <p> Quand nous retrouvons-nous ? </p>
+                              </div>
+                            </md-list-item>
+                        </md-list>
+                    </div>
+                    <div flex="50" flex-xs="100">
+                        <md-list class="md-dense" flex>
+                            <md-list-item class="md-2-line">
+                              <img ng-src="img/icons/capacityIcon.png" class="md-avatar" alt="Capacité" />
+                              <div class="md-list-item-text">
+                                <h3>{{vm.event.capacity}} <em>({{vm.event.capacity-vm.organizers.length}} places encore disponibles)</em></h3>
+                                <p> Combien de personnes peuvent être accueillies ? </p>
+                              </div>
+                            </md-list-item>
+                            <md-list-item class="md-2-line">
+                              <img ng-src="img/icons/openIcon.png" ng-show="vm.event.public === 1" class="md-avatar" alt="Public" />
+                              <img ng-src="img/icons/privateIcon.png" ng-show="vm.event.public === 0" class="md-avatar" alt="Privé" />
+                              <div class="md-list-item-text">
+                                <h3><span ng-show="vm.event.public === 1" md-colors="{color: 'teal'}">Cet événement est accessible à tous.</span><span ng-show="vm.event.public === 0" md-colors="{color: 'deep-orange'}">Cet événement est privé.</span></h3>
+                                <p> Cet événement est-il public ? </p>
+                              </div>
+                            </md-list-item>
+                        </md-list>
+                    </div>
+                </div>
                 <md-list class="md-dense" flex>
-                    <h2>Informations de base</h2>
                     <md-list-item class="md-2-line">
-                      <img ng-src="img/icons/addressIcon.png" class="md-avatar" alt="Lieu" />
-                      <div class="md-list-item-text">
-                        <h3> {{vm.place.name}} </h3>
-                        <p> Où nous retrouvons-nous ? </p>
-                      </div>
+                        <img ng-src="img/icons/timeIcon.png" class="md-avatar" alt="Temps" />
+                        <div class="md-list-item-text">
+                            <h3>
+                                <span ng-show="vm.event.public === 1" md-colors="{color: 'teal'}">
+                                    Le trajet est estimé à <strong>5 minutes</strong> pour vous rendre sur place. Il est encore temps !</a>
+                                </span>
+                            </h3>
+                            <p> Est-il trop tard pour participer ? </p>
+                        </div>
                     </md-list-item>
-                    <md-list-item class="md-2-line">
-                      <img ng-src="img/icons/eventIcon.png" class="md-avatar" alt="Date" />
-                      <div class="md-list-item-text">
-                        <h3>Du {{vm.event.dateDebut}} au {{vm.event.dateFin}}</h3>
-                        <p> Quand nous retrouvons-nous ? </p>
-                      </div>
-                    </md-list-item>
-                    <md-list-item class="md-2-line">
-                      <img ng-src="img/icons/capacityIcon.png" class="md-avatar" alt="Capacité" />
-                      <div class="md-list-item-text">
-                        <h3>{{vm.event.capacity}} <em>({{vm.event.capacity-vm.organizers.length}} places encore disponibles)</em></h3>
-                        <p> Combien de personnes peuvent être accueillies ? </p>
-                      </div>
-                    </md-list-item>
-                    <md-list-item class="md-2-line">
-                      <img ng-src="img/icons/openIcon.png" ng-show="vm.event.public === 1" class="md-avatar" alt="Public" />
-                      <img ng-src="img/icons/privateIcon.png" ng-show="vm.event.public === 0" class="md-avatar" alt="Privé" />
-                      <div class="md-list-item-text">
-                        <h3><span ng-show="vm.event.public === 1" md-colors="{color: 'teal'}">Cet événement est accessible à tous.</span><span ng-show="vm.event.public === 0" md-colors="{color: 'deep-orange'}">Cet événement est privé.</span></h3>
-                        <p> Cet événement est-il public ? </p>
-                      </div>
-                    </md-list-item>
-                    <md-divider></md-divider>
-                    <h2>Informations sur le lieu</h2>
+                </md-list>
+                <md-divider></md-divider>
+                <h2>Informations sur le lieu</h2>
+                <md-list class="md-dense" flex>
                     <md-list-item class="md-2-line">
                       <img ng-src="img/icons/addressIcon.png" class="md-avatar" alt="Adresse" />
                       <div class="md-list-item-text">
@@ -79,7 +103,6 @@
                         <p> Site web du lieu </p>
                       </div>
                     </md-list-item>
-                    <h2>Informations complémentaires</h2>
                     <md-list-item class="md-2-line">
                       <img ng-src="{{vm.place.icon}}" class="md-avatar" alt="Type" />
                       <div class="md-list-item-text">
