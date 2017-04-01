@@ -21,8 +21,9 @@
             </md-card-title>
             <md-divider></md-divider>
             <md-card-actions layout="row" layout-align="start center">
-                <md-button ng-if="vm.enoughTime() == true" class="md-raised md-primary" md-colors="{background: 'green'}">Participer</md-button>
-                <md-button ng-if="vm.enoughTime() == false" class="md-raised md-primary" md-colors="{background: 'deep-orange'}">Participer (vous serez en retard)</md-button>
+                <md-button ng-if="vm.enoughTime() == true && !vm.userParticipation" class="md-raised md-primary" md-colors="{background: 'green'}">Participer</md-button>
+                <md-button ng-if="vm.enoughTime() == false && !vm.userParticipation" class="md-raised md-primary" md-colors="{background: 'deep-orange'}">Participer (vous serez en retard)</md-button>
+                <md-button ng-if="vm.userParticipation" class="md-raised md-primary" md-colors="{background: 'red'}">Ne plus Participer</md-button>
                 <md-button class="md-raised md-primary" md-colors="{background: 'blue'}">Inviter des Amis</md-button>
                 <md-button class="md-raised md-primary" md-colors="{background: 'purple'}" ng-click="vm.visibleDirections = !vm.visibleDirections"><span ng-if="!vm.visibleDirections">Comment m'y rendre ?</span><span ng-if="vm.visibleDirections">Masquer l'itinéraire</span></md-button>
             </md-card-actions>
@@ -199,7 +200,8 @@
                 </md-list>
                 <md-divider ></md-divider>
                 <p id="organizerButtons">
-                    <md-button class="md-raised md-primary" md-colors="{background: 'green'}">Participer</md-button>
+                    <md-button ng-if="!vm.userParticipation" class="md-raised md-primary" md-colors="{background: 'green'}">Participer</md-button>
+                    <md-button ng-if="vm.userParticipation" class="md-raised md-primary" md-colors="{background: 'red'}">Ne plus Participer</md-button>
                 </p>
             </md-card-content>
         </md-card>
