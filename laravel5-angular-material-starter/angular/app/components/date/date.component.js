@@ -24,13 +24,12 @@ class DateController{
         
         let dateSplit = this.date.split("-");
         let monthNumber = dateSplit[1];
-        let dayNumber = dateSplit[2].split(' ')[0];
-        
+                
         this.mois = monthList[monthNumber];
-        this.jour = dayNumber;
+        this.jour =  (dateSplit[2]).split(" ")[0];
     }
 
-    $onChanges(){        
+    $onChanges(){ 
         this.formatDate();
     }
 }

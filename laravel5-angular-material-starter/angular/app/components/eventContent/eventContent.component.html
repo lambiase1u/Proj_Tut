@@ -21,8 +21,8 @@
             </md-card-title>
             <md-divider></md-divider>
             <md-card-actions layout="row" layout-align="start center">
-              <md-button class="md-raised md-primary">Participer</md-button>
-              <md-button class="md-raised md-primary">Inviter des Amis</md-button>
+              <md-button class="md-raised md-primary" md-colors="{background: 'green'}">Participer</md-button>
+              <md-button class="md-raised md-primary" md-colors="{background: 'blue'}">Inviter des Amis</md-button>
             </md-card-actions>
             <md-card-content>
                 <md-list class="md-dense" flex>
@@ -31,14 +31,29 @@
                       <img ng-src="img/icons/addressIcon.png" class="md-avatar" alt="Lieu" />
                       <div class="md-list-item-text">
                         <h3> {{vm.place.name}} </h3>
-                        <p> Où ? </p>
+                        <p> Où nous retrouvons-nous ? </p>
                       </div>
                     </md-list-item>
                     <md-list-item class="md-2-line">
                       <img ng-src="img/icons/eventIcon.png" class="md-avatar" alt="Date" />
                       <div class="md-list-item-text">
                         <h3>Du {{vm.event.dateDebut}} au {{vm.event.dateFin}}</h3>
-                        <p> Quand ? </p>
+                        <p> Quand nous retrouvons-nous ? </p>
+                      </div>
+                    </md-list-item>
+                    <md-list-item class="md-2-line">
+                      <img ng-src="img/icons/capacityIcon.png" class="md-avatar" alt="Capacité" />
+                      <div class="md-list-item-text">
+                        <h3>{{vm.event.capacity}} <em>({{vm.event.capacity-vm.organizers.length}} places encore disponibles)</em></h3>
+                        <p> Combien de personnes peuvent être accueillies ? </p>
+                      </div>
+                    </md-list-item>
+                    <md-list-item class="md-2-line">
+                      <img ng-src="img/icons/openIcon.png" ng-show="vm.event.public === 1" class="md-avatar" alt="Public" />
+                      <img ng-src="img/icons/privateIcon.png" ng-show="vm.event.public === 0" class="md-avatar" alt="Privé" />
+                      <div class="md-list-item-text">
+                        <h3><span ng-show="vm.event.public === 1" md-colors="{color: 'teal'}">Cet événement est accessible à tous.</span><span ng-show="vm.event.public === 0" md-colors="{color: 'deep-orange'}">Cet événement est privé.</span></h3>
+                        <p> Cet événement est-il public ? </p>
                       </div>
                     </md-list-item>
                     <md-divider></md-divider>
@@ -76,7 +91,7 @@
                         <img ng-show="vm.place.opening_hours.open_now === false" ng-src="img/icons/closedIcon.png" class="md-avatar" alt="Fermé" />
                         <img ng-show="vm.place.opening_hours.open_now === true" ng-src="img/icons/openIcon.png" class="md-avatar" alt="Ouvert" />
                         <div class="md-list-item-text">
-                            <h3><span ng-show="vm.place.opening_hours.open_now === true">Oui</span><span ng-show="vm.place.opening_hours.open_no === false">Non</span></h3>  
+                            <h3><span ng-show="vm.place.opening_hours.open_now === true" md-colors="{color: 'teal'}">Actuellement ouvert</span><span ng-show="vm.place.opening_hours.open_now === false" md-colors="{color: 'red'}">Actuellement fermé</span></h3>  
                             <p> Ouvert en ce moment ? </p>
                         </div>
                     </md-list-item>
@@ -98,7 +113,7 @@
         <md-card>
             <md-card-title>
               <md-card-title-text>
-                <span class="md-headline">Commentaires <em>({{vm.comments.length}})</em></span>
+                <span class="md-headline">Commentaires <em ng-show="vm.comments.length > 0">({{vm.comments.length}})</em></span>
               </md-card-title-text>
             </md-card-title>
             <md-card-content>
@@ -128,6 +143,29 @@
         <md-card>
             <md-card-title>
               <md-card-title-text>
+                <span class="md-headline">Participants <em ng-show="vm.organizers.length > 0">({{vm.organizers.length}})</em></span>
+              </md-card-title-text>
+            </md-card-title>
+            <md-card-content>
+                <md-list class="md-dense" flex>
+                    <md-list-item class="md-3-line" ng-repeat="organizer in vm.organizers">
+                      <img ng-src="img/icons/userIcon.png" class="md-avatar" alt="Icone Utilisateur" />
+                      <div class="md-list-item-text" layout="column">
+                        <h3>{{ organizer.firstName }} {{ organizer.name }}</h3>
+                        <h4>{{ organizer.birthdate | date:'dd/MM/yyyy'}}</h4>
+                        <p>{{ organizer.description }}</p>
+                      </div>
+                    </md-list-item>
+                </md-list>
+                <md-divider ></md-divider>
+                <p id="organizerButtons">
+                    <md-button class="md-raised md-primary" md-colors="{background: 'green'}">Participer</md-button>
+                </p>
+            </md-card-content>
+        </md-card>
+        <md-card>
+            <md-card-title>
+              <md-card-title-text>
                 <span class="md-headline">Organisateurs <em>({{vm.organizers.length}})</em></span>
               </md-card-title-text>
             </md-card-title>
@@ -144,7 +182,7 @@
                 </md-list>
                 <md-divider ></md-divider>
                 <p id="organizerButtons">
-                    <md-button class="md-raised md-primary">Ajouter des Organisateurs</md-button>
+                    <md-button class="md-raised md-primary" md-colors="{background: 'blue'}">Ajouter des Organisateurs</md-button>
                 </p>
             </md-card-content>
         </md-card>
