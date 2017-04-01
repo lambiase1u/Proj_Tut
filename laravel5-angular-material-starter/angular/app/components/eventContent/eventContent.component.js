@@ -18,6 +18,7 @@ class EventContentController{
         this.organizers = null;
         this.participants = null;
         this.category = null;
+        this.comments = null;
     }
     
     /**
@@ -89,6 +90,18 @@ class EventContentController{
         );  
     }
     
+    getComments(data) {
+        this.EventService.getComments(data).then(
+            (responseSuccess) => {
+               //On a trouve les commentaires
+                this.comments = responseSuccess.data.comments;
+            },
+            (responseSuccess) => {
+                //On n'a pas trouve les commentaires
+            }
+        );
+    }
+    
     /**
      * Methode permettant de recuperer les participants a un evenement
      */
@@ -124,6 +137,7 @@ class EventContentController{
         this.getPlace(data);
         this.getOrganizers(data);
         this.getParticipants(data);
+        this.getComments(data);
     }
 }
 

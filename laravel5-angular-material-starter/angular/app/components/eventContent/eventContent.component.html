@@ -95,6 +95,33 @@
                 </p>
             </md-card-content>
         </md-card>
+        <md-card>
+            <md-card-title>
+              <md-card-title-text>
+                <span class="md-headline">Commentaires <em>({{vm.comments.length}})</em></span>
+              </md-card-title-text>
+            </md-card-title>
+            <md-card-content>
+                <md-list flex>
+                    <md-list-item class="md-2-line" ng-repeat="comment in vm.comments">
+                      <img ng-src="img/icons/userIcon.png" class="md-avatar" alt="Icone Utilisateur" />
+                      <div class="md-list-item-text" layout="column">
+                        <h4>Quentin Claudel</h4>
+                        <p>{{ comment.comment }}</p>
+                      </div>
+                    </md-list-item>
+                </md-list>
+                <md-divider></md-divider>
+                <h2>Commenter</h2>
+                <form>
+                    <md-input-container class="md-block">
+                      <label>Commentaire</label>
+                      <textarea ng-model="commentForm" rows="3" md-select-on-focus></textarea>
+                    </md-input-container>
+                    <md-button ng-submit="comment()" class="md-raised md-primary">Commenter !</md-button>
+                </form>
+            </md-card-content>
+        </md-card>
     </div>
     <div flex>
         <!--Ligne droite-->
