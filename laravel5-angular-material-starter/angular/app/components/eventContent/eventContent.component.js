@@ -19,6 +19,7 @@ class EventContentController{
         this.participants = null;
         this.category = null;
         this.comments = null;
+        this.directions = null;
     }
     
     /**
@@ -34,7 +35,13 @@ class EventContentController{
                     id: this.event.idCategorie
                 }
                 
+                var dataPlace = {
+                    id: this.event.placeId
+                }
+                
                 this.getCategory(dataCategory);
+                this.getPlace(dataPlace);
+                this.getDirections(dataPlace);
             },
             (responseError) => {
                 this.$state.go('app.landing');
@@ -125,6 +132,23 @@ class EventContentController{
     }
     
     /**
+     * Methode permettant de recuperer l'itineraire vers un evenement
+     */
+    getDirections(data) {
+        this.EventService.getDirections(data).then(
+            (responseSuccess) => {
+                //On a recupere l'itineraire
+                console.log(responseSuccess.routes[0]);
+                this.directions = responseSuccess.routes[0];
+            },
+            (responseError) => {
+                //Erreur
+                console.log(responseError);
+            }
+        )
+    }
+    
+    /**
      * Methode permettant a un utilisateur de participer a un evenement
      */
     participer() {
@@ -149,7 +173,6 @@ class EventContentController{
         }
         
         this.getEvent(data);
-        this.getPlace(data);
         this.getOrganizers(data);
         this.getParticipants(data);
         this.getComments(data);

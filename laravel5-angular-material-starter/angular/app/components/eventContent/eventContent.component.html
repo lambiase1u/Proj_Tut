@@ -72,7 +72,7 @@
                         <div class="md-list-item-text">
                             <h3>
                                 <span ng-show="vm.event.public === 1" md-colors="{color: 'teal'}">
-                                    Le trajet est estimé à <strong>5 minutes</strong> pour vous rendre sur place. Il est encore temps !
+                                    Le trajet est estimé à <strong>{{vm.directions.legs[0].duration.text}}</strong> pour vous rendre sur place. Il est encore temps !
                                 </span>
                             </h3>
                             <p> Est-il trop tard pour participer ? </p>
