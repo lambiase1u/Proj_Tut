@@ -13,7 +13,7 @@
     <!-- Add the slick-theme.css if you want default styling -->
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick-theme.css"/>
 
-    <title>Laravel Angular Material Starter</title>
+    <title>OpenEvent - Trouvez quoi faire près de chez vous !</title>
 
     <!--[if lte IE 10]>
     <script type="text/javascript">document.location.href = '/unsupported-browser'</script>
