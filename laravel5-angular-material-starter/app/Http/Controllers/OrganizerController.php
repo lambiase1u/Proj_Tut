@@ -11,6 +11,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Organizer;
+use DateTime;
 use App\Event;
 use App\User;
 use Auth;
@@ -103,6 +104,60 @@ class OrganizerController extends Controller
             return response()->noContent("Il n'y a aucun organisateur sur cet événement.");
         else
             return response()->success(compact('organizers'));
+    }
+
+    /**
+     * Methode permettant de recuperer les evenements organisés par un utilisateur
+     * route : users/:id/organizations?begin&end
+     * methode : GET
+     */
+    public function findByUser(Request $request, $id){
+        if($id == "self"){
+            $user = User::findAuthorOfRequest();
+            if($user==null)
+                return response()->unauthorized();
+            $authorOfRequest = $user;
+        } else {
+            $user = User::find($id);
+            $authorOfRequest = User::findAuthorOfRequest();
+            if ($user == null)
+                return response()->error("Aucun utilisateur ne correspond a l'identifiant donné.", 404);
+        }
+
+        if(isset($request->begin) && isset($request->end)){
+            $this->validate($request, [
+                'begin' => 'required | date_format:Y-m-d H:i:s',
+                'end' => 'required | date_format:Y-m-d H:i:s',
+            ]);
+            $begin = $request->begin;
+            $end = $request->end;
+            $events = $user->eventsOrganization()
+                        ->where('dateDebut', '<=', $begin)
+                        ->where('dateFin', '>', $begin)->get();
+            if($events->count() == 0)
+                $events = $user->eventsOrganization()
+                    ->where('dateDebut', '>=', $begin)
+                    ->where('dateDebut', '<', $end)->get();
+        } else
+            $events = $user->eventsOrganization;
+
+        if($events->count() == 0)
+            return response()->noContent();
+
+        if($user != $authorOfRequest){
+            $eventsFilter = array();
+            foreach ($events as $event){
+                if($event->isAccessible($authorOfRequest))
+                    array_push($eventsFilter, $event);
+            }
+
+            if(empty($eventsFilter))
+                return response()->noContent();
+
+            return response()->success(compact('eventsFilter'));
+        }
+
+        return response()->success(compact('events'));
     }
 
     private function validationCreate($request){

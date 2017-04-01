@@ -65,7 +65,11 @@ class CategoryController extends Controller
                 foreach ($events as $event)
                     if($event->isAccessible($user))
                         array_push($eventsFiltered, $event);
-                return response()->json($eventsFiltered);
+
+                if(empty($eventsFiltered))
+                    return response()->noContent();
+
+                return response()->success(compact('eventsFiltered'));
             }
             else
                 return response()->noContent('Aucun événement trouvé.');
