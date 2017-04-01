@@ -170,17 +170,19 @@ class EventContentController{
      * Methode permettant de spliter une date en un tableau
      */
     splitDate(dateParam) {
-        let dateSplit = dateParam.split(' ');
-        let date = dateSplit[0];
-        let hours = dateSplit[1].split(':');
-        
-        var arrayDate = {
-            date: date,
-            hour: hours[0],
-            minutes: hours[1]
-        }
-        
-        return arrayDate;
+        if(dateParam !== undefined) {
+            let dateSplit = dateParam.split(' ');
+            let date = dateSplit[0];
+            let hours = dateSplit[1].split(':');
+
+            var arrayDate = {
+                date: date,
+                hour: hours[0],
+                minutes: hours[1]
+            }
+
+            return arrayDate;
+        } else return false;
     }
     
     /**
