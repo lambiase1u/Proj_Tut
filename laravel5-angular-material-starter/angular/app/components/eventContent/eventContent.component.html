@@ -83,10 +83,10 @@
                         <img ng-src="img/icons/timeIcon.png" class="md-avatar" alt="Temps" />
                         <div class="md-list-item-text">
                             <h3>
-                                <span ng-show="vm.enoughTime() === true" md-colors="{color: 'teal'}">
+                                <span ng-if="vm.enoughTime() === true" md-colors="{color: 'teal'}">
                                     Le temps de trajet est estimé à <strong>{{vm.directions.legs[0].duration.text}}</strong> pour vous rendre sur place. Il est encore temps !
                                 </span>
-                                <span ng-show="vm.enoughTime() === false" md-colors="{color: 'red'}">
+                                <span ng-if="vm.enoughTime() === false" md-colors="{color: 'red'}">
                                     Le temps de trajet est estimé à <strong>{{vm.directions.legs[0].duration.text}}</strong> pour vous rendre sur place. Vous n'avez plus le temps.
                                 </span>
                             </h3>

@@ -155,7 +155,33 @@ class EventContentController{
      * Methode permettant de calculer si l'utilisateur dispose d'assez de temps pour se rendre sur les lieux de l'evenement
      */
     enoughTime() {
-        return false;
+        if(this.directions !== null) {
+            let dateArrivee = new Date().getTime() + this.directions.legs[0].duration.value;
+        
+            let date = this.splitDate(this.event.dateDebut);
+
+            let dateDebut = new Date(date.date);
+            dateDebut.setHours(date.hour, date.minutes);
+
+            return dateDebut.getTime() > dateArrivee;    
+        } else return true;
+    }
+    
+    /**
+     * Methode permettant de spliter une date en un tableau
+     */
+    splitDate(dateParam) {
+        let dateSplit = dateParam.split(' ');
+        let date = dateSplit[0];
+        let hours = dateSplit[1].split(':');
+        
+        var arrayDate = {
+            date: date,
+            hour: hours[0],
+            minutes: hours[1]
+        }
+        
+        return arrayDate;
     }
     
     /**
