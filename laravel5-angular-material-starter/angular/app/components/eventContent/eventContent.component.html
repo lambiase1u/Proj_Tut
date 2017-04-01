@@ -72,7 +72,7 @@
                         <div class="md-list-item-text">
                             <h3>
                                 <span ng-show="vm.event.public === 1" md-colors="{color: 'teal'}">
-                                    Le trajet est estimé à <strong>5 minutes</strong> pour vous rendre sur place. Il est encore temps !</a>
+                                    Le trajet est estimé à <strong>5 minutes</strong> pour vous rendre sur place. Il est encore temps !
                                 </span>
                             </h3>
                             <p> Est-il trop tard pour participer ? </p>
@@ -166,17 +166,18 @@
         <md-card>
             <md-card-title>
               <md-card-title-text>
-                <span class="md-headline">Participants <em ng-show="vm.organizers.length > 0">({{vm.organizers.length}})</em></span>
+                <span class="md-headline">Participants <em ng-show="vm.participants.length > 0">({{vm.participants.length}})</em></span>
               </md-card-title-text>
             </md-card-title>
             <md-card-content>
+                <p ng-show="vm.participants.length == 0"><em>Aucun participant pour l'instant.</em></p>
                 <md-list class="md-dense" flex>
-                    <md-list-item class="md-3-line" ng-repeat="organizer in vm.organizers">
+                    <md-list-item class="md-3-line" ng-repeat="participant in vm.participants">
                       <img ng-src="img/icons/userIcon.png" class="md-avatar" alt="Icone Utilisateur" />
                       <div class="md-list-item-text" layout="column">
-                        <h3>{{ organizer.firstName }} {{ organizer.name }}</h3>
-                        <h4>{{ organizer.birthdate | date:'dd/MM/yyyy'}}</h4>
-                        <p>{{ organizer.description }}</p>
+                        <h3>{{ participant.firstName }} {{ participant.name }}</h3>
+                        <h4>{{ participant.birthdate | date:'dd/MM/yyyy'}}</h4>
+                        <p>{{ participant.description }}</p>
                       </div>
                     </md-list-item>
                 </md-list>

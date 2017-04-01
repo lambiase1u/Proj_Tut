@@ -69,7 +69,7 @@ class EventContentController{
                 this.organizers = responseSuccess.data.organizers;
             },
             (responseError) => {
-                //On n'a pas trouve de point d'interet associe
+                //On n'a pas trouve l'evenement associe
                 console.log('Erreur');
             }
         );    
@@ -94,7 +94,10 @@ class EventContentController{
         this.EventService.getComments(data).then(
             (responseSuccess) => {
                //On a trouve les commentaires
-                this.comments = responseSuccess.data.comments;
+                if(responseSuccess !== undefined)
+                    this.comments = responseSuccess.data.comments;
+                else
+                    this.comments = [];
             },
             (responseSuccess) => {
                 //On n'a pas trouve les commentaires
@@ -106,7 +109,19 @@ class EventContentController{
      * Methode permettant de recuperer les participants a un evenement
      */
     getParticipants(data) {
-        //A faire
+        this.EventService.getParticipants(data).then(
+            (responseSuccess) => {
+                //On a recupere les participants
+                if(responseSuccess !== undefined)
+                    this.participants = responseSuccess.data.participants;
+                else
+                    this.participants = [];
+            },
+            (responseError) => {
+                //On n'a pas trouve l'evenement associe
+                console.log('Erreur');
+            }
+        );  
     }
     
     /**
