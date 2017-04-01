@@ -5,7 +5,7 @@ class EventContentController{
     /**
      * Injection des dependances necessaires dans le constructeur, ici, des acces API
      */
-    constructor(EventService, UserService, CategoryService, $state, $sce){
+    constructor(EventService, UserService, CategoryService, $state, $sce, $filter){
         'ngInject';
 
         this.EventService = EventService;
@@ -13,6 +13,7 @@ class EventContentController{
         this.CategoryService = CategoryService;
         this.$state = $state;
         this.$sce = $sce;
+        this.$filter = $filter;
         
         this.event = null;
         this.place = null;
@@ -60,7 +61,6 @@ class EventContentController{
             (responseSuccess) => {
                 //On a trouve le point d'interet google associe
                 this.place = responseSuccess.result;
-                console.log(responseSuccess.result);
             },
             (responseError) => {
                 //On n'a pas trouve de point d'interet associe
@@ -141,7 +141,6 @@ class EventContentController{
         this.EventService.getDirections(data).then(
             (responseSuccess) => {
                 //On a recupere l'itineraire
-                console.log(responseSuccess.routes[0]);
                 this.directions = responseSuccess.routes[0];
             },
             (responseError) => {
@@ -182,6 +181,15 @@ class EventContentController{
         }
         
         return arrayDate;
+    }
+    
+    /**
+     * Methode permettant de rendre une datetime lisible par un humain
+     */
+    formatDateTime(date) {
+        let splittedDate = this.splitDate(date);
+        
+        return this.$filter('date')(splittedDate.date, "dd/MM/yyyy") + " à " + splittedDate.hour + ":" + splittedDate.minutes;
     }
     
     /**

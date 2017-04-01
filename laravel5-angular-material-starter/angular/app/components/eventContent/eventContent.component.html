@@ -53,7 +53,7 @@
                             <md-list-item class="md-2-line">
                               <img ng-src="img/icons/eventIcon.png" class="md-avatar" alt="Date" />
                               <div class="md-list-item-text">
-                                <h3>Du {{vm.event.dateDebut}} au {{vm.event.dateFin}}</h3>
+                                <h3>Du <strong>{{vm.formatDateTime(vm.event.dateDebut)}}</strong> au <strong>{{vm.formatDateTime(vm.event.dateFin)}}</strong></h3>
                                 <p> Quand nous retrouvons-nous ? </p>
                               </div>
                             </md-list-item>
