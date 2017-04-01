@@ -149,6 +149,13 @@ class EventContentController{
     }
     
     /**
+     * Methode permettant de calculer si l'utilisateur dispose d'assez de temps pour se rendre sur les lieux de l'evenement
+     */
+    enoughTime() {
+        return false;
+    }
+    
+    /**
      * Methode permettant a un utilisateur de participer a un evenement
      */
     participer() {
