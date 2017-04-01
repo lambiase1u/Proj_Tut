@@ -23,9 +23,21 @@
             <md-card-actions layout="row" layout-align="start center">
               <md-button class="md-raised md-primary" md-colors="{background: 'green'}">Participer</md-button>
               <md-button class="md-raised md-primary" md-colors="{background: 'blue'}">Inviter des Amis</md-button>
-            <md-button class="md-raised md-primary" md-colors="{background: 'purple'}">Comment m'y rendre ?</md-button>
+                <md-button class="md-raised md-primary" md-colors="{background: 'purple'}" ng-click="vm.visibleDirections = !vm.visibleDirections"><span ng-if="!vm.visibleDirections">Comment m'y rendre ?</span><span ng-if="vm.visibleDirections">Masquer l'itinéraire</span></md-button>
             </md-card-actions>
             <md-card-content>
+                <div ng-show="vm.visibleDirections">
+                    <h2>Itinéraire</h2>
+                    <md-list class="md-dense" flex>
+                        <md-list-item class="md-2-line" ng-repeat="step in vm.directions.legs[0].steps">
+                            <img ng-src="img/icons/addressIcon.png" class="md-avatar" alt="Lieu" />
+                            <div class="md-list-item-text">
+                                <h3><span ng-bind-html="vm.$sce.trustAsHtml(step.html_instructions)"></span></h3>
+                                <p> Distance : {{step.distance.text}} - Durée : {{step.duration.text}}</p>
+                            </div>
+                        </md-list-item>
+                    </md-list>
+                </div>
                 <h2>Que dois-je savoir ?</h2>
                 <div layout="row" layout-xs="column">
                     <div flex="50" flex-xs="100">

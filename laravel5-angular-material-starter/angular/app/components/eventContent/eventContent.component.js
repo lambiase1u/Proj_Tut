@@ -5,13 +5,14 @@ class EventContentController{
     /**
      * Injection des dependances necessaires dans le constructeur, ici, des acces API
      */
-    constructor(EventService, UserService, CategoryService, $state){
+    constructor(EventService, UserService, CategoryService, $state, $sce){
         'ngInject';
 
         this.EventService = EventService;
         this.UserService = UserService;
         this.CategoryService = CategoryService;
         this.$state = $state;
+        this.$sce = $sce;
         
         this.event = null;
         this.place = null;
@@ -20,6 +21,8 @@ class EventContentController{
         this.category = null;
         this.comments = null;
         this.directions = null;
+        
+        this.visibleDirections = false;
     }
     
     /**
@@ -169,7 +172,9 @@ class EventContentController{
         
     }
     
-    
+    trustHtml(text) {
+        return this.$sce.trustAsHtml(text);
+    }
 
     /**
      * A l'initialisation du composant
