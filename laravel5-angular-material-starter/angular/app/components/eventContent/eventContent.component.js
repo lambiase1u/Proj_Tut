@@ -5,12 +5,13 @@ class EventContentController{
     /**
      * Injection des dependances necessaires dans le constructeur, ici, des acces API
      */
-    constructor(EventService, UserService, CategoryService, $state, $sce, $filter, $auth){
+    constructor(EventService, UserService, CategoryService, ToastService, $state, $sce, $filter, $auth){
         'ngInject';
 
         this.EventService = EventService;
         this.UserService = UserService;
         this.CategoryService = CategoryService;
+        this.ToastService = ToastService;
         this.$state = $state;
         this.$sce = $sce;
         this.$filter = $filter;
@@ -217,8 +218,49 @@ class EventContentController{
     /**
      * Methode permettant a un utilisateur de participer a un evenement
      */
-    participer() {
-        
+    addParticipation() {
+        if(this.$auth.isAuthenticated()) {
+            var data = {
+                id: this.event.id
+            }    
+    
+            this.EventService.addParticipant(data).then(
+                (success) => {
+                    this.ToastService.show(success.data);
+                    this.userParticipation = true;
+                    this.getParticipants(data);
+                },
+                (error) => {
+                    console.log(error);
+                }
+            );   
+        } else {
+            ToastService.error('Vous devez être authentifié pour pouvoir participer à un événement.');
+        } 
+    }
+    
+    /**
+     * Methode permettant de supprimer la participation a un evenement
+     */
+    deleteParticipation() {
+        if(this.$auth.isAuthenticated()) {
+            var data = {
+                id: this.event.id
+            }    
+    
+            this.EventService.deleteParticipant(data).then(
+                (success) => {
+                    this.ToastService.show(success.data);
+                    this.userParticipation = false;
+                    this.getParticipants(data);
+                },
+                (error) => {
+                    console.log(error);
+                }
+            );   
+        } else {
+            ToastService.error('Vous devez être authentifié pour retirer votre participation à un événement.');
+        } 
     }
     
     /**
