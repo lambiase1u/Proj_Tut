@@ -1,6 +1,6 @@
 let place;
 class EventFormController {
-    constructor(EventService, API, ToastService, DialogService, $log,$state) {
+    constructor(EventService, CategoryService, API, ToastService, DialogService, $log,$state) {
         'ngInject';
 
         this.API = API;
@@ -9,6 +9,7 @@ class EventFormController {
         this.$state = $state;
         this.DialogService = DialogService;
         this.EventService = EventService;
+        this.CategoryService = CategoryService;
     }
 
 
@@ -26,7 +27,7 @@ class EventFormController {
         this.capacity = 1;
         this.public = false;
 
-        this.API.all('categories').get('').then((response) => {
+        this.CategoryService.findAll().then((response) => {
             angular.forEach(response, function(value) {
                 let tab_ref = this;
                 if(angular.isObject(value))
@@ -112,7 +113,7 @@ class EventFormController {
             idParent: this.idParent
         };
 
-        this.API.all('events').post(data).then(
+        this.EventService.create(data).then(
             (response) => {
                 this.ToastService.show('L\'événement a bien été ajouté.');
                 return this.$state.go('app.landing');
