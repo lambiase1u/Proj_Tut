@@ -49,9 +49,9 @@ class UsersController {
      */
     findOneUser() {
         let id = this.$state.params.id;
-
-        this.API.all('users/' + id).get('').then((response) => {
-            this.user = response.data.user;
+        let userId = {"id": id};
+        this.UserService.findOne(userId).then((response)=>{
+            this.user = response;
             this.participation();
             this.invitation();
             this.my_Event();
@@ -71,13 +71,12 @@ class UsersController {
      * permet de recuperer l'utilisateur actuellement connecté
      */
     findMe() {
-        this.API.all('users/self').get('').then((response) => {
+        this.UserService.findMe().then((response)=>{
             this.user = response.data.user;
             this.participation();
             this.invitation();
             this.my_Event();
-
-        })
+        });
     }
 
     invitation() {
@@ -90,8 +89,6 @@ class UsersController {
      * Permet de recuperer toute les évenements (localisation aussi) d'un utilisateurs et d'initializé les cartes google map
      */
     participation() {
-        //this.$log.log('users/' + this.user.id + '/participate');
-
         let ctrl = this;
         let userId = {"id": this.user.id};
 
@@ -157,10 +154,6 @@ class UsersController {
             });
 
         });
-
-
-
-
 
     }
 
