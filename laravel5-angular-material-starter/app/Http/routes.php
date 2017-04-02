@@ -48,11 +48,19 @@ $api->group(['middleware' => ['api']], function ($api) {
     //Invitations routes
     $api->get('events/{id}/invitations', 'InvitationController@findAllByEvent');
 
+    // recuperer les participants d'un événements
+    $api->get('events/{id}/participants', 'ParticipationController@findAll')->where('id', '(\w{8}(-\w{4}){3}-\w{12}?)');
+
     //Users routes
     $api->get('users/', 'UserController@findAll');
     $api->get('users/{id}', 'UserController@findById')->where('id', '(\w{8}(-\w{4}){3}-\w{12}?)');
-    $api->get('users/{id}/participate/{nb_event}', 'UserController@participe')->where('id', '(\w{8}(-\w{4}){3}-\w{12}?)');
+    $api->get('users/{id}/participate', 'UserController@participe')->where('id', '(\w{8}(-\w{4}){3}-\w{12}?)');
     $api->get('users/{id}/invitation', 'UserController@invitations')->where('id', '(\w{8}(-\w{4}){3}-\w{12}?)');
+    $api->get('users/{id}/events', 'UserController@findAll_event')->where('id', '(\w{8}(-\w{4}){3}-\w{12}?)');
+
+    //Places Routes
+    $api->get('places/{id}/directions', 'PlaceController@getDirections');
+    $api->get('places/{id}', 'PlaceController@findById');
 
     //Categories routes
     $api->get('categories/', 'CategoryController@findAll');

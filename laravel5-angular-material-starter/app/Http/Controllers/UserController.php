@@ -146,25 +146,26 @@ class UserController extends Controller
 
     }
 
-    public function participe(Request $request, $id, $nb_event)
+    public function participe(Request $request, $id)
     {
         $user = User::find($id);
         if ($user != null) {
-            $event = $user->eventsParticipations->take($nb_event);
-            $res = [];
-            $json = null;
+            $event = $user->eventsParticipations;
 
-            foreach ($event as $val) {
-                $nb_participant = $val->participants->count();
-
-                //si je recupere les événements places ici la requete et longue.
-                $json = json_decode(file_get_contents("https://maps.googleapis.com/maps/api/place/details/json?placeid=" . $val->placeId . "&key=" . self::APIKEY), true);
-                $location = $json['result']['geometry']['location'];
-                array_push($res, ['nbParticipant' => $nb_participant, $val, 'pos' => ['lat' => $location['lat'], 'long' => $location['lng']]]);
-            }
-
-            return response()->json($res);
+            return response()->json($event);
         } else {
+            return response()->error('Aucun utilisateur correspondant à l\'identifiant n\'a été trouvée.', 404);
+        }
+    }
+
+
+    public function findAll_event(Request $request, $id){
+        $user = User::find($id);
+        if ($user != null) {
+            $event = $user->eventsOrganization;
+
+            return response()->json($event);
+        }else{
             return response()->error('Aucun utilisateur correspondant à l\'identifiant n\'a été trouvée.', 404);
         }
     }
