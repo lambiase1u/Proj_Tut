@@ -53,7 +53,8 @@ class UsersController {
         this.API.all('users/' + id).get('').then((response) => {
             this.user = response.data.user;
             this.participation();
-            // this.$log.log(response.data.user);
+            this.invitation();
+            this.my_Event();
         });
     }
 
@@ -62,7 +63,6 @@ class UsersController {
      -*/
     findAllUsers() {
         this.API.all('users').get('').then((response) => {
-            // this.user =  response.data.user;
             this.$log.log(response.data);
         });
     }
@@ -73,7 +73,6 @@ class UsersController {
     findMe() {
         this.API.all('users/self').get('').then((response) => {
             this.user = response.data.user;
-            //this.$log.log(response.data.user);
             this.participation();
             this.invitation();
             this.my_Event();
@@ -83,7 +82,6 @@ class UsersController {
 
     invitation() {
         this.API.all('users/' + this.user.id + '/invitation').get('').then((response) => {
-            // this.$log.log(response.data);
             this.invitations = response;
         });
     }
@@ -125,30 +123,28 @@ class UsersController {
             });
         });
 
-
     }
 
     my_Event() {
 
         let ctrl = this;
+        let userId = {"id": this.user.id};
 
-        this.API.all('users/' + this.user.id + '/events/').get('').then((response) => {
-
+        this.UserService.getEventUser(userId).then((response) => {
             this.my_event = response;
-
-        }).finally(function () {
-
+        }).finally(() => {
             ctrl.loadedMyEevent = true;
             angular.forEach(ctrl.my_event, function (res) {
 
-                ctrl.API.all('events/' + res.id + '/participants/').get('').then((response) => {
+                let eventId = {"id": res.id};
+                ctrl.EventService.getParticipants(eventId).then((response) => {
                     let nb_participant = response.data.participants.length;
                     res.nbParticipant = nb_participant;
                 });
 
-
-                ctrl.API.all('places/' + res.placeId).get('').then((response) => {
-                    res.location = response.result.geometry.location;
+                let placeId = {"id": res.placeId};
+                ctrl.EventService.getPlace(placeId).then((placeResult) => {
+                    res.location = placeResult.result.geometry.location;
                     ctrl.positions.push({
                             pos: [
                                 Number(res.location.lat),
@@ -156,14 +152,18 @@ class UsersController {
                             ]
                         }
                     );
-
                 });
+
             });
 
         });
 
 
+
+
+
     }
+
 
     /*
      * Le timeout permet d'afficher le caroussel comme il se doit

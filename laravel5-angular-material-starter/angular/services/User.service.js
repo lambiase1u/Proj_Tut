@@ -78,5 +78,14 @@ export class UserService {
         }
 
     }
+
+    getEventUser(data){
+        if(data.id !== undefined) {
+            return this.API.all('users/' + data.id + '/events/').get('');
+        }else {
+            return false;
+        }
+    }
+
 }
 
