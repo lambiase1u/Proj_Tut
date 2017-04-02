@@ -116,22 +116,24 @@ class ParticipationController extends Controller
         } else
             return response()->error('La participation n\'a pas été trouvée.', 404);
     }
-
-    public function findAll(Request $request, $id)
-    {
+    
+    /**
+     * Methode permettant de recuperer la liste des participants d'un evenement via son id.
+     * @param $id id de l'evenement
+     * @return mixed reponse contenant la liste des participants de l'evenement.
+     */
+    public function findAll($id){
         $event = Event::find($id);
-
-        if ($event == null)
-            return response()->error('L\'évenement n\'a pas été trouvée.', 404);
-
+        
+        if($event == null)
+            return response()->error("Aucun événement correspondant a l'identifiant n'a été trouvé", 404);
 
         //verification de l'accessibilité a l'evenement
-        if (!$event->isAccessible())
+        if(!$event->isAccessible())
             return response()->error("L'événement est privé", 401);
 
         $participants = $event->participants;
-
-        if ($participants->count() == 0)
+        if($participants->count() == 0)
             return response()->noContent("Il n'y a aucun participant sur cet événement.");
         else
             return response()->success(compact('participants'));
@@ -189,27 +191,5 @@ class ParticipationController extends Controller
         }
 
         return response()->success(compact('events'));
-    }
-    
-    /**
-     * Methode permettant de recuperer la liste des participants d'un evenement via son id.
-     * @param $id id de l'evenement
-     * @return mixed reponse contenant la liste des participants de l'evenement.
-     */
-    public function findAll($id){
-        $event = Event::find($id);
-        
-        if($event == null)
-            return response()->error("Aucun événement correspondant a l'identifiant n'a été trouvé", 404);
-
-        //verification de l'accessibilité a l'evenement
-        if(!$event->isAccessible())
-            return response()->error("L'événement est privé", 401);
-
-        $participants = $event->participants;
-        if($participants->count() == 0)
-            return response()->noContent("Il n'y a aucun participant sur cet événement.");
-        else
-            return response()->success(compact('participants'));
     }
 }
