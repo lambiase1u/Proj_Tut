@@ -242,7 +242,7 @@ class EventContentController{
      */
     textWeather() {
         if(this.weather !== null) {
-            let temperature = Math.round(this.weather.temperature - 273);
+            let temperature = Math.round(this.weather.temperature['sol'] - 273);
             let vent = Math.round(this.weather.vent_moyen['10m']);
             let pluie = Math.round(this.weather.pluie);
             
