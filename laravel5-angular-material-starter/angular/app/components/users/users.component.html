@@ -74,7 +74,7 @@
 
             <div ng-if="vm.loadedLastParticipation && vm.lastParticipation">
 
-                <slick infinite="true" slides-to-show="{{vm.nb_carousel_last_participation}}"
+                <slick infinite="true" slides-to-show="{{vm.nb_carousel_last_participation}}" settings="vm.slickConfig"
                        slides-to-scroll="{{vm.nb_carousel_last_participation}}" dots="true" arrows="true"
                        init-onload="true" data="vm.lastParticipation">
                     <div ng-repeat="event in vm.lastParticipation track by $index">

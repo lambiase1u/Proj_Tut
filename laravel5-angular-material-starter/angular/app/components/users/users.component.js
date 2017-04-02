@@ -20,8 +20,21 @@ class UsersController {
         //orgarnisé  carousel
         this.my_event = [];
         this.loadedMyEevent = false;
-
         this.positions = [];
+
+        this.slickConfig = {
+            enabled: true,
+            autoplay: true,
+            draggable: false,
+            autoplaySpeed: 3000,
+            method: {},
+            event: {
+                beforeChange: function (event, slick, currentSlide, nextSlide) {
+                },
+                afterChange: function (event, slick, currentSlide, nextSlide) {
+                }
+            }
+        };
 
     }
 
