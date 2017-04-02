@@ -2,37 +2,45 @@ class UsersController {
     constructor(API, ToastService, $state, $log) {
         'ngInject';
 
+        //services
         this.API = API;
         this.$state = $state;
         this.ToastService = ToastService;
         this.user = null;
         this.$log = $log;
+
+        //participation carousel
         this.lastParticipation = null;
-        this.dataLoaded = false;
+        this.loadedLastParticipation = false;
         this.nb_carousel_last_participation = 3;
         this.nb_event_carousel_last_participation = 9;
         this.position = [];
-        this.invitations=[];
+        this.invitations = [];
 
+        //orgarnisé  carousel
+        this.my_event = [];
+        this.loadedMyEevent = false;
+
+        this.positions = [];
 
     }
 
-  /*
-  * retourne l'utilsateur correspondant a l'id dans la route 
-  */
+    /*
+     * retourne l'utilsateur correspondant a l'id dans la route
+     */
     findOneUser() {
         let id = this.$state.params.id;
 
         this.API.all('users/' + id).get('').then((response) => {
             this.user = response.data.user;
             this.participation();
-         // this.$log.log(response.data.user);
+            // this.$log.log(response.data.user);
         });
     }
 
-  /**
-  *permet de recuperer tout les utilisateurs
-  -*/
+    /**
+     *permet de recuperer tout les utilisateurs
+     -*/
     findAllUsers() {
         this.API.all('users').get('').then((response) => {
             // this.user =  response.data.user;
@@ -40,94 +48,108 @@ class UsersController {
         });
     }
 
-  /*
-  * permet de recuperer l'utilisateur actuellement connecté 
-  */
+    /*
+     * permet de recuperer l'utilisateur actuellement connecté
+     */
     findMe() {
         this.API.all('users/self').get('').then((response) => {
             this.user = response.data.user;
             //this.$log.log(response.data.user);
             this.participation();
             this.invitation();
+            this.my_Event();
+
         })
     }
 
-    invitation(){
-        this.API.all('users/'+this.user.id+'/invitation').get('').then((response) => {
-           // this.$log.log(response.data);
+    invitation() {
+        this.API.all('users/' + this.user.id + '/invitation').get('').then((response) => {
+            // this.$log.log(response.data);
             this.invitations = response;
         });
     }
 
-  /*
-  * Permet de recuperer toute les évenements (localisation aussi) d'un utilisateurs et d'initializé les cartes google map
-  */
+    /*
+     * Permet de recuperer toute les évenements (localisation aussi) d'un utilisateurs et d'initializé les cartes google map
+     */
     participation() {
         //this.$log.log('users/' + this.user.id + '/participate');
 
         let ctrl = this;
-        this.API.all('users/' + this.user.id + '/participate/' + this.nb_event_carousel_last_participation).get('').then((response) => {
-           // this.$log.log(response[0]);
+        this.API.all('users/' + this.user.id + '/participate/').get('').then((response) => {
             this.lastParticipation = response;
 
         }).finally(function () {
-            ctrl.dataLoaded = true;
+            ctrl.loadedLastParticipation = true;
 
-            let eventLocationLoad = false;
+            angular.forEach(ctrl.lastParticipation, function (res) {
 
-            angular.forEach(ctrl.lastParticipation, function (location) {
-                ctrl.position.push(
-                    {
-                        pos: [
-                            location.pos.lat,
-                            location.pos.long
-                        ]
-                    }
-                );
+                ctrl.API.all('events/' + res.id + '/participants/').get('').then((response) => {
+                    let nb_participant = response.data.participants.length;
+                    res.nbParticipant = nb_participant;
+                });
+
+
+                ctrl.API.all('places/' + res.placeId).get('').then((response) => {
+                    res.location = response.result.geometry.location;
+                    ctrl.positions.push({
+                            pos: [
+                                Number(res.location.lat),
+                                Number(res.location.lng)
+                            ]
+                        }
+                    );
+
+                });
             });
 
+        });
 
-            /*coté front c'est la galere
-             if (eventLocationLoad == false) {
-             let geocoder = new google.maps.Geocoder;
-             angular.forEach(ctrl.lastParticipation, function (event) {
+    }
 
-             geocoder.geocode({'placeId': event.placeId}, function (results, status) {
+    my_Event() {
 
-             if (status === google.maps.GeocoderStatus.OK) {
+        let ctrl = this;
 
-             angular.forEach(results, function (pos) {
+        this.API.all('users/' + this.user.id + '/events/').get('').then((response) => {
 
-             event.pos = {
-             pos: [
-             pos.geometry.location.lat(),
-             pos.geometry.location.lng()
-             ]
-             }
+            this.my_event = response;
 
-             });
+        }).finally(function () {
+
+            ctrl.loadedMyEevent = true;
+            angular.forEach(ctrl.my_event, function (res) {
+
+                ctrl.API.all('events/' + res.id + '/participants/').get('').then((response) => {
+                    let nb_participant = response.data.participants.length;
+                    res.nbParticipant = nb_participant;
+                });
 
 
-             } else {
+                ctrl.API.all('places/' + res.placeId).get('').then((response) => {
+                    res.location = response.result.geometry.location;
+                    ctrl.positions.push({
+                            pos: [
+                                Number(res.location.lat),
+                                Number(res.location.lng)
+                            ]
+                        }
+                    );
 
-             console.log('fuck');
-             }
+                });
+            });
 
-             });
+            console.log(ctrl.my_event);
 
-             });
-
-             }
-             **/
         });
 
 
     }
 
-  /*
-  * Le timeout permet d'afficher le caroussel comme il se doit 
-  * j'ai trouvé cette solution directement dans les issues du dépot slick carousel
-  */
+    /*
+     * Le timeout permet d'afficher le caroussel comme il se doit
+     * j'ai trouvé cette solution directement dans les issues du dépot slick carousel
+     */
     carouselInit() {
 
         $timeout(function () {
