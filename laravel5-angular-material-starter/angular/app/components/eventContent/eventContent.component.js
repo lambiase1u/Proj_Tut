@@ -5,7 +5,7 @@ class EventContentController{
     /**
      * Injection des dependances necessaires dans le constructeur, ici, des acces API
      */
-    constructor(EventService, UserService, CategoryService, ToastService, DialogService, $state, $sce, $filter, $auth){
+    constructor(EventService, UserService, CategoryService, ToastService, DialogService, $state, $sce, $filter, $auth, $scope){
         'ngInject';
 
         this.EventService = EventService;
@@ -17,6 +17,7 @@ class EventContentController{
         this.$sce = $sce;
         this.$filter = $filter;
         this.$auth = $auth;
+        this.$scope = $scope;
         
         this.event = null;
         this.place = null;
@@ -303,6 +304,30 @@ class EventContentController{
         } else {
             this.ToastService.error('Vous devez être authentifié pour retirer votre participation à un événement.');
         } 
+    }
+    
+    /**
+     * Methode permettant de commenter un event
+     */
+    comment() {
+        if(this.$auth.isAuthenticated()) {
+            var data = {
+                id: this.event.id,
+                comment: this.$scope.commentForm
+            }
+            
+            this.EventService.addComment(data).then(
+                (success) => {
+                    this.ToastService.show(success.data);
+                    this.getComments(data);
+                }, 
+                (error) => {
+                    console.log(error);
+                }
+            );   
+        } else {
+            this.ToastService.error('Vous devez être authentifié pour pouvoir commenter un événement.');
+        }
     }
     
     /**
