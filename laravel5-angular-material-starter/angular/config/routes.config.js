@@ -111,7 +111,7 @@ export function RoutesConfig($stateProvider, $urlRouterProvider) {
             data: {auth: true},//{auth: true} would require JWT auth
             views: {
                 'main@': {
-                    templateUrl: getView('event')
+                    templateUrl: getView('create_event')
                 }
             }
         })

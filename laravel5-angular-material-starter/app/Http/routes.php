@@ -40,17 +40,20 @@ $api->group(['middleware' => ['api']], function ($api) {
 
     //Comments routes
     $api->get('events/{id}/comments', 'CommentsController@findAllByEvent');
-
     $api->get('comments/{idComment}', 'CommentsController@findCommentById');
 
     //Organizers routes
     $api->get('events/{id}/organizers', 'OrganizerController@findAll');
+    $api->get('users/{id}/organizations', 'OrganizerController@findByUser')->where('id', '(\w{8}(-\w{4}){3}-\w{12}?)|self');
 
     //Invitations routes
     $api->get('events/{id}/invitations', 'InvitationController@findAllByEvent');
     
     //Participants routes
     $api->get('events/{id}/participants', 'ParticipationController@findAll');
+
+    //Participations routes
+    $api->get('users/{id}/participations', 'ParticipationController@findByUser')->where('id', '(\w{8}(-\w{4}){3}-\w{12}?)|self');
 
     //Users routes
     $api->get('users/', 'UserController@findAll');
