@@ -48,6 +48,9 @@ $api->group(['middleware' => ['api']], function ($api) {
 
     //Invitations routes
     $api->get('events/{id}/invitations', 'InvitationController@findAllByEvent');
+    
+    //Participants routes
+    $api->get('events/{id}/participants', 'ParticipationController@findAll');
 
     //Users routes
     $api->get('users/', 'UserController@findAll');
@@ -57,6 +60,10 @@ $api->group(['middleware' => ['api']], function ($api) {
     $api->get('categories/', 'CategoryController@findAll');
     $api->get('categories/{id}', 'CategoryController@findById');
     $api->get('categories/{id}/events', 'CategoryController@findEvents');
+    
+    //GooglePlaces routes
+    $api->get('places/{id}', 'PlaceController@findById');
+    $api->get('places/{id}/directions', 'PlaceController@getDirections');
 
 });
 
