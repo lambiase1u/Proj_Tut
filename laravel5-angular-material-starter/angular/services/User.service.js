@@ -10,14 +10,14 @@ export class UserService {
 
         this.API = API;
     }
-    
+
     /**
      * Methode permettant de recuperer la liste de toutes les utilisateurs
      */
     findAll() {
-        return this.API.all('users').get('');  
+        return this.API.all('users').get('');
     }
-    
+
     /**
      * Methode permettant de recuperer un utilisateur
      * @param data : tableau des parametres utiles [id: id de l'utilisateur]
@@ -28,17 +28,17 @@ export class UserService {
         else
             return false;
     }
-    
+
     /**
      * Methode permettant de recuperer l'utilisateur authentifie
      */
     findMe() {
-        return this.API.all('users').all('self').get('');    
+        return this.API.all('users').all('self').get('');
     }
-    
+
     /**
      * Methode permettant de mettre a jour un utilisateur
-     * @param data : tableau des parametres utiles 
+     * @param data : tableau des parametres utiles
         [
             "id" : identificateur de l'utilisateur
         	"name" : nom de famille de l'utilisateur
@@ -51,10 +51,10 @@ export class UserService {
     udpdate(data) {
         if(data.id !== undefined)
             return this.API.one('users', data.id).put(data);
-        else 
+        else
             return false;
     }
-    
+
     /**
      * Methode permettant de supprimer un utilisateur
      * @param data : tableau des donnees utiles [id: id de l'utilisateur a supprimer]
@@ -64,6 +64,19 @@ export class UserService {
             return this.API.one('users', data.id).remove();
         else
             return false;
+    }
+
+    /**
+     * Methode permettant de recuperer tout les événement auxquels un utilisateur participe
+     * @param data  tableau des donnees utiles [id: id de l'utilisateur]
+     */
+    getParicipant(data){
+        if (data.id !== undefined){
+           return this.API.all('users/' + data.id + '/participate/').get('');
+        }else {
+            return false;
+        }
+
     }
 }
 

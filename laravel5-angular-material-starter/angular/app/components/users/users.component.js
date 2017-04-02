@@ -1,5 +1,5 @@
 class UsersController {
-    constructor(API, ToastService, $state, $log) {
+    constructor(API, ToastService, $state, $log, EventService, UserService) {
         'ngInject';
 
         //services
@@ -8,6 +8,8 @@ class UsersController {
         this.ToastService = ToastService;
         this.user = null;
         this.$log = $log;
+        this.EventService = EventService;
+        this.UserService = UserService;
 
         //participation carousel
         this.lastParticipation = null;
@@ -25,7 +27,7 @@ class UsersController {
         this.slickConfig = {
             enabled: true,
             autoplay: false,
-            dots:true,
+            dots: true,
             draggable: false,
             autoplaySpeed: 3000,
             slidesToShow: this.nb_carousel_last_participation,
@@ -93,22 +95,24 @@ class UsersController {
         //this.$log.log('users/' + this.user.id + '/participate');
 
         let ctrl = this;
-        this.API.all('users/' + this.user.id + '/participate/').get('').then((response) => {
-            this.lastParticipation = response;
+        let userId = {"id": this.user.id};
 
-        }).finally(function () {
+        this.UserService.getParicipant(userId).then((res) => {
+            this.lastParticipation = res;
+        }).finally(() => {
             ctrl.loadedLastParticipation = true;
 
             angular.forEach(ctrl.lastParticipation, function (res) {
+                let eventId = {"id": res.id};
 
-                ctrl.API.all('events/' + res.id + '/participants/').get('').then((response) => {
+                ctrl.EventService.getParticipants(eventId).then((response) => {
                     let nb_participant = response.data.participants.length;
                     res.nbParticipant = nb_participant;
                 });
 
-
-                ctrl.API.all('places/' + res.placeId).get('').then((response) => {
-                    res.location = response.result.geometry.location;
+                let placeId = {"id": res.placeId};
+                ctrl.EventService.getPlace(placeId).then((placeResult) => {
+                    res.location = placeResult.result.geometry.location;
                     ctrl.positions.push({
                             pos: [
                                 Number(res.location.lat),
@@ -116,11 +120,11 @@ class UsersController {
                             ]
                         }
                     );
-
                 });
-            });
 
+            });
         });
+
 
     }
 
@@ -171,6 +175,17 @@ class UsersController {
             this.ready = true;
         }, 1000);
         // ;
+    }
+
+
+    getEvent(data) {
+        this.EventService.findOne(data).then(function (result) {
+                return result.data.event;
+            },
+            (responseError) => {
+                console.log(responseError);
+
+            });
     }
 
     /**
