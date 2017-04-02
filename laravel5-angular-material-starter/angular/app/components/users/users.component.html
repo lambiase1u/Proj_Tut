@@ -28,7 +28,7 @@
                     <md-toolbar class="md-accent" md-colors="{background: 'light-blue'}">
                         <div class="md-toolbar-tools">
                             <md-icon>accessibility</md-icon>
-                            <h2> Description :</h2>
+                            <h2 class="title_white_with_icon"> Description </h2>
                             <span flex></span>
                         </div>
                     </md-toolbar>
@@ -37,11 +37,11 @@
                     </p>
                 </div>
 
-                <md-list flex class="invitation_container">
+                <md-list flex class="invitation_container" ng-if="vm.displayInvitation">
                     <md-toolbar class="md-accent" md-colors="{background: 'light-green'}">
                         <div class="md-toolbar-tools">
                             <md-icon>local_post_office</md-icon>
-                            <h2> Invitations :</h2>
+                            <h2 class="title_white_with_icon"> Invitations </h2>
                             <span flex></span>
                         </div>
                     </md-toolbar>
@@ -74,7 +74,7 @@
                 <md-icon class="material-icons-md-36">keyboard_arrow_left</md-icon>
             </md-button>
             <section flex="90">
-                <h3 class="md-display-2 Landing-laravelAngular-title " >
+                <h3 class="user_section_title" >
                     Derniers événements auxquels a participé {{vm.user.name}} {{vm.user.firstName}}
                 </h3>
                 <md-divider></md-divider>
@@ -103,7 +103,6 @@
                                 </div>
                                 <md-card-title>
                                     <md-card-title-text>
-                                        <span class="md-headline">Description :</span>
                                         <span class="md-subhead">Nombre de participants: {{event.nbParticipant}}/{{event.capacity}}</span>
                                     </md-card-title-text>
                                 </md-card-title>
@@ -137,7 +136,7 @@
                 <md-icon class="material-icons-md-36">keyboard_arrow_left</md-icon>
             </md-button>
             <section flex="90">
-                <h3 class="md-display-2 Landing-laravelAngular-title " >
+                <h3 class="md-display-2 user_section_title " >
                     Derniers événements organisés par {{vm.user.name}} {{vm.user.firstName}}
                 </h3>
                 <md-divider></md-divider>
@@ -147,7 +146,7 @@
                     <slick infinite="true" init-onload="true" data="vm.loadedMyEevent" settings="vm.slickConfig"
                            prev-arrow="#prev2" next-arrow="#next2">
                         <div ng-repeat="event in vm.my_event track by $index">
-                            <md-card class="md-whiteframe-5dp"">
+                            <md-card class="md-whiteframe-3dp"">
                                 <md-card-header>
                                     <md-card-header-text>
                                         <span class="md-title">{{event.title}}</span>
@@ -166,7 +165,6 @@
                                 </div>
                                 <md-card-title>
                                     <md-card-title-text>
-                                        <span class="md-headline">Description :</span>
                                         <span class="md-subhead">Nombre de participants: {{event.nbParticipant}}/{{event.capacity}}</span>
                                     </md-card-title-text>
                                 </md-card-title>

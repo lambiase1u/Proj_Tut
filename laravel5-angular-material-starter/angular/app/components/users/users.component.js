@@ -6,10 +6,13 @@ class UsersController {
         this.API = API;
         this.$state = $state;
         this.ToastService = ToastService;
-        this.user = null;
         this.$log = $log;
         this.EventService = EventService;
         this.UserService = UserService;
+
+        //user info
+        this.user = null;
+        this.displayInvitation = false;
 
         //participation carousel
         this.lastParticipation = null;
@@ -24,6 +27,7 @@ class UsersController {
         this.loadedMyEevent = false;
         this.positions = [];
 
+        //carousel config
         this.slickConfig = {
             enabled: true,
             autoplay: false,
@@ -53,8 +57,11 @@ class UsersController {
         this.UserService.findOne(userId).then((response)=>{
             this.user = response;
             this.participation();
-            this.invitation();
+            //this.invitation();
             this.my_Event();
+        }, (error)=>{
+            console.log(error);
+            return this.$state.go('app.landing');
         });
     }
 
@@ -72,6 +79,7 @@ class UsersController {
      */
     findMe() {
         this.UserService.findMe().then((response)=>{
+            this.displayInvitation= true;
             this.user = response.data.user;
             this.participation();
             this.invitation();
