@@ -189,6 +189,7 @@ class ParticipationController extends Controller
         }
 
         return response()->success(compact('events'));
+    }
     
     /**
      * Methode permettant de recuperer la liste des participants d'un evenement via son id.
