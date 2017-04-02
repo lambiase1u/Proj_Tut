@@ -28,6 +28,14 @@ export class EventService {
         else
             return false;
     }
+
+    findByOrganizer(data) {
+        return this.API.one('users', 'self').all('organizations').get('',data);
+    }
+
+    findByParticipant(data){
+        return this.API.one('users', 'self').all('participations').get('',data)
+    }
         
     /**
      * Methode permettant de creer un evenement avec les donnees necessaires
