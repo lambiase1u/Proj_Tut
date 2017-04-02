@@ -229,8 +229,6 @@ class EventContentController{
                 let indexTableau = this.$filter('date')(dateOptimale, "yyyy-MM-dd HH:mm:ss");
                 
                 this.weather = responseSuccess[indexTableau];
-                console.log(this.weather);
-                console.log(this.textWeather());
             },
             (responseError) => {
                 //On n'a pas reussi a recuperer la metot
@@ -243,13 +241,10 @@ class EventContentController{
      * Transforme les donnees meteo en une chaine de caracteres utile
      */
     textWeather() {
-        if(this.weather !== undefined) {
-            let temperature = Math.round(this.weather.temperature['sol'] - 273);
-            console.log(temperature);
+        if(this.weather !== null) {
+            let temperature = Math.round(this.weather.temperature - 273);
             let vent = Math.round(this.weather.vent_moyen['10m']);
-            console.log(vent);
             let pluie = Math.round(this.weather.pluie);
-            console.log(pluie);
             
             let avisMeteo = "";
             
