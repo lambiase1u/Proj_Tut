@@ -28,7 +28,7 @@ export class EventService {
         else
             return false;
     }
-    
+        
     /**
      * Methode permettant de creer un evenement avec les donnees necessaires
      * @param data : tableau des donnees utiles :
@@ -52,7 +52,10 @@ export class EventService {
      * @param data : tableau des données utiles [id: id de l'evenement]
      */
     delete(data) {
-        return this.API.one('events', data.id).remove();
+        if(data.id !== undefined)
+            return this.API.one('events', data.id).remove();
+        else
+            return false;
     }
     
     /**
@@ -71,7 +74,10 @@ export class EventService {
      *  ]
      */
     update(data) {
-        return this.API.one('events', data.id).put(data); 
+        if(data.id !== undefined)
+            return this.API.one('events', data.id).put(data); 
+        else
+            return false;
     }
     
     /**
@@ -224,6 +230,28 @@ export class EventService {
     deleteComment(data) {
         if(data.id !== undefined)
             return this.API.one('comments', data.id).remove();
+        else
+            return false;
+    }
+    
+    /**
+     * Methode permettant de recuperer les informations Google sur un point d'interet associe a l'evenement
+     * @param data : tableau des donnees utiles : [id: id du point d'interet Google]
+     */
+    getPlace(data) {
+        if(data.id !== undefined)
+            return this.API.one('places', data.id).get('');
+        else
+            return false;
+    }
+    
+    /**
+     * Methode permettant de recuperer l'itineraire entre deux points. Si l'origine n'est pas specifiee : position de l'utilisateur
+     * @param data : tableau des donnees utiles : [id: id du point d'interet google, (optionnel : origin_id: id du point d'interet de depart)]
+     */
+    getDirections(data) {
+        if(data.id !== undefined)
+            return this.API.one('places', data.id).all('directions').get('');
         else
             return false;
     }

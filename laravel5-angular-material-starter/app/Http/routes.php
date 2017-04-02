@@ -36,17 +36,24 @@ $api->group(['middleware' => ['api']], function ($api) {
     //Events routes
     $api->get('events/{id}', 'EventController@findById');
     $api->get('events/', 'EventController@findAll');
+    $api->get('events/{id}/place', 'EventController@findPlace');
 
     //Comments routes
     $api->get('events/{id}/comments', 'CommentsController@findAllByEvent');
-
     $api->get('comments/{idComment}', 'CommentsController@findCommentById');
 
     //Organizers routes
     $api->get('events/{id}/organizers', 'OrganizerController@findAll');
+    $api->get('users/{id}/organizations', 'OrganizerController@findByUser')->where('id', '(\w{8}(-\w{4}){3}-\w{12}?)|self');
 
     //Invitations routes
     $api->get('events/{id}/invitations', 'InvitationController@findAllByEvent');
+    
+    //Participants routes
+    $api->get('events/{id}/participants', 'ParticipationController@findAll');
+
+    //Participations routes
+    $api->get('users/{id}/participations', 'ParticipationController@findByUser')->where('id', '(\w{8}(-\w{4}){3}-\w{12}?)|self');
 
     // recuperer les participants d'un événements
     $api->get('events/{id}/participants', 'ParticipationController@findAll')->where('id', '(\w{8}(-\w{4}){3}-\w{12}?)');
@@ -66,6 +73,10 @@ $api->group(['middleware' => ['api']], function ($api) {
     $api->get('categories/', 'CategoryController@findAll');
     $api->get('categories/{id}', 'CategoryController@findById');
     $api->get('categories/{id}/events', 'CategoryController@findEvents');
+    
+    //GooglePlaces routes
+    $api->get('places/{id}', 'PlaceController@findById');
+    $api->get('places/{id}/directions', 'PlaceController@getDirections');
 
 });
 

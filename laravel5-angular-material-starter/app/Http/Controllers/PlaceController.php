@@ -11,6 +11,7 @@ use App\Http\Requests;
  */
 class PlaceController extends Controller
 {
+
     const API_KEY_PLACES = "AIzaSyCRiWW3PMZ5HNj-MYDcxHq9JkCEiDq3W1s";
     const API_KEY_DIRECTIONS = "AIzaSyCiruAPLeDG--hZLh10v5OjrBrwbz8VPoY";
 
@@ -32,7 +33,7 @@ class PlaceController extends Controller
      */
     public function getDirections(Request $request, $id) {
         $origin = null;
-
+      
         if(isset($request->placeId)) {
             //On utilise une position definie dans la requete
             $origin = $request->placeId;
@@ -77,5 +78,6 @@ class PlaceController extends Controller
 
             return $location;
         } else return false;
+
     }
 }
