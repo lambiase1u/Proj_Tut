@@ -14,12 +14,15 @@ use App\User;
  */
 class UserController extends Controller
 {
+    const APIKEY = 'AIzaSyAFosuj-n-qIEM_BRqt2JX-YIhfno9138k';
+
     /**
      * Methode permettant de recuperer la liste des utilisateurs
      * route : /api/users
      * methode : GET
      */
-    public function findAll(Request $request) {
+    public function findAll(Request $request)
+    {
         $from = 0;
         $size = User::count();
 
@@ -27,7 +30,8 @@ class UserController extends Controller
             $from = $request->from - 1;
 
         if(isset($request->to))
-            $size = $request->to - $from;
+           
+        $size = $request->to - $from;
 
         $users = User::take($size)->skip($from)->get();
 
@@ -42,7 +46,8 @@ class UserController extends Controller
      * reoute : /api/users/{id}
      * methode : GET
      */
-    public function findById(Request $request, $id) {
+    public function findById(Request $request, $id)
+    {
         $user = User::find($id);
 
         if($user != null)
@@ -56,6 +61,7 @@ class UserController extends Controller
      * route : /api/users/{id}
      * methode : PUT
      */
+
     public function update(Request $request, $id) {
         $currentUser = Auth::user();
         $requestUser = User::find($id);
@@ -102,6 +108,7 @@ class UserController extends Controller
      * route : /api/users/{id}
      * methode : DELETE
      */
+
     public function delete(Request $request, $id) {
         $user = Auth::user();
 
@@ -117,6 +124,7 @@ class UserController extends Controller
      * route : /api/users/self
      * methode : GET
      */
+
     public function findMe(){
         $user = Auth::user();
 
@@ -124,6 +132,42 @@ class UserController extends Controller
             return response()->error("Vous n'êtes pas connecté." , 401);
         else
             return response()->success(compact('user'));
+    }
+
+    public function invitations(Request $request, $idUser)
+    {
+        $user = User::find($idUser);
+        if ($user != null) {
+            $invitation = $user->eventsInvitations;
+            return response()->json($invitation);
+        } else {
+            return response()->error('Aucun utilisateur correspondant à l\'identifiant n\'a été trouvée.', 404);
+        }
+
+    }
+
+    public function participe(Request $request, $id)
+    {
+        $user = User::find($id);
+        if ($user != null) {
+            $event = $user->eventsParticipations;
+
+            return response()->json($event);
+        } else {
+            return response()->error('Aucun utilisateur correspondant à l\'identifiant n\'a été trouvée.', 404);
+        }
+    }
+
+
+    public function findAll_event(Request $request, $id){
+        $user = User::find($id);
+        if ($user != null) {
+            $event = $user->eventsOrganization;
+
+            return response()->json($event);
+        }else{
+            return response()->error('Aucun utilisateur correspondant à l\'identifiant n\'a été trouvée.', 404);
+        }
     }
 
 }
