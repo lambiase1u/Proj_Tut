@@ -24,9 +24,13 @@ class UsersController {
 
         this.slickConfig = {
             enabled: true,
-            autoplay: true,
+            autoplay: false,
+            dots:true,
             draggable: false,
             autoplaySpeed: 3000,
+            slidesToShow: this.nb_carousel_last_participation,
+            slidesToScroll: this.nb_carousel_last_participation,
+            adaptiveHeight: true,
             method: {},
             event: {
                 beforeChange: function (event, slick, currentSlide, nextSlide) {
