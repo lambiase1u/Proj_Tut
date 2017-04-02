@@ -95,6 +95,15 @@
                             <p> Est-il trop tard pour participer ? </p>
                         </div>
                     </md-list-item>
+                    <md-list-item class="md-2-line">
+                        <img ng-src="img/icons/weatherIcon.png" class="md-avatar" alt="Météo" />
+                        <div class="md-list-item-text">
+                            <h3>
+                                   <span ng-bind-html="vm.$sce.trustAsHtml(vm.textWeather())"></span>
+                            </h3>
+                            <p> Quelle est la météo sur les lieux ? </p>
+                        </div>
+                    </md-list-item>
                 </md-list>
                 <md-divider></md-divider>
                 <h2>Informations sur le lieu</h2>

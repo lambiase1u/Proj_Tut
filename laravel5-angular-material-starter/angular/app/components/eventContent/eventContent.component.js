@@ -28,6 +28,7 @@ class EventContentController{
         this.directions = null;
         this.user = null;
         this.invitations = null;
+        this.weather = null;
         
         this.visibleDirections = false;
         this.userParticipation = false;
@@ -57,6 +58,7 @@ class EventContentController{
                 this.getCategory(dataCategory);
                 this.getPlace(dataPlace);
                 this.getDirections(dataPlace);
+                this.getWeather(dataPlace);
             },
             (responseError) => {
                 this.$state.go('app.landing');
@@ -195,6 +197,87 @@ class EventContentController{
                 console.log('Erreur');
             }
         );     
+    }
+    
+    /**
+     * Methode permettant de recuperer la meteo
+     */
+    getWeather(data) {
+        this.EventService.getWeather(data).then(
+            (responseSuccess) => {
+                //On a recupere la meteo
+                let dateOptimale = new Date();
+                let heure = dateOptimale.getHours();
+                
+                if(heure >= 0 && heure <= 2)
+                   dateOptimale.setHours(2, 0, 0);
+                else if(heure > 2 && heure <= 5)
+                    dateOptimale.setHours(5, 0, 0);
+                else if(heure > 5 && heure <= 8)
+                    dateOptimale.setHours(8, 0, 0);
+                else if(heure > 5 && heure <= 11)
+                    dateOptimale.setHours(11, 0, 0);
+                else if(heure > 5 && heure <= 14)
+                    dateOptimale.setHours(14, 0, 0);
+                else if(heure > 5 && heure <= 17)
+                    dateOptimale.setHours(17, 0, 0);
+                else if(heure > 5 && heure <= 20)
+                    dateOptimale.setHours(20, 0, 0);
+                else if(heure > 5 && heure <= 23)
+                    dateOptimale.setHours(23, 0, 0);
+                
+                let indexTableau = this.$filter('date')(dateOptimale, "yyyy-MM-dd HH:mm:ss");
+                
+                this.weather = responseSuccess[indexTableau];
+                console.log(this.weather);
+                console.log(this.textWeather());
+            },
+            (responseError) => {
+                //On n'a pas reussi a recuperer la metot
+                console.log('Erreur');
+            }
+        );
+    }
+    
+    /**
+     * Transforme les donnees meteo en une chaine de caracteres utile
+     */
+    textWeather() {
+        if(this.weather !== undefined) {
+            let temperature = Math.round(this.weather.temperature['sol'] - 273);
+            console.log(temperature);
+            let vent = Math.round(this.weather.vent_moyen['10m']);
+            console.log(vent);
+            let pluie = Math.round(this.weather.pluie);
+            console.log(pluie);
+            
+            let avisMeteo = "";
+            
+            if(temperature < 0)
+                avisMeteo += "Il va faire très froid. La météo prévoit " + temperature + "°C.<br>";
+            else if(temperature >= 0 && temperature <= 10)
+                avisMeteo += "Il va faire froid. La météo prévoit " + temperature + "°C.<br>";
+            else if(temperature > 10 && temperature <= 20)
+                avisMeteo += "La température sera moyenne. La météo prévoit " + temperature + "°C.<br>";
+            else if(temperature > 20 && temperature <= 30)
+                avisMeteo += "De belles températures en perspective ! La météo prévoit " + temperature + "°C.<br>";
+            else
+                avisMeteo += "De grosses chaleurs sont attendues. La météo envisage " + temperature + "°C.<br>";
+            
+            if(pluie > 0 && pluie < 5)
+                avisMeteo += " Quelques averses sont prévues. Pensez à prendre un parapluie !<br>";
+            else if(pluie > 5)
+                avisMeteo += " Des pluies relativement conséquentes sont prévues. Pensez à prendre un parapluie !<br>";
+            else
+                avisMeteo += " Aucune précipitation n'est prévue. Laissez votre parapluie à la maison !<br>";
+            
+            if(vent >= 15 && vent <= 30)
+                avisMeteo += " Un peu de vent à prévoir avec " + vent + " km/h en moyenne.";
+            else if(vent > 30)
+                avisMeteo += " Beaucoup de vent à prévoir avec " + vent + " km/h en moyenne.";
+            
+            return avisMeteo;
+        } else return "Les données météorologiques sont indisponibles pour le moment.";
     }
     
     /**
