@@ -139,8 +139,6 @@ class UsersController {
                 });
             });
 
-            console.log(ctrl.my_event);
-
         });
 
 
