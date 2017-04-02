@@ -90,7 +90,6 @@ $api->group(['middleware' => ['api', 'api.auth']], function ($api) {
     //Organizer routes
     $api->post('events/{id}/organizers', 'OrganizerController@create');
     $api->delete('events/{idEvent}/organizers/{idUser}', 'OrganizerController@delete');
-    //$api->get('users/{id}/organizations', 'OrganizerController@findByUser')->where('id', 'self');
 
     //Users routes
     $api->put('users/{id}', 'UserController@update')->where('id', '(\w{8}(-\w{4}){3}-\w{12}?)');

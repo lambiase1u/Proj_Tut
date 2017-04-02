@@ -57,14 +57,14 @@
     <div>
         <md-input-container class="md-block" flex-gt-sm>
             <label>Capacité d'accueil (en nombre de personnes)</label>
-            <input name="capacity" type="number" ng-model="event.capacity" placeholder="Capacité d'accueil" md-min="0" required>
+            <input name="capacity" type="number" ng-model="event.capacity" placeholder="Capacité d'accueil" required>
         </md-input-container>
     </div>
 
     <div>
         <md-input-container class="md-block">
             <label>Description</label>
-            <textarea ng-model="event.description" md-minlength="15" md-maxlength="150" rows="5" md-select-on-focus required></textarea>
+            <textarea ng-model="event.description" md-maxlength="150" minlength="15" rows="5" md-select-on-focus required></textarea>
         </md-input-container>
     </div>
 
@@ -95,5 +95,5 @@
     </div>
 
     <md-button type="submit" class="md-primary md-raised">Créer l'événement</md-button>
-
+<md-button ng-click="event.verificationConcurentEvent()">TEST</md-button>
 </form>
