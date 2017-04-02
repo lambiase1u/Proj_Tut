@@ -11,8 +11,9 @@ use App\Http\Requests;
  */
 class PlaceController extends Controller
 {
-    const API_KEY_PLACES = "AIzaSyAFosuj-n-qIEM_BRqt2JX-YIhfno9138k";
+    const API_KEY_PLACES = "AIzaSyDslABjfZ39bDOU_f_BWjRdIbF7E8N5cOE";
     const API_KEY_DIRECTIONS = "AIzaSyCiruAPLeDG--hZLh10v5OjrBrwbz8VPoY";
+    const API_KEY_WEATHER = "ARsDFFIsBCZRfFtsD3lSe1Q8ADUPeVRzBHgFZgtuAH1UMQNgUTNcPlU5VClSfVZkUn8AYVxmVW0Eb1I2WylSLgFgA25SNwRuUT1bPw83UnlUeAB9DzFUcwR4BWMLYwBhVCkDb1EzXCBVOFQoUmNWZlJnAH9cfFVsBGRSPVs1UjEBZwNkUjIEYVE6WyYPIFJjVGUAZg9mVD4EbwVhCzMAMFQzA2JRMlw5VThUKFJiVmtSZQBpXGtVbwRlUjVbKVIuARsDFFIsBCZRfFtsD3lSe1QyAD4PZA%3D%3D&_c=19f3aa7d766b6ba91191c8be71dd1ab2";
     
     /**
      * Methode permettant d'obtenir une place 
@@ -46,6 +47,21 @@ class PlaceController extends Controller
         $travelTime = file_get_contents('https://maps.googleapis.com/maps/api/directions/json?key='.self::API_KEY_DIRECTIONS.'&origin='.$origin.'&destination=place_id:'.$id.'&language=fr');
         
         return response()->json($travelTime, 200);
+    }
+    
+    /**
+     * Methode permettant d'obtenir des donnees meteorologiques a partir d'infoclimat
+     * route : places/:id/weather
+     * methode : GET
+     */
+    public function getWeather(Request $request, $id) {
+        $details = json_decode(file_get_contents('https://maps.googleapis.com/maps/api/place/details/json?key='.self::API_KEY_PLACES.'&placeid='.$id), true);  
+        
+        $location = $details['result']['geometry']['location'];
+        
+        $weather = file_get_contents("http://www.infoclimat.fr/public-api/gfs/json?_ll=".$location["lat"].",".$location["lng"]."&_auth=".self::API_KEY_WEATHER);
+        
+        return response()->json($weather, 200);
     }
     
     /**

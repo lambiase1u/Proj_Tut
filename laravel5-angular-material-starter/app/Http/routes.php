@@ -64,6 +64,7 @@ $api->group(['middleware' => ['api']], function ($api) {
     //GooglePlaces routes
     $api->get('places/{id}', 'PlaceController@findById');
     $api->get('places/{id}/directions', 'PlaceController@getDirections');
+    $api->get('places/{id}/weather', 'PlaceController@getWeather');
 
 });
 
