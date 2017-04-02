@@ -20,6 +20,10 @@ export class APIService {
                     if (response.status === 500) {
                       return ToastService.error(response.statusText)
                     }
+                    
+                    if(response.status === 404) {
+                        return ToastService.error(response.data.errors.message);
+                    }
 				})
 				.addFullRequestInterceptor(function(element, operation, what, url, headers) {
 					let token = $window.localStorage.satellizer_token;

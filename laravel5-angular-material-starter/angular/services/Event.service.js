@@ -236,10 +236,22 @@ export class EventService {
     
     /**
      * Methode permettant de recuperer les informations Google sur un point d'interet associe a l'evenement
+     * @param data : tableau des donnees utiles : [id: id du point d'interet Google]
      */
     getPlace(data) {
         if(data.id !== undefined)
-            return this.API.one('events', data.id).all('place').get('');
+            return this.API.one('places', data.id).get('');
+        else
+            return false;
+    }
+    
+    /**
+     * Methode permettant de recuperer l'itineraire entre deux points. Si l'origine n'est pas specifiee : position de l'utilisateur
+     * @param data : tableau des donnees utiles : [id: id du point d'interet google, (optionnel : origin_id: id du point d'interet de depart)]
+     */
+    getDirections(data) {
+        if(data.id !== undefined)
+            return this.API.one('places', data.id).all('directions').get('');
         else
             return false;
     }

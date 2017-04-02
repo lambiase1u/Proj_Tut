@@ -33,13 +33,13 @@ export class DialogService {
         this.$mdDialog.show(alert);
     }
 
-    confirm(title, content) {
+    confirm(title, content, validationMessage, annulationMessage) {
         let confirm = this.$mdDialog.confirm()
             .title(title)
             .content(content)
             .ariaLabel(content)
-            .ok('Ok')
-            .cancel('Cancel');
+            .ok(validationMessage)
+            .cancel(annulationMessage);
 
         return this.$mdDialog.show(confirm);
     }
