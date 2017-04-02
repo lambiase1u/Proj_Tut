@@ -179,7 +179,7 @@ class EventContentController{
             );
         }
     }
-    
+        
     /**
      * Methode permettant de recuperer les invites
      */
@@ -428,6 +428,21 @@ class EventContentController{
                 });
             }
         } else this.userParticipation = false;
+    }
+    
+    isOrganizer() {
+        let userIsOrganizer = false;
+        
+        if(this.$auth.isAuthenticated()) {
+            if(this.organizers !== null && this.user !== null) {
+                this.organizers.forEach((organizer) => {
+                    if(organizer.id === this.user.id)
+                        userIsOrganizer = true;
+                })
+            }
+        }
+        
+        return userIsOrganizer;
     }
     
     /**
