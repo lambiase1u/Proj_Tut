@@ -320,6 +320,7 @@ class EventContentController{
                 (success) => {
                     this.ToastService.show(success.data);
                     this.getComments(data);
+                    this.$scope.commentForm = "";
                 }, 
                 (error) => {
                     console.log(error);
