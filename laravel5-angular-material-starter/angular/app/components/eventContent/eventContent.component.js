@@ -369,16 +369,20 @@ class EventContentController{
                 id: this.event.id
             }    
     
-            this.EventService.deleteParticipant(data).then(
-                (success) => {
-                    this.ToastService.show(success.data);
-                    this.userParticipation = false;
-                    this.getParticipants(data);
-                },
-                (error) => {
-                    console.log(error);
-                }
-            );   
+            if(!this.isOrganizer()) {
+                this.EventService.deleteParticipant(data).then(
+                    (success) => {
+                        this.ToastService.show(success.data);
+                        this.userParticipation = false;
+                        this.getParticipants(data);
+                    },
+                    (error) => {
+                        console.log(error);
+                    }
+                );         
+            } else {
+              this.DialogService.alert('Vous êtes organisateur de cet événement.', 'Vous êtes organisateur de cet événement. Par conséquent, vous ne pouvez pas retirer votre participation. Si vous êtes plusieurs à organiser cet événement, retirez-vous de la liste des organisateurs pour être en mesure de retirer votre participation.');  
+            }  
         } else {
             this.ToastService.error('Vous devez être authentifié pour retirer votre participation à un événement.');
         } 
