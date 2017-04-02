@@ -1,9 +1,8 @@
-let place;
+let place = undefined;
 class EventFormController {
-    constructor(EventService, CategoryService, API, ToastService, DialogService, $log,$state) {
+    constructor(EventService, CategoryService, ToastService, DialogService, $log,$state) {
         'ngInject';
 
-        this.API = API;
         this.ToastService = ToastService;
         this.$log = $log;
         this.$state = $state;
@@ -53,52 +52,55 @@ class EventFormController {
     }
 
     submit() {
-        var debut = this.dateToString(this.dateDebut, this.heureDebut, this.minuteDebut);
-        var fin = this.dateToString(this.dateFin, this.heureFin, this.minuteFin);
+        if(place === undefined)
+            this.ToastService.error("Le lieu est requis pour créer l'événement");
+        else{
+            var debut = this.dateToString(this.dateDebut, this.heureDebut, this.minuteDebut);
+            var fin = this.dateToString(this.dateFin, this.heureFin, this.minuteFin);
 
-        var dates = {
-            begin : debut,
-            end : fin
-        }
-
-        this.API.one('users', 'self').all('organizations').get('',dates).then(
-            (responseSuccess) => {
-                if(responseSuccess !== undefined){
-                    var event = responseSuccess.data.events[0];
-                    this.DialogService.alert('Vous avez déjà un événement dont vous êtes l\'un des organisateurs se déroulant au même moment.',
-                        'Vous avez déjà un événement dont vous êtes l\'un des organisateurs se déroulant au même moment.'
-                        +' Il s\'agit de '+ event.title +'.'
-                        +' Il est décrit comme suit : '+ event.description
-                        +' Vous ne pouvez donc pas créer de nouvel événement en même temps.'
-                    );
-                } else {
-                    this.API.one('users', 'self').all('participations').get('',dates).then(
-                        (responseSuccess) => {
-                            if(responseSuccess !== undefined){
-                                var event = responseSuccess.data.events[0];
-                                this.DialogService.confirm('Vous avez déjà une participation enregistrée se déroulant au même moment.',
-                                    'Vous avez déjà une participation enregistrée se déroulant au même moment.'
-                                    +' Il s\'agit de '+ event.title +'.'
-                                    +' Il est décrit comme suit : '+ event.description
-                                    +' Voulez-vous retirer votre participation déjà existante pour pouvoir tout de même créer celle-ci ?'
-                                ).then(()=>{
-                                    this.EventService.deleteParticipant({id: event.id}).then(
-                                        (response) => {
-                                            this.ToastService.show('La participation a bien été supprimée.');
-                                            this.createEvent(debut, fin);
-                                        }
-                                    );
-                                });
-                            } else {
-                                this.createEvent(debut, fin);
-                            }
-                        }
-                    );
-                }
+            var dates = {
+                begin : debut,
+                end : fin
             }
-        );
-    }
 
+            this.EventService.findByOrganizer(dates).then(
+                (responseSuccess) => {
+                    if(responseSuccess !== undefined){
+                        var event = responseSuccess.data.events[0];
+                        this.DialogService.alert('Vous avez déjà un événement dont vous êtes l\'un des organisateurs se déroulant au même moment.',
+                            'Vous avez déjà un événement dont vous êtes l\'un des organisateurs se déroulant au même moment.'
+                            +' Il s\'agit de '+ event.title +'.'
+                            +' Il est décrit comme suit : '+ event.description
+                            +' Vous ne pouvez donc pas créer de nouvel événement en même temps.'
+                        );
+                    } else {
+                        this.EventService.findByParticipant(dates).then(
+                            (responseSuccess) => {
+                                if(responseSuccess !== undefined){
+                                    var event = responseSuccess.data.events[0];
+                                    this.DialogService.confirm('Vous avez déjà une participation enregistrée se déroulant au même moment.',
+                                        'Vous avez déjà une participation enregistrée se déroulant au même moment.'
+                                        +' Il s\'agit de '+ event.title +'.'
+                                        +' Il est décrit comme suit : '+ event.description
+                                        +' Voulez-vous retirer votre participation déjà existante pour pouvoir tout de même créer celle-ci ?'
+                                    ).then(()=>{
+                                        this.EventService.deleteParticipant({id: event.id}).then(
+                                            (response) => {
+                                                this.ToastService.show('La participation a bien été supprimée.');
+                                                this.createEvent(debut, fin);
+                                            }
+                                        );
+                                    });
+                                } else {
+                                    this.createEvent(debut, fin);
+                                }
+                            }
+                        );
+                    }
+                }
+            );
+        }
+    }
 
     createEvent(debut, fin) {
         var data = {

@@ -1,7 +1,6 @@
 import {DateComponent} from './app/components/date/date.component';
 import {EventContentComponent} from './app/components/eventContent/eventContent.component';
 import {UpdateUserComponent} from './app/components/update_user/update_user.component';
-import {EventsComponent} from './app/components/events/events.component';
 import {HeaderComponent} from './app/components/header/header.component';
 import {UsersComponent} from './app/components/users/users.component';
 import {EventFormComponent} from './app/components/eventForm/eventForm.component';
@@ -17,7 +16,6 @@ angular.module('app.components')
 	.component('date', DateComponent)
 	.component('eventContent', EventContentComponent)
 	.component('updateUser', UpdateUserComponent)
-	.component('events', EventsComponent)
 	.component('header', HeaderComponent)
 	.component('users', UsersComponent)
 	.component('eventForm', EventFormComponent)

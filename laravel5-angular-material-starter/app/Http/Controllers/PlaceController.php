@@ -11,7 +11,7 @@ use App\Http\Requests;
  */
 class PlaceController extends Controller
 {
-    const API_KEY_PLACES = "AIzaSyAFosuj-n-qIEM_BRqt2JX-YIhfno9138k";
+    const API_KEY_PLACES = "AIzaSyDslABjfZ39bDOU_f_BWjRdIbF7E8N5cOE";
     const API_KEY_DIRECTIONS = "AIzaSyCiruAPLeDG--hZLh10v5OjrBrwbz8VPoY";
     
     /**
