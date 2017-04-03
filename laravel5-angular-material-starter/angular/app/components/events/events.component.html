@@ -10,10 +10,13 @@
                     <md-toolbar class="md-theme-indigo">
                         <h1 class="md-toolbar-tools">Quelques événements</h1>
                     </md-toolbar>
-                    <md-content layout-align="center start">
-                        <md-card class="eventCard" ng-repeat="event in vm.events">
+                    <md-content layout-align="center start" class="eventContainer">
+                        <md-card class="eventCard" ng-repeat="event in vm.events | orderBy: 'dateDebut.getTime()' ">
                             <md-card-content layout-align="center start">
-                                <h3 class="md-title">{{event.title}}</h3>
+                                <md-card-header class="headerEvent" layout="row" layout-align="start start">
+                                    <date date="{{event.dateDString}}" class="dateIcon" layout-align="start start"></date>
+                                    <h3 class="md-title eventTitle" layout-align="start start">{{event.title}}</h3>
+                                </md-card-header>
                                 <div ng-if="event.sameDay">
                                     <p class="date">Le {{event.dateDebut.toLocaleDateString()}} </br>
                                     De {{event.dateDebut.toLocaleTimeString()}} à {{event.dateFin.toLocaleTimeString()}}</p>

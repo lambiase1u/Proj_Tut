@@ -34,13 +34,17 @@ class EventsController{
             this.extractDate(event);
           });
       });
+
+      var d1 = new Date();
+      var d2 = new Date(d1.getTime() + 50*60*1000);
     }
 
     extractDate(event){
+      event.dateDString = event.dateDebut;
+      event.dateFString = event.dateFin;
       event.dateDebut = this.formatDate(event.dateDebut);
       event.dateFin = this.formatDate(event.dateFin);
       event.sameDay = (event.dateDebut.getDate() === event.dateFin.getDate());
-      console.log(event.sameDay);
     }
 
     formatDate(dateString){
