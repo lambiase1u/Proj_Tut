@@ -46,7 +46,7 @@
                         </div>
                     </md-toolbar>
                     <md-list-item class="md-3-line" ng-repeat="invitation in vm.invitations" ng-click="vm.redirectToCalendar()"
-                                  ng-if="vm.invitations.length > 0">    
+                                  ng-if="vm.invitations.length > 0">
 
                         <div class="md-list-item-text" layout="column">
                             <h3>{{ invitation.title }}</h3>
@@ -69,7 +69,7 @@
     </div>
     <div flex layout="column" class="boxWithHeight" layout-padding>
         <h3 class="md-display-1  user_section_title">
-            Derniers événements auxquels a participé {{vm.user.name}} {{vm.user.firstName}}
+            Derniers événements auxquels a participé {{vm.user.firstName}} {{vm.user.name}}
         </h3>
         <md-divider></md-divider>
 
@@ -81,7 +81,7 @@
 
 
                 <div ng-if="vm.loadedLastParticipation && vm.lastParticipation.length === 0"  layout-align='center center'>
-                    {{vm.user.name}} {{vm.user.firstName}} n'as participé a aucun événement pour le moment
+                     {{vm.user.firstName}} {{vm.user.name}} n'as participé a aucun événement pour le moment
                 </div>
 
                 <div ng-if="vm.loadedLastParticipation && vm.lastParticipation" >
