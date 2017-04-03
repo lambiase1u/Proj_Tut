@@ -31,6 +31,6 @@
   },
   "resolutions": {
     "slick-carousel": "^1.6.0",
-    "angular-material": "~0.11"
+    "angular-material": "~1.1"
   }
 }
