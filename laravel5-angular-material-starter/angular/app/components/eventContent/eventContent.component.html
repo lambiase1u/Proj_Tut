@@ -238,7 +238,9 @@
                 </md-list>
                 <p id="organizerButtons" ng-if="vm.isOrganizer()">
                     <md-divider ></md-divider>
-                    <md-button class="md-raised md-primary" md-colors="{background: 'blue'}">Ajouter des Organisateurs</md-button>
+                    <md-contact-chips ng-model="vm.organizersToAdd" md-contacts="vm.getFilteredUserList($query)" md-contact-name="name"  md-contact-email="email" md-require-match="true" placeholder="Organisateurs à ajouter...">
+                    </md-contact-chips>
+                    <md-button ng-click="vm.addOrganizers()" class="md-raised md-primary" md-colors="{background: 'blue'}">Ajouter des Organisateurs</md-button>
                 </p>
             </md-card-content>
         </md-card>

@@ -32,6 +32,9 @@ class EventContentController{
         this.visibleDirections = false;
         this.userParticipation = false;
         
+        this.organizersToAdd = [];
+        this.guestsToAdd = [];
+        
         this.alreadyExistingEventDialog = function() {
           this.DialogService.fromTemplate('alreadyExistingEventDialog');
         };
@@ -201,6 +204,30 @@ class EventContentController{
     }
     
     /**
+     * Methode permettant de recuperer une liste filtree d'utilisateurs
+     */
+    getFilteredUserList(selector) {
+        return this.UserService.findAll().then(
+            (success) => {
+                let users = [];
+                
+                success.forEach((user) => {
+                    let combinedName = user.firstName + ' ' + user.name;
+                    
+                    if(combinedName.includes(selector))
+                        users.push({id: user.id, name: user.firstName + " " + user.name, email: user.email });
+                });
+
+                return users;
+            },
+            (error) => {
+                //En cas d'erreur
+                return ['Impossible de charger les utilisateurs...'];
+            }
+        );
+    }
+    
+    /**
      * Methode permettant de recuperer la meteo
      */
     getWeather(data) {
@@ -274,6 +301,41 @@ class EventContentController{
             
             return avisMeteo;
         } else return "Les données météorologiques sont indisponibles pour le moment.";
+    }
+    
+    /**
+     * Methode permettant d'ajouter des organisateurs
+     */
+    addOrganizers() {
+        let organizersToAddLength = this.organizersToAdd.length;
+        let increment = 0;
+        
+        this.organizersToAdd.forEach((organizer) => {
+            var data = {
+                id: this.event.id,
+                idUser: organizer.id
+            }
+            
+            this.EventService.addOrganizer(data).then(
+                (success) => {
+                    increment++;
+                    
+                    if(increment === organizersToAddLength) {
+                        this.organizersToAdd = [];
+                        this.getOrganizers({ id: this.event.id });
+                    }        
+                }, 
+                (error) => {
+                    increment++;
+                    
+                    if(increment === organizersToAddLength) {
+                        this.organizersToAdd = [];
+                        this.getOrganizers({ id: this.event.id });
+                    }
+                    this.ToastService.error('Certains utilisateurs étaient déjà des organisateurs.');
+                }
+            ); 
+        });
     }
     
     /**
@@ -449,7 +511,7 @@ class EventContentController{
         
         return userIsOrganizer;
     }
-    
+        
     /**
      * Lorsque quelque chose change
      */
