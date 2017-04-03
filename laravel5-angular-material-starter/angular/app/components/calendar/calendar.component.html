@@ -1,0 +1,19 @@
+<div flex="100" style="width: 100%;min-height: 100%;height: 800px">
+
+    <calendar-md layout-fill layout-row flex
+                 calendar-direction="vertical"
+                 on-prev-month="vm.prevMonth"
+                 on-next-month="vm.nextMonth"
+                 data-start-month=""
+                 data-start-year=""
+                 on-day-click="dayClick"
+                 title-format="'MMMM y'"
+                 ng-model='selectedDate'
+                 day-format="'d'"
+                 day-label-format="'EEEE'"
+                 day-label-tooltip-format="'EEEE'"
+                 day-tooltip-format="'fullDate'"
+                 week-starts-on="firstDayOfWeek"
+                 day-content=""
+                 tooltips="true"></calendar-md>
+</div>

@@ -1,3 +1,4 @@
+import {CalendarComponent} from './app/components/calendar/calendar.component';
 import {EventsComponent} from './app/components/events/events.component';
 import {PresentationHomeComponent} from './app/components/presentation-home/presentation-home.component';
 import {BannerHomeComponent} from './app/components/banner-home/banner-home.component';
@@ -13,6 +14,7 @@ import {RegisterFormComponent} from './app/components/register-form/register-for
 
 
 angular.module('app.components')
+	.component('calendar', CalendarComponent)
 	.component('events', EventsComponent)
 	.component('presentationHome', PresentationHomeComponent)
 	.component('bannerHome', BannerHomeComponent)
