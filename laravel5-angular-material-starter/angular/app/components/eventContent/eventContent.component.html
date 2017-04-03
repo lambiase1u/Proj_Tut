@@ -269,7 +269,9 @@
                 </md-list>
                 <p id="organizerButtons" ng-if="vm.$auth.isAuthenticated()">
                     <md-divider ></md-divider>
-                    <md-button class="md-raised md-primary" md-colors="{background: 'blue'}">Inviter des Amis</md-button>
+                    <md-contact-chips ng-model="vm.guestsToAdd" md-contacts="vm.getFilteredUserList($query)" md-contact-name="name"  md-contact-email="email" md-require-match="true" placeholder="Invitations à envoyer...">
+                    </md-contact-chips>
+                    <md-button ng-click="vm.addInvitations()" class="md-raised md-primary" md-colors="{background: 'blue'}">Inviter des Amis</md-button>
                 </p>
             </md-card-content>
         </md-card>
