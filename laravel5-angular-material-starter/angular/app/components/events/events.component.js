@@ -40,6 +40,7 @@ class EventsController{
               this.positions.push({lat: event.lat, lng: event.lng});
               this.extractDate(event);
               event.category = this.categories.get(event.idCategorie);
+              event.animation = 'Animation.NONE';
             });
         });
       });
@@ -71,11 +72,16 @@ class EventsController{
     }
 
     centerMapOnEvent(event){
+      this.events.forEach((e)=>{ //Suppression des animations des autres points
+        e.animation = 'Animation.NONE';
+      })
+
       this.location = {
         lat : event.lat,
         lng : event.lng
       }
       this.zoom = 16;
+      event.animation = 'Animation.BOUNCE';
     }
 }
 

@@ -187,7 +187,8 @@ class EventController extends Controller
         $event->lng = $request->input('lng');
 
         if($createOrganizer){
-          $event->organizers()->attach(Auth::user()->id);
+            $event->organizers()->attach(Auth::user()->id);
+            $event->participants()->attach(Auth::user()->id);
         }
          $event->placeId = $request->input('placeId');
 
