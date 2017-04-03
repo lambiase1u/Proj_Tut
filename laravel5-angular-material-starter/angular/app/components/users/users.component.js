@@ -12,20 +12,18 @@ class UsersController {
 
         //user info
         this.user = null;
-        this.displayInvitation = false;
+        this.me = false;
 
         //participation carousel
         this.lastParticipation = null;
         this.loadedLastParticipation = false;
         this.nb_carousel_last_participation = 3;
         this.nb_event_carousel_last_participation = 9;
-        this.position = [];
         this.invitations = [];
 
         //orgarnisé  carousel
         this.my_event = [];
         this.loadedMyEevent = false;
-        this.positions = [];
 
         //carousel config
         this.slickConfig = {
@@ -43,7 +41,25 @@ class UsersController {
                 },
                 afterChange: function (event, slick, currentSlide, nextSlide) {
                 }
-            }
+            },
+            responsive: [
+                {
+                    breakpoint: 1426,
+                    settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 2,
+                        infinite: true,
+                        dots: true
+                    }
+                },
+                {
+                    breakpoint: 1142,
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1
+                    }
+                },
+            ]
         };
 
     }
@@ -54,12 +70,12 @@ class UsersController {
     findOneUser() {
         let id = this.$state.params.id;
         let userId = {"id": id};
-        this.UserService.findOne(userId).then((response)=>{
+        this.UserService.findOne(userId).then((response) => {
             this.user = response;
             this.participation();
             //this.invitation();
             this.my_Event();
-        }, (error)=>{
+        }, (error) => {
             console.log(error);
             return this.$state.go('app.landing');
         });
@@ -78,17 +94,18 @@ class UsersController {
      * permet de recuperer l'utilisateur actuellement connecté
      */
     findMe() {
-        this.UserService.findMe().then((response)=>{
-            this.displayInvitation= true;
+        this.UserService.findMe().then((response) => {
+            this.me = true;
             this.user = response.data.user;
             this.participation();
-            this.invitation();
             this.my_Event();
+            this.invitation();
         });
     }
 
     invitation() {
-        this.API.all('users/' + this.user.id + '/invitation').get('').then((response) => {
+        let data = {"id": this.user.id};
+        this.UserService.getInvitations(data).then((response) => {
             this.invitations = response;
         });
     }
@@ -116,13 +133,12 @@ class UsersController {
                 let placeId = {"id": res.placeId};
                 ctrl.EventService.getPlace(placeId).then((placeResult) => {
                     res.location = placeResult.result.geometry.location;
-                    ctrl.positions.push({
-                            pos: [
-                                Number(res.location.lat),
-                                Number(res.location.lng)
-                            ]
-                        }
-                    );
+                    res.positions = {
+                        pos: [
+                            Number(res.location.lat),
+                            Number(res.location.lng)
+                        ]
+                    }
                 });
 
             });
@@ -150,13 +166,12 @@ class UsersController {
                 let placeId = {"id": res.placeId};
                 ctrl.EventService.getPlace(placeId).then((placeResult) => {
                     res.location = placeResult.result.geometry.location;
-                    ctrl.positions.push({
-                            pos: [
-                                Number(res.location.lat),
-                                Number(res.location.lng)
-                            ]
-                        }
-                    );
+                    ctrl.positions = {
+                        pos: [
+                            Number(res.location.lat),
+                            Number(res.location.lng)
+                        ]
+                    };
                 });
 
             });
@@ -178,21 +193,13 @@ class UsersController {
         // ;
     }
 
-
-    getEvent(data) {
-        this.EventService.findOne(data).then(function (result) {
-                return result.data.event;
-            },
-            (responseError) => {
-                console.log(responseError);
-
-            });
-    }
-
-    /**
-     * Methode de base , permettant de variables les bonnes variables pour la vue, celle ci fait le meme traitement
-     * pour afficher les bonnes DIV HTML
+    /*
+     * Methode de redirection vers la page d'un événement
+     * @param id : idUser
      */
+    event_details(id) {
+        return this.$state.go('app.event_details', {"id": id});
+    }
 
     $onInit() {
 
