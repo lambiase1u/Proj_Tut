@@ -117,13 +117,12 @@ class UsersController {
                 let placeId = {"id": res.placeId};
                 ctrl.EventService.getPlace(placeId).then((placeResult) => {
                     res.location = placeResult.result.geometry.location;
-                    ctrl.positions.push({
-                            pos: [
-                                Number(res.location.lat),
-                                Number(res.location.lng)
-                            ]
-                        }
-                    );
+                    res.positions = {
+                        pos: [
+                            Number(res.location.lat),
+                            Number(res.location.lng)
+                        ]
+                    }
                 });
 
             });
@@ -151,13 +150,12 @@ class UsersController {
                 let placeId = {"id": res.placeId};
                 ctrl.EventService.getPlace(placeId).then((placeResult) => {
                     res.location = placeResult.result.geometry.location;
-                    ctrl.positions.push({
-                            pos: [
-                                Number(res.location.lat),
-                                Number(res.location.lng)
-                            ]
-                        }
-                    );
+                    ctrl.positions = {
+                        pos: [
+                            Number(res.location.lat),
+                            Number(res.location.lng)
+                        ]
+                    };
                 });
 
             });

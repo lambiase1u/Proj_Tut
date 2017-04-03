@@ -99,10 +99,9 @@
                                 </md-card-header>
 
                                 <div class="md-card-image"
-                                     map-lazy-load="https://maps.google.com/maps/api/js?key=AIzaSyAFosuj-n-qIEM_BRqt2JX-YIhfno9138k">
+                                     map-lazy-load="https://maps.google.com/maps/api/js?key=AIzaSyDOoKSyoh_Lwe1r18KOVWhjbAHzsidDM00">
                                     <ng-map zoom="11" center="[{{event.location.lat}}, {{event.location.lng}}]">
-                                        <marker ng-repeat="p in vm.positions"
-                                                position="{{p.pos}}" title="pos: {{p.pos}}"></marker>
+                                        <marker position="{{event.positions}}" title="pos: {{p.pos}}"></marker>
                                     </ng-map>
                                 </div>
                                 <md-card-title>
@@ -168,10 +167,7 @@
                                 <div class="md-card-image"
                                      map-lazy-load="https://maps.google.com/maps/api/js?key=AIzaSyAFosuj-n-qIEM_BRqt2JX-YIhfno9138k">
                                     <ng-map zoom="11"  center="[{{event.location.lat}}, {{event.location.lng}}]">
-                                        <marker ng-repeat="p in vm.positions"
-                                                position="{{p.pos}}" title="pos: {{p.pos}}"></marker>
-                                        </marker>
-
+                                        <marker position="{{event.positions}}" title="pos: {{p.pos}}"></marker>
                                     </ng-map>
                                 </div>
                                 <md-card-title>
