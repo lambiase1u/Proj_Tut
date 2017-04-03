@@ -118,21 +118,21 @@
                 <md-divider></md-divider>
                 <h2>Informations sur le lieu</h2>
                 <md-list class="md-dense" flex>
-                    <md-list-item class="md-2-line">
+                    <md-list-item class="md-2-line" ng-if="vm.place.formatted_address !== undefined">
                       <img ng-src="img/icons/addressIcon.png" class="md-avatar" alt="Adresse" />
                       <div class="md-list-item-text">
                         <h3> {{vm.place.formatted_address}} </h3>
                         <p> Adresse complète </p>
                       </div>
                     </md-list-item>
-                    <md-list-item class="md-2-line">
+                    <md-list-item class="md-2-line" ng-if="vm.place.formatted_phone_number !== undefined">
                       <img ng-src="img/icons/phoneIcon.png" class="md-avatar" alt="Téléphone" />
                       <div class="md-list-item-text">
                         <h3> {{vm.place.formatted_phone_number}} </h3>
                         <p> Téléphone du lieu </p>
                       </div>
                     </md-list-item>
-                    <md-list-item class="md-2-line">
+                    <md-list-item class="md-2-line" ng-if="vm.place.website !== undefined">
                       <img ng-src="img/icons/websiteIcon.png" class="md-avatar" alt="Site web" />
                       <div class="md-list-item-text">
                         <h3> <a href="{{vm.place.website}}">{{vm.place.website}}</a> </h3>
@@ -146,7 +146,7 @@
                         <p> Type de Lieu </p>
                       </div>
                     </md-list-item>
-                    <md-list-item class="md-2-line">
+                    <md-list-item class="md-2-line" ng-if="vm.place.opening_hours !== undefined">
                         <img ng-show="vm.place.opening_hours.open_now === false" ng-src="img/icons/closedIcon.png" class="md-avatar" alt="Fermé" />
                         <img ng-show="vm.place.opening_hours.open_now === true" ng-src="img/icons/openIcon.png" class="md-avatar" alt="Ouvert" />
                         <div class="md-list-item-text">
