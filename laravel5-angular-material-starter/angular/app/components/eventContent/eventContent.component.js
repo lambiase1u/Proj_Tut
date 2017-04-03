@@ -30,6 +30,7 @@ class EventContentController{
         this.weather = null;
         
         this.visibleDirections = false;
+        this.visibleInvitations = false;
         this.userParticipation = false;
         
         this.organizersToAdd = [];
@@ -336,6 +337,43 @@ class EventContentController{
                 }
             ); 
         });
+    }
+    
+    /**
+     * Methode permettant d'ajouter des invites
+     */
+    addInvitations() {
+        let guestsToAddLength = this.guestsToAdd.length;
+        let increment = 0;
+        
+        this.guestsToAdd.forEach((guest) => {
+            var data = {
+                id: this.event.id,
+                idUser: guest.id
+            }
+            
+            this.EventService.addInvitation(data).then(
+                (success) => {
+                    increment++;
+                    
+                    if(increment === guestsToAddLength) {
+                        this.guestsToAdd = [];
+                        this.getGuests({ id: this.event.id });
+                        this.visibleInvitations = false;
+                    }        
+                }, 
+                (error) => {
+                    increment++;
+                    
+                    if(increment === guestsToAddLength) {
+                        this.guestsToAdd = [];
+                        this.getGuests({ id: this.event.id });
+                        this.visibleInvitations = false;
+                    }
+                    this.ToastService.error('Certains utilisateurs étaient déjà invités.');
+                }
+            ); 
+        }); 
     }
     
     /**

@@ -24,7 +24,7 @@
                 <md-button ng-if="vm.enoughTime() == true && !vm.userParticipation" ng-click="vm.addParticipation()" class="md-raised md-primary" md-colors="{background: 'green'}">Participer</md-button>
                 <md-button ng-if="vm.enoughTime() == false && !vm.userParticipation" ng-click="vm.addParticipation()" class="md-raised md-primary" md-colors="{background: 'deep-orange'}">Participer (vous serez en retard)</md-button>
                 <md-button ng-if="vm.userParticipation" ng-click="vm.deleteParticipation()" class="md-raised md-primary" md-colors="{background: 'red'}">Ne plus Participer</md-button>
-                <md-button class="md-raised md-primary" md-colors="{background: 'blue'}">Inviter des Amis</md-button>
+                <md-button class="md-raised md-primary" md-colors="{background: 'blue'}" ng-click="vm.visibleInvitations = !vm.visibleInvitations">Inviter des Amis</md-button>
                 <md-button class="md-raised md-primary" md-colors="{background: 'purple'}" ng-click="vm.visibleDirections = !vm.visibleDirections"><span ng-if="!vm.visibleDirections">Comment m'y rendre ?</span><span ng-if="vm.visibleDirections">Masquer l'itinéraire</span></md-button>
             </md-card-actions>
             <md-card-actions layout="row" layout-align="start center" ng-if="!vm.$auth.isAuthenticated()">
@@ -32,6 +32,12 @@
                 <md-button ng-click="vm.$state.go('app.register')" class="md-raised md-primary" md-colors="{background: 'deep-orange'}">Créer un compte pour Participer</md-button>
             </md-card-actions>
             <md-card-content>
+                <div ng-show="vm.visibleInvitations">
+                    <h2>Inviter des Amis</h2>
+                    <md-contact-chips ng-model="vm.guestsToAdd" md-contacts="vm.getFilteredUserList($query)" md-contact-name="name"  md-contact-email="email" md-require-match="true" placeholder="Invitations à envoyer...">
+                    </md-contact-chips>
+                    <md-button ng-click="vm.addInvitations()" class="md-raised md-primary" md-colors="{background: 'blue'}">Envoyer les Invitations</md-button>
+                </div>
                 <div ng-show="vm.visibleDirections">
                     <h2>Itinéraire</h2>
                     <md-list class="md-dense" flex>
