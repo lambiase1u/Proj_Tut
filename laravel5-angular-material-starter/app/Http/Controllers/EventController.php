@@ -39,8 +39,7 @@ class EventController extends Controller
         $events = Event::all();
 
         if($events->count() == 0)
-            return response("Aucun contenu", 204)
-                ->header('Content-Type', 'application/json');
+            return response()->noContent();
         else {
             $listEvents = array();
             $user = User::findAuthorOfRequest();
@@ -48,6 +47,9 @@ class EventController extends Controller
                 if($event->isAccessible($user))
                     array_push($listEvents, $event);
             }
+            if(empty($listEvents))
+                return response()->noContent();
+
             return response()->success(compact('listEvents'));
         }
     }
@@ -159,6 +161,9 @@ class EventController extends Controller
         $event->dateDebut = $request->input('dateDebut');
         $event->dateFin = $request->input('dateFin');
         $event->idCategorie = $request->input('idCategorie');
+        $event->lat = $request->input('lat');
+        $event->lng = $request->input('lng');
+
         if($createOrganizer){
           $event->organizers()->attach(Auth::user()->id);
         }
@@ -178,11 +183,13 @@ class EventController extends Controller
             'title' => 'required | min: 3',
             'description' => 'required | min: 15',
             'public' => 'required | boolean',
-            'capacity' => 'required | integer',
+            'capacity' => 'required | integer | min:1',
             'dateDebut' => 'required|date_format:Y-m-d H:i:s|after:'.date("Y-m-d H:i:s"),
             'dateFin' => 'required|date_format:Y-m-d H:i:s|after:dateDebut',
             'idCategorie' => 'required | string',
-            'placeId' => 'required'
+            'placeId' => 'required',
+            'lat' => 'required | numeric',
+            'lng' => 'required | numeric'
         ]);
     }
 

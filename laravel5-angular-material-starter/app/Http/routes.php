@@ -40,11 +40,11 @@ $api->group(['middleware' => ['api']], function ($api) {
 
     //Comments routes
     $api->get('events/{id}/comments', 'CommentsController@findAllByEvent');
-
     $api->get('comments/{idComment}', 'CommentsController@findCommentById');
 
     //Organizers routes
     $api->get('events/{id}/organizers', 'OrganizerController@findAll');
+    $api->get('users/{id}/organizations', 'OrganizerController@findByUser')->where('id', '(\w{8}(-\w{4}){3}-\w{12}?)|self');
 
     //Invitations routes
     $api->get('events/{id}/invitations', 'InvitationController@findAllByEvent');
@@ -52,9 +52,19 @@ $api->group(['middleware' => ['api']], function ($api) {
     //Participants routes
     $api->get('events/{id}/participants', 'ParticipationController@findAll');
 
+    //Participations routes
+    $api->get('users/{id}/participations', 'ParticipationController@findByUser')->where('id', '(\w{8}(-\w{4}){3}-\w{12}?)|self');
+
+    // recuperer les participants d'un événements
+    $api->get('events/{id}/participants', 'ParticipationController@findAll')->where('id', '(\w{8}(-\w{4}){3}-\w{12}?)');
+
     //Users routes
     $api->get('users/', 'UserController@findAll');
     $api->get('users/{id}', 'UserController@findById')->where('id', '(\w{8}(-\w{4}){3}-\w{12}?)');
+    $api->get('users/{id}/participate', 'UserController@participe')->where('id', '(\w{8}(-\w{4}){3}-\w{12}?)');
+    $api->get('users/{id}/invitation', 'UserController@invitations')->where('id', '(\w{8}(-\w{4}){3}-\w{12}?)');
+    $api->get('users/{id}/events', 'UserController@findAll_event')->where('id', '(\w{8}(-\w{4}){3}-\w{12}?)');
+    $api->get('users/{id}/calendar', 'UserController@getICalendar');
 
     //Categories routes
     $api->get('categories/', 'CategoryController@findAll');
@@ -65,8 +75,7 @@ $api->group(['middleware' => ['api']], function ($api) {
     $api->get('places/{id}', 'PlaceController@findById');
     $api->get('places/{id}/directions', 'PlaceController@getDirections');
     $api->get('places/{id}/weather', 'PlaceController@getWeather');
-    
-    $api->get('users/{id}/calendar', 'UserController@getICalendar');
+    $api->get('location/', 'PlaceController@getLocation');
 });
 
 //protected API routes with JWT (must be logged in)
@@ -83,6 +92,7 @@ $api->group(['middleware' => ['api', 'api.auth']], function ($api) {
     //Participations routes
     $api->post('events/{id}/participate', 'ParticipationController@participate');
     $api->delete('events/{id}/participate', 'ParticipationController@removeParticipation');
+
 
     //Invitations routes
     $api->post('events/{id}/invitations', 'InvitationController@invitation');

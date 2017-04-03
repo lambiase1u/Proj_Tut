@@ -1,23 +1,11 @@
-class CreatePostFormController {
-    constructor(API, ToastService, $log) {
+class CreatePostFormController{
+    constructor(){
         'ngInject';
 
-        this.API = API;
-        this.ToastService = ToastService;
-        this.$log = $log;
+        //
     }
 
-    submit() {
-        var data = {
-            name: this.name,
-            topic: this.topic,
-            img: this.img
-        };
-
-        this.API.all('posts').post(data).then((response) => {
-            this.$log.log(response);
-            this.ToastService.show('Post added successfully');
-        });
+    $onInit(){
     }
 }
 
@@ -26,4 +14,4 @@ export const CreatePostFormComponent = {
     controller: CreatePostFormController,
     controllerAs: 'vm',
     bindings: {}
-};
+}
