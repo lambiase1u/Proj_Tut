@@ -53,6 +53,54 @@ class EventController extends Controller
             return response()->success(compact('listEvents'));
         }
     }
+    
+    /**
+     * Methode permettant de recuperer l'evenement enfant d'un evenement, s'il existe
+     */
+    public function findChild($id) {
+        $event = Event::find($id);
+        $user = User::findAuthorOfRequest();
+        
+        if($event != null) {
+            $childEvent = $event->childEvent;
+            
+            if($childEvent != null) {
+                $childEvent = $childEvent->first();
+                
+                if($childEvent->isAccessible($user)) {
+                    return response()->success(compact('childEvent'));
+                } else {
+                    return response()->error("L'événement est privé", 401);
+                }
+            } else 
+                return response()->noContent();
+        } else 
+            return response()->error('Aucun événement correspondant à l\'identificateur n\'a été trouvé.', 404);
+    }
+    
+    /**
+     * Methode permettant de recuperer l'evenement parent d'un evenement, s'il existe
+     */
+    public function findParent($id) {
+        $event = Event::find($id);
+        $user = User::findAuthorOfRequest();
+        
+        if($event != null) {
+            $parentEvent = $event->parentEvent;
+            
+            if($parentEvent != null) {
+                $parentEvent = $parentEvent->first();
+                
+                if($parentEvent->isAccessible($user)) {
+                    return response()->success(compact('parentEvent'));
+                } else {
+                    return response()->error("L'événement est privé", 401);
+                }
+            } else 
+                return response()->noContent();
+        } else 
+            return response()->error('Aucun événement correspondant à l\'identificateur n\'a été trouvé.', 404);
+    }
 
     /**
      * Methode permettant de recuperer un evenement grace a son id
@@ -163,6 +211,9 @@ class EventController extends Controller
         $event->idCategorie = $request->input('idCategorie');
         $event->lat = $request->input('lat');
         $event->lng = $request->input('lng');
+        
+        if($request->input('idParent') != null)
+            $event->idParent = $request->input('idParent');
 
         if($createOrganizer){
           $event->organizers()->attach(Auth::user()->id);

@@ -31,6 +31,13 @@ class Event extends Model
 	public function parentEvent() {
 		return $this->hasMany('\App\Event', 'idParent');
 	}
+    
+    /**
+     * Evenement enfant
+     */
+    public function childEvent() {
+        return $this->belongsTo('\App\Event', 'idParent');
+    }
   
     /**
      * Commentaires de l'evenement

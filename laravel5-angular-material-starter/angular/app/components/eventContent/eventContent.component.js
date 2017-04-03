@@ -28,6 +28,9 @@ class EventContentController{
         this.user = null;
         this.invitations = null;
         this.weather = null;
+        this.childEvent = null;
+        this.parentEvent = null;
+        this.userOrganizations = null;
         this.editableEvent;
         
         this.visibleDirections = false;
@@ -65,9 +68,59 @@ class EventContentController{
                 this.getPlace(dataPlace);
                 this.getDirections(dataPlace);
                 this.getWeather(dataPlace);
+                this.getChildEvent(data);
+                this.getParentEvent(data);
             },
             (responseError) => {
                 this.$state.go('app.landing');
+            }
+        );
+    }
+    
+    /**
+     * Methode permettant de recuperer tous les evenements
+     */
+    getAllEventsOrganizedByUser() {
+        if(this.isOrganizer()) {
+            this.EventService.findByOrganizer().then(
+                (success) => {
+                    this.userOrganizations = success.data.events;
+                }, 
+                (error) => {
+                    this.userOrganizations = [];
+                }
+            );    
+        }
+    }
+    
+    /**
+     * Methode permettant de recuperer l'evenement enfant associe a un evenement
+     */
+    getChildEvent(data) {
+        this.EventService.getChildEvent(data).then(
+            (success) => {
+                if(success !== undefined)
+                    this.childEvent = success.data.parentEvent;
+            },
+            (error) => {
+                console.log(error);
+            }
+        );
+    }
+    
+    /**
+     * Methode permettant de recuperer l'evenement parent associe a un evenement
+     */
+    getParentEvent(data) {
+        this.EventService.getParentEvent(data).then(
+            (success) => {
+                if(success !== undefined) {
+                    this.childEvent = success.data.parentEvent;
+                    console.log(success.data.parentEvent);
+                }
+            },
+            (error) => {
+                console.log(error);
             }
         );
     }
@@ -178,6 +231,7 @@ class EventContentController{
                 (responseSuccess) => {
                     this.user = responseSuccess.data.user;
                     this.checkUserParticipation();
+                    this.getAllEventsOrganizedByUser();
                 },
                 (responseError) => {
                     console.log(responseError);
@@ -359,6 +413,56 @@ class EventContentController{
                 this.getOrganizers(data);
             }
         );
+    }
+    
+    /**
+     * Methode permettant de chaine un evenement suivant
+     */
+    linkEvent() {
+        if(this.nextEventForm !== null) {
+            console.log(this.nextEventForm);
+            let dateDebutEventSuivant = this.splitDate(this.nextEventForm.dateDebut);
+            let dateFinEventCourant = this.splitDate(this.event.dateFin);
+            
+            let dateDebut = new Date(dateDebutEventSuivant.date);
+            dateDebut.setHours(dateDebutEventSuivant.hour, dateDebutEventSuivant.minutes);
+                        
+            let dateFin = new Date(dateFinEventCourant.date);
+            dateFin.setHours(dateFinEventCourant.hour, dateFinEventCourant.minutes);
+            
+            console.log('Debut : ' + dateDebut + '- Fin : ' + dateFin);
+            
+            if(dateFin.getTime() < dateDebut.getTime()) {
+                //on chaine l'event
+                var data = {
+                    id: this.nextEventForm.id,
+                    title: this.nextEventForm.title,
+                    description: this.nextEventForm.description,
+                    public: this.nextEventForm.public,
+                    capacity: this.nextEventForm.capacity,
+                    dateDebut: this.nextEventForm.dateDebut,
+                    dateFin: this.nextEventForm.dateFin,
+                    placeId: this.nextEventForm.placeId,
+                    idCategorie: this.nextEventForm.idCategorie,
+                    lat: this.nextEventForm.lat,
+                    lng: this.nextEventForm.lng,
+                    idParent: this.event.id
+                }
+                
+                this.EventService.update(data).then(
+                    (success) => {
+                        this.ToastService.show("L'événement a bien été chaîné.");
+                        this.getChildEvent({ id: this.event.id });
+                    },
+                    (error) => {
+                        //this.ToastService.error("Une erreur est survenue lors de la mise à jour de l'événement.");
+                    }
+                );
+                
+            } else {
+                this.DialogService.alert("L'événement choisi ne se déroule pas après l'événement courant", "L'événement que vous avez choisi pour être suivant ne se déroule pas après l'événement courant. Il n'a donc pas pu être défini comme événement suivant. Veuillez reporter votre choix vers un autre événement.");
+            }
+        }  
     }
     
     /**
@@ -593,7 +697,7 @@ class EventContentController{
                         this.editable = false;
                     },
                     (error) => {
-                        //this.ToastService.error("Une erreur est survenue lors de la mise à jour de l'événement.");
+                        this.ToastService.error("Une erreur est survenue lors de la mise à jour de l'événement.");
                     }
                 );
             }

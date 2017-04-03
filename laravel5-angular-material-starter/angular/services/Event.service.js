@@ -36,7 +36,7 @@ export class EventService {
     findByParticipant(data){
         return this.API.one('users', 'self').all('participations').get('',data)
     }
-        
+            
     /**
      * Methode permettant de creer un evenement avec les donnees necessaires
      * @param data : tableau des donnees utiles :
@@ -240,6 +240,26 @@ export class EventService {
             return this.API.one('comments', data.id).remove();
         else
             return false;
+    }
+    
+    /**
+     * Methode permettant de recuperer l'evenement enfant
+     * @param data : tableau des donnees utiles : [id: id de l'evenement]
+     */
+    getChildEvent(data) {
+        if(data.id !== undefined)
+            return this.API.one('events', data.id).all('child').get('');
+        else return false;
+    }
+    
+    /**
+     * Methode permettant de recuperer l'evenement enfant
+     * @param data : tableau des donnees utiles : [id: id de l'evenement]
+     */
+    getParentEvent(data) {
+        if(data.id !== undefined)
+            return this.API.one('events', data.id).all('parent').get('');
+        else return false;
     }
     
     /**

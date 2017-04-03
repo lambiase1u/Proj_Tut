@@ -213,6 +213,38 @@
     </div>
     <div flex>
         <!--Ligne droite-->
+        <md-card ng-if="vm.childEvent !== null || vm.parentEvent !== null || vm.isOrganizer()">
+            <md-card-title>
+              <md-card-title-text>
+                <span class="md-headline">Événement suivant</span>
+              </md-card-title-text>
+            </md-card-title>
+            <md-card-content>
+                <p ng-show="vm.childEvent === null"><em>Aucun événement suivant n'a été programmé pour l'instant.</em></p>
+                <md-list class="md-dense" ng-if="vm.childEvent !== null" flex>
+                    <md-list-item class="md-3-line">
+                        <img ng-src="img/icons/eventIcon.png" class="md-avatar" alt="Date" />
+                        <div class="md-list-item-text" layout="column">
+                            <h3><a ng-href="#!/events/{{vm.childEvent.id}}">{{ vm.childEvent.title }}</a></h3>
+                            <h4>Du {{vm.formatDateTime(vm.childEvent.dateDebut)}} au {{vm.formatDateTime(vm.childEvent.dateFin)}}</h4>
+                        </div>
+                    </md-list-item>
+                </md-list>
+                <p id="organizerButtons" ng-if="vm.isOrganizer()">
+                    <md-divider></md-divider>
+                    <md-input-container>
+                      <label>Événement</label>
+                      <md-select ng-model="vm.nextEventForm">
+                        <md-option><em>Aucun événement suivant</em></md-option>
+                        <md-option ng-repeat="event in vm.userOrganizations" ng-value="event" ng-disabled="event.id === vm.event.id">
+                          {{event.title}}
+                        </md-option>
+                      </md-select>
+                    </md-input-container>
+                    <md-button ng-click="vm.linkEvent()" class="md-raised md-primary" md-colors="{background: 'blue'}"><span ng-if="vm.childEvent === null">Chainer un événement à suivre</span><span ng-if="vm.childEvent !== null">Changer l'événement suivant</span></md-button>
+                </p>
+            </md-card-content>
+        </md-card>
         <md-card>
             <md-card-title>
               <md-card-title-text>

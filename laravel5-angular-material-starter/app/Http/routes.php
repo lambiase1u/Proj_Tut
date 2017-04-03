@@ -37,6 +37,8 @@ $api->group(['middleware' => ['api']], function ($api) {
     $api->get('events/{id}', 'EventController@findById');
     $api->get('events/', 'EventController@findAll');
     $api->get('events/{id}/place', 'EventController@findPlace');
+    $api->get('events/{id}/child', 'EventController@findChild');
+    $api->get('events/{id}/parent', 'EventController@findParent');
 
     //Comments routes
     $api->get('events/{id}/comments', 'CommentsController@findAllByEvent');
