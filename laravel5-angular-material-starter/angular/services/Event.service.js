@@ -274,5 +274,14 @@ export class EventService {
         else
             return false;
     }
+
+    /**
+     * Methode permettant de recuperer la categorie d'un evenement.
+     * @param data : tableau des donnees utiles : [id: id de l'evenement]
+     */
+     getCategory(data){
+        if(data.id !== undefined)
+            return this.API.one('events', data.id).all('category').get('');
+     }
 }
 

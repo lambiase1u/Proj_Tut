@@ -137,6 +137,28 @@ class EventController extends Controller
 
     }
 
+    /**
+     * Methode permettant de recuperer la categorie lié a l'evenement via l'id de l'event
+     * Methode : GET
+     * Route : /events/{id}/category
+     */
+    public function findCategory($id){
+        $event = Event::find($id);
+        if($event != null){
+            if($event->isAccessible()) {
+                $category = $event->category;
+                if($category==null)
+                    return response()->error("Ressource non trouvé", 404);
+                else
+                    return response()->success(compact('category'));
+            }
+            else
+                return response()->error("L'événement est privé", 401);
+        }
+        else
+            return response()->error("Evenement non trouvé", 404);
+    }
+
 
     /*******************************************************************************************************************
      *******************************************************************************************************************
