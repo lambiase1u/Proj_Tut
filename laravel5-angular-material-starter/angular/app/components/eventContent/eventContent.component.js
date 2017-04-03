@@ -124,8 +124,6 @@ class EventContentController{
                     this.comments = responseSuccess.data.comments;
                 else
                     this.comments = [];
-                
-                console.log(responseSuccess);
             },
             (responseSuccess) => {
                 //On n'a pas trouve les commentaires
@@ -533,6 +531,27 @@ class EventContentController{
         } else {
             this.ToastService.error('Vous devez être authentifié pour pouvoir commenter un événement.');
         }
+    }
+    
+    /**
+     * Methode permettant de supprimer un commentaire
+     */
+    deleteComment(id) {
+        if(this.$auth.isAuthenticated()) {
+            var data = {
+                id: id
+            }
+
+            this.EventService.deleteComment(data).then(
+                (success) => {
+                    this.ToastService.show("Le commentaire a bien été supprimé.");
+                    this.getComments({ id: this.event.id });
+                }, 
+                (error) => {
+                    console.log(error);
+                }
+            );
+        }    
     }
     
     /**
