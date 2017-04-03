@@ -19,13 +19,11 @@ class UsersController {
         this.loadedLastParticipation = false;
         this.nb_carousel_last_participation = 3;
         this.nb_event_carousel_last_participation = 9;
-        this.position = [];
         this.invitations = [];
 
         //orgarnisé  carousel
         this.my_event = [];
         this.loadedMyEevent = false;
-        this.positions = [];
 
         //carousel config
         this.slickConfig = {
@@ -43,7 +41,25 @@ class UsersController {
                 },
                 afterChange: function (event, slick, currentSlide, nextSlide) {
                 }
-            }
+            },
+            responsive: [
+                {
+                    breakpoint: 1426,
+                    settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 2,
+                        infinite: true,
+                        dots: true
+                    }
+                },
+                {
+                    breakpoint: 1142,
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1
+                    }
+                },
+            ]
         };
 
     }
