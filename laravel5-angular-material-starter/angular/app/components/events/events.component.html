@@ -35,8 +35,8 @@
                         </md-card>
                     </md-content>
                 </md-sidenav>
-                <md-content flex layout-padding>
-                    <div  map-lazy-load="https://maps.google.com/maps/api/js?key=AIzaSyAFosuj-n-qIEM_BRqt2JX-YIhfno9138k">
+                <md-content flex layout-padding class="mapContener">
+                    <div class="mapContent" map-lazy-load="https://maps.google.com/maps/api/js?key=AIzaSyAFosuj-n-qIEM_BRqt2JX-YIhfno9138k">
                         <ng-map style="height: 800px" zoom="{{vm.zoom}}" center="[{{vm.location.lat}}, {{vm.location.lng}}]" >
                             <marker ng-repeat="p in vm.positions" position="{{p.lat}}, {{p.lng}}" title="pos: {{p.pos}}" on-click="vm.details({{p}})"> </marker>
                         </ng-map>
