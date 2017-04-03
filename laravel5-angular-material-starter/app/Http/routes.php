@@ -65,7 +65,8 @@ $api->group(['middleware' => ['api']], function ($api) {
     $api->get('places/{id}', 'PlaceController@findById');
     $api->get('places/{id}/directions', 'PlaceController@getDirections');
     $api->get('places/{id}/weather', 'PlaceController@getWeather');
-
+    
+    $api->get('users/{id}/calendar', 'UserController@getICalendar');
 });
 
 //protected API routes with JWT (must be logged in)

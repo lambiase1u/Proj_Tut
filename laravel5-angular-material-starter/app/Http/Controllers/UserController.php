@@ -126,4 +126,29 @@ class UserController extends Controller
             return response()->success(compact('user'));
     }
 
+    /**
+     * Methode permettant de generer un calendrier iCalendar
+     * route : /api/users/:id/calendar
+     * methode : GET
+     */
+    public function getICalendar($id) {
+        $ical = 
+            "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//hacksw/handcal//NONSGML v1.0//FR";
+            
+        $user = User::find($id);
+        $participations = $user->eventsParticipations;
+        
+        foreach($participations as $participation) {
+            $ical .= 
+                "\nBEGIN:VEVENT\nUID:" . md5(uniqid(mt_rand(), true)) . "@openevent.com\nDTSTAMP:" . gmdate('Ymd').'T'. gmdate('His') . "Z\nDTSTART:".date('Ymd\THis', strtotime($participation->dateDebut))."\nDTEND:".date('Ymd\THis', strtotime($participation->dateFin))."\nSUMMARY:".$participation->title."\nEND:VEVENT";
+        }
+        
+        $ical .= "\nEND:VCALENDAR";
+
+        //set correct content-type-header
+        header('Content-type: text/calendar; charset=utf-8');
+        header('Content-Disposition: inline; filename=calendar.ics');
+        echo $ical;
+        exit;
+    }
 }
