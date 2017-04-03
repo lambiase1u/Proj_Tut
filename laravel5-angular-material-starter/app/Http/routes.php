@@ -65,10 +65,6 @@ $api->group(['middleware' => ['api']], function ($api) {
     $api->get('users/{id}/invitation', 'UserController@invitations')->where('id', '(\w{8}(-\w{4}){3}-\w{12}?)');
     $api->get('users/{id}/events', 'UserController@findAll_event')->where('id', '(\w{8}(-\w{4}){3}-\w{12}?)');
 
-    //Places Routes
-    $api->get('places/{id}/directions', 'PlaceController@getDirections');
-    $api->get('places/{id}', 'PlaceController@findById');
-
     //Categories routes
     $api->get('categories/', 'CategoryController@findAll');
     $api->get('categories/{id}', 'CategoryController@findById');
@@ -77,6 +73,7 @@ $api->group(['middleware' => ['api']], function ($api) {
     //GooglePlaces routes
     $api->get('places/{id}', 'PlaceController@findById');
     $api->get('places/{id}/directions', 'PlaceController@getDirections');
+    $api->get('location/', 'PlaceController@getLocation');
 
 });
 
