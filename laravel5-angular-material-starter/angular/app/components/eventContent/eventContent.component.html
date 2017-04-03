@@ -136,7 +136,7 @@
                     <md-list-item class="md-2-line">
                       <img ng-src="{{vm.place.icon}}" class="md-avatar" alt="Type" />
                       <div class="md-list-item-text">
-                        <h3>{{vm.place.types[0] | capitalize}}</h3>  
+                        <h3>{{vm.place.types[0] | capitalize | humanReadable}}</h3>  
                         <p> Type de Lieu </p>
                       </div>
                     </md-list-item>
@@ -213,7 +213,8 @@
                 </md-list>
                 <p id="organizerButtons" ng-if="vm.$auth.isAuthenticated()">
                     <md-divider ></md-divider>
-                    <md-button ng-if="!vm.userParticipation" ng-click="vm.addParticipation()" class="md-raised md-primary" md-colors="{background: 'green'}">Participer</md-button>
+                    <md-button ng-if="vm.enoughTime() == true && !vm.userParticipation" ng-click="vm.addParticipation()" class="md-raised md-primary" md-colors="{background: 'green'}">Participer</md-button>
+                    <md-button ng-if="vm.enoughTime() == false && !vm.userParticipation" ng-click="vm.addParticipation()" class="md-raised md-primary" md-colors="{background: 'deep-orange'}">Participer (vous serez en retard)</md-button>
                     <md-button ng-if="vm.userParticipation" ng-click="vm.deleteParticipation()" class="md-raised md-primary" md-colors="{background: 'red'}">Ne plus Participer</md-button>
                 </p>
             </md-card-content>
