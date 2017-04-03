@@ -180,7 +180,7 @@
                     <md-list-item class="md-2-line" ng-repeat="comment in vm.comments">
                       <img ng-src="img/icons/userIcon.png" class="md-avatar" alt="Icone Utilisateur" />
                       <div class="md-list-item-text" layout="column">
-                        <h4>{{ comment.user.firstName }} {{ comment.user.name }} <md-icon ng-if="comment.user.id === vm.user.id" ng-click="vm.deleteComment(comment.id)" md-colors="{color: 'red'}">clear</md-icon></h4>
+                        <h4>{{ comment.user.firstName }} {{ comment.user.name }} <strong ng-if="vm.isDefinedUserOrganizer(comment.user.id)" md-colors="{color: 'red'}">(Organisateur)</strong><md-icon ng-if="comment.user.id === vm.user.id" ng-click="vm.deleteComment(comment.id)" md-colors="{color: 'red'}">clear</md-icon></h4>
                         <p>{{ comment.comment }}</p>
                       </div>
                     </md-list-item>

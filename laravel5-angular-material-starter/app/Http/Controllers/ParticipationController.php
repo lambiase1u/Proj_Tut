@@ -74,10 +74,10 @@ class ParticipationController extends Controller
                         $invitation = Invitation::where('idUser', '=', $user->id)->where('idActivity', '=', $event->id);
                         $invitationRow = $invitation->first();
 
-                        if ($invitationRow != null) {
+                        /*if ($invitationRow != null) {
                             $invitation->answered = true;
                             $invitation->save();
-                        }
+                        }*/
 
                         return response()->success('Votre participation a bien été prise en compte.', 201);
                     } else {

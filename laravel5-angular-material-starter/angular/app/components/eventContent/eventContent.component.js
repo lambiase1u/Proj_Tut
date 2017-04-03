@@ -575,6 +575,9 @@ class EventContentController{
         } else this.userParticipation = false;
     }
     
+    /**
+     * Methode permettant de verifier si l'utilisateur authentifie est un organisateur
+     */
     isOrganizer() {
         let userIsOrganizer = false;
         
@@ -582,6 +585,24 @@ class EventContentController{
             if(this.organizers !== null && this.user !== null) {
                 this.organizers.forEach((organizer) => {
                     if(organizer.id === this.user.id)
+                        userIsOrganizer = true;
+                })
+            }
+        }
+        
+        return userIsOrganizer;
+    }
+    
+    /** 
+     * Methode permettant de verifier si un utilisateur est organisateur
+     */
+    isDefinedUserOrganizer(id) {
+        let userIsOrganizer = false;
+        
+        if(this.$auth.isAuthenticated()) {
+            if(this.organizers !== null) {
+                this.organizers.forEach((organizer) => {
+                    if(organizer.id === id)
                         userIsOrganizer = true;
                 })
             }
