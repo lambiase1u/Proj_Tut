@@ -91,16 +91,17 @@ export class UserService {
         }
     }
 
-    /*
-     * Methode pour recuperer toutes les invitations recu d'un utilsateurs
-     * @para data : {"id" : idUser} id de l'utilisateur
-     */
+
     getInvitations(data) {
         if (data.id !== undefined) {
             return this.API.all('users/' + data.id + '/invitation').get('');
         } else {
             return false
         }
+    }
+  
+    getLocation(){
+        return this.API.one('location/').get('');
     }
 
 }

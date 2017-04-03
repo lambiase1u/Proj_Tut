@@ -263,5 +263,16 @@ export class EventService {
         else
             return false;
     }
+    
+    /**
+     * Methode permettant de recuperer la meteo d'un google poi.
+     * @param data : tableau des donnees utiles : [id: id du point d'interet google]
+     */
+    getWeather(data) {
+        if(data.id !== undefined)
+            return this.API.one('places', data.id).all('weather').get('');
+        else
+            return false;
+    }
 }
 

@@ -11,7 +11,6 @@ class EventFormController {
         this.CategoryService = CategoryService;
     }
 
-
     $onInit() {
         let currentDate = new Date();
         this.categories = [];
@@ -217,13 +216,14 @@ class EventFormController {
             dateFin: fin,
             idCategorie: this.category_picked.toString(),
             placeId: place.place_id,
-            idParent: this.idParent
+            idParent: this.idParent,
+            lat : place.geometry.location.lat(),
+            lng : place.geometry.location.lng()
         };
-
         this.EventService.create(data).then(
             (response) => {
                 this.ToastService.show('L\'événement a bien été ajouté.');
-                return this.$state.go('app.landing');
+                return this.$state.go('app.event_details', {id : response.data.event.id});
             }
             );
     }

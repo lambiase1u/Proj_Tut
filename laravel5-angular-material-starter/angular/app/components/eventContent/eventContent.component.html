@@ -15,19 +15,35 @@
             <md-card-title>
                 <date date="{{vm.event.dateDebut}}"></date>
                 <md-card-title-text>
-                    <span class="md-headline">{{vm.event.title}}</span>
+                    <span class="md-headline" ng-if="!vm.editable">{{vm.event.title}}</span>
+                    <md-input-container ng-if="vm.editable">
+                        <label>Nom de l'Événement</label>
+                        <input ng-model="vm.editableEvent.title">
+                    </md-input-container>
                     <span class="md-subhead">{{vm.category.title}}</span>
                 </md-card-title-text>
             </md-card-title>
             <md-divider></md-divider>
-            <md-card-actions layout="row" layout-align="start center">
-                <md-button ng-if="vm.enoughTime() == true && !vm.userParticipation" ng-click="vm.addParticipation()" class="md-raised md-primary" md-colors="{background: 'green'}">Participer</md-button>
-                <md-button ng-if="vm.enoughTime() == false && !vm.userParticipation" ng-click="vm.addParticipation()" class="md-raised md-primary" md-colors="{background: 'deep-orange'}">Participer (vous serez en retard)</md-button>
-                <md-button ng-if="vm.userParticipation" ng-click="vm.deleteParticipation()" class="md-raised md-primary" md-colors="{background: 'red'}">Ne plus Participer</md-button>
-                <md-button class="md-raised md-primary" md-colors="{background: 'blue'}">Inviter des Amis</md-button>
-                <md-button class="md-raised md-primary" md-colors="{background: 'purple'}" ng-click="vm.visibleDirections = !vm.visibleDirections"><span ng-if="!vm.visibleDirections">Comment m'y rendre ?</span><span ng-if="vm.visibleDirections">Masquer l'itinéraire</span></md-button>
+            <md-card-actions layout="row" layout-align="start center" ng-if="vm.$auth.isAuthenticated()">
+                <md-button ng-if="vm.enoughTime() == true && !vm.userParticipation && !vm.editable" ng-click="vm.addParticipation()" class="md-raised md-primary" md-colors="{background: 'green'}">Participer</md-button>
+                <md-button ng-if="vm.enoughTime() == false && !vm.userParticipation && !vm.editable" ng-click="vm.addParticipation()" class="md-raised md-primary" md-colors="{background: 'deep-orange'}">Participer (vous serez en retard)</md-button>
+                <md-button ng-if="vm.userParticipation && !vm.editable" ng-click="vm.deleteParticipation()" class="md-raised md-primary" md-colors="{background: 'red'}">Ne plus Participer</md-button>
+                <md-button class="md-raised md-primary" md-colors="{background: 'blue'}" ng-click="vm.visibleInvitations = !vm.visibleInvitations" ng-if="!vm.editable">Inviter des Amis</md-button>
+                <md-button class="md-raised md-primary" md-colors="{background: 'purple'}" ng-click="vm.visibleDirections = !vm.visibleDirections" ng-if="!vm.editable"><span ng-if="!vm.visibleDirections">Comment m'y rendre ?</span><span ng-if="vm.visibleDirections">Masquer l'itinéraire</span></md-button>
+                <md-button class="md-raised md-primary" md-colors="{background: 'grey'}" ng-if="vm.isOrganizer()" ng-click="vm.editable = !vm.editable"><span ng-if="!vm.editable">Éditer l'Événement</span><span ng-if="vm.editable">Annuler les modifications</span></md-button>
+                <md-button class="md-raised md-primary" md-colors="{background: 'green'}" ng-if="vm.isOrganizer() && vm.editable" ng-click="vm.updateEvent()">Valider les modifications</md-button>
+            </md-card-actions>
+            <md-card-actions layout="row" layout-align="start center" ng-if="!vm.$auth.isAuthenticated()">
+                <md-button ng-click="vm.$state.go('app.login')" class="md-raised md-primary" md-colors="{background: 'green'}">Accéder à mon compte pour Participer</md-button>
+                <md-button ng-click="vm.$state.go('app.register')" class="md-raised md-primary" md-colors="{background: 'deep-orange'}">Créer un compte pour Participer</md-button>
             </md-card-actions>
             <md-card-content>
+                <div ng-show="vm.visibleInvitations">
+                    <h2>Inviter des Amis</h2>
+                    <md-contact-chips ng-model="vm.guestsToAdd" md-contacts="vm.getFilteredUserList($query)" md-contact-name="name"  md-contact-email="email" md-require-match="true" placeholder="Invitations à envoyer...">
+                    </md-contact-chips>
+                    <md-button ng-click="vm.addInvitations()" class="md-raised md-primary" md-colors="{background: 'blue'}">Envoyer les Invitations</md-button>
+                </div>
                 <div ng-show="vm.visibleDirections">
                     <h2>Itinéraire</h2>
                     <md-list class="md-dense" flex>
@@ -65,8 +81,12 @@
                             <md-list-item class="md-2-line">
                               <img ng-src="img/icons/capacityIcon.png" class="md-avatar" alt="Capacité" />
                               <div class="md-list-item-text">
-                                <h3>{{vm.event.capacity}} <em>({{vm.event.capacity-vm.participants.length}} places encore disponibles)</em></h3>
-                                <p> Combien de personnes peuvent être accueillies ? </p>
+                                <h3 ng-if="!vm.editable">{{vm.event.capacity}} <em>({{vm.event.capacity-vm.participants.length}} places encore disponibles)</em></h3>
+                                <md-input-container ng-if="vm.editable">
+                                    <label>Capacité d'accueil</label>
+                                     <input name="capacity" type="number" ng-model="vm.editableEvent.capacity" placeholder="Capacité d'accueil" required>
+                                </md-input-container>
+                                <p ng-if="!vm.editable"> Combien de personnes peuvent être accueillies ? </p>
                               </div>
                             </md-list-item>
                             <md-list-item class="md-2-line">
@@ -95,25 +115,34 @@
                             <p> Est-il trop tard pour participer ? </p>
                         </div>
                     </md-list-item>
+                    <md-list-item class="md-2-line">
+                        <img ng-src="img/icons/weatherIcon.png" class="md-avatar" alt="Météo" />
+                        <div class="md-list-item-text">
+                            <h3>
+                                   <span ng-bind-html="vm.$sce.trustAsHtml(vm.textWeather())"></span>
+                            </h3>
+                            <p> Quelle est la météo sur les lieux ? </p>
+                        </div>
+                    </md-list-item>
                 </md-list>
                 <md-divider></md-divider>
                 <h2>Informations sur le lieu</h2>
                 <md-list class="md-dense" flex>
-                    <md-list-item class="md-2-line">
+                    <md-list-item class="md-2-line" ng-if="vm.place.formatted_address !== undefined">
                       <img ng-src="img/icons/addressIcon.png" class="md-avatar" alt="Adresse" />
                       <div class="md-list-item-text">
                         <h3> {{vm.place.formatted_address}} </h3>
                         <p> Adresse complète </p>
                       </div>
                     </md-list-item>
-                    <md-list-item class="md-2-line">
+                    <md-list-item class="md-2-line" ng-if="vm.place.formatted_phone_number !== undefined">
                       <img ng-src="img/icons/phoneIcon.png" class="md-avatar" alt="Téléphone" />
                       <div class="md-list-item-text">
                         <h3> {{vm.place.formatted_phone_number}} </h3>
                         <p> Téléphone du lieu </p>
                       </div>
                     </md-list-item>
-                    <md-list-item class="md-2-line">
+                    <md-list-item class="md-2-line" ng-if="vm.place.website !== undefined">
                       <img ng-src="img/icons/websiteIcon.png" class="md-avatar" alt="Site web" />
                       <div class="md-list-item-text">
                         <h3> <a href="{{vm.place.website}}">{{vm.place.website}}</a> </h3>
@@ -123,11 +152,11 @@
                     <md-list-item class="md-2-line">
                       <img ng-src="{{vm.place.icon}}" class="md-avatar" alt="Type" />
                       <div class="md-list-item-text">
-                        <h3>{{vm.place.types[0] | capitalize}}</h3>  
+                        <h3>{{vm.place.types[0] | capitalize | humanReadable}}</h3>  
                         <p> Type de Lieu </p>
                       </div>
                     </md-list-item>
-                    <md-list-item class="md-2-line">
+                    <md-list-item class="md-2-line" ng-if="vm.place.opening_hours !== undefined">
                         <img ng-show="vm.place.opening_hours.open_now === false" ng-src="img/icons/closedIcon.png" class="md-avatar" alt="Fermé" />
                         <img ng-show="vm.place.opening_hours.open_now === true" ng-src="img/icons/openIcon.png" class="md-avatar" alt="Ouvert" />
                         <div class="md-list-item-text">
@@ -145,9 +174,13 @@
               </md-card-title-text>
             </md-card-title>
             <md-card-content>
-                <p>
+                <p ng-if="!vm.editable">
                     {{vm.event.description}}
                 </p>
+                <md-input-container ng-if="vm.editable">
+                    <label>Description</label>
+                    <textarea ng-model="vm.editableEvent.description" rows="3" minlength="15" md-select-on-focus required></textarea>
+                </md-input-container>
             </md-card-content>
         </md-card>
         <md-card>
@@ -161,17 +194,17 @@
                     <md-list-item class="md-2-line" ng-repeat="comment in vm.comments">
                       <img ng-src="img/icons/userIcon.png" class="md-avatar" alt="Icone Utilisateur" />
                       <div class="md-list-item-text" layout="column">
-                        <h4>Quentin Claudel</h4>
+                          <h4><a ng-href="#!/users/{{comment.user.id}}">{{ comment.user.firstName }} {{ comment.user.name }}</a> <strong ng-if="vm.isDefinedUserOrganizer(comment.user.id)" md-colors="{color: 'red'}">(Organisateur)</strong><md-icon ng-if="comment.user.id === vm.user.id" ng-click="vm.deleteComment(comment.id)" md-colors="{color: 'red'}">clear</md-icon></h4>
                         <p>{{ comment.comment }}</p>
                       </div>
                     </md-list-item>
                 </md-list>
                 <md-divider></md-divider>
-                <h2>Commenter</h2>
-                <form>
+                <h2 ng-if="vm.$auth.isAuthenticated()">Commenter</h2>
+                <form ng-if="vm.$auth.isAuthenticated()">
                     <md-input-container class="md-block">
                       <label>Commentaire</label>
-                      <textarea ng-model="commentForm" rows="3" md-select-on-focus></textarea>
+                      <textarea ng-model="vm.commentForm" rows="3" md-select-on-focus></textarea>
                     </md-input-container>
                     <md-button ng-click="vm.comment()" class="md-raised md-primary">Commenter !</md-button>
                 </form>
@@ -192,15 +225,16 @@
                     <md-list-item class="md-3-line" ng-repeat="participant in vm.participants">
                       <img ng-src="img/icons/userIcon.png" class="md-avatar" alt="Icone Utilisateur" />
                       <div class="md-list-item-text" layout="column">
-                        <h3>{{ participant.firstName }} {{ participant.name }}</h3>
+                        <h3><a ng-href="#!/users/{{participant.id}}">{{ participant.firstName }} {{ participant.name }}</a></h3>
                         <h4>{{ participant.birthdate | date:'dd/MM/yyyy'}}</h4>
                         <p>{{ participant.description }}</p>
                       </div>
                     </md-list-item>
                 </md-list>
-                <md-divider ></md-divider>
-                <p id="organizerButtons">
-                    <md-button ng-if="!vm.userParticipation" ng-click="vm.addParticipation()" class="md-raised md-primary" md-colors="{background: 'green'}">Participer</md-button>
+                <p id="organizerButtons" ng-if="vm.$auth.isAuthenticated()">
+                    <md-divider ></md-divider>
+                    <md-button ng-if="vm.enoughTime() == true && !vm.userParticipation" ng-click="vm.addParticipation()" class="md-raised md-primary" md-colors="{background: 'green'}">Participer</md-button>
+                    <md-button ng-if="vm.enoughTime() == false && !vm.userParticipation" ng-click="vm.addParticipation()" class="md-raised md-primary" md-colors="{background: 'deep-orange'}">Participer (vous serez en retard)</md-button>
                     <md-button ng-if="vm.userParticipation" ng-click="vm.deleteParticipation()" class="md-raised md-primary" md-colors="{background: 'red'}">Ne plus Participer</md-button>
                 </p>
             </md-card-content>
@@ -216,15 +250,17 @@
                     <md-list-item class="md-3-line" ng-repeat="organizer in vm.organizers">
                       <img ng-src="img/icons/userIcon.png" class="md-avatar" alt="Icone Utilisateur" />
                       <div class="md-list-item-text" layout="column">
-                        <h3>{{ organizer.firstName }} {{ organizer.name }}</h3>
+                          <h3><a ng-href="#!/users/{{organizer.id}}">{{ organizer.firstName }} {{ organizer.name }}</a> <md-icon ng-if="vm.isOrganizer() && vm.organizers.length > 1" ng-click="vm.deleteOrganizer(organizer.id)" md-colors="{color: 'red'}">clear</md-icon></h3>
                         <h4>{{ organizer.birthdate | date:'dd/MM/yyyy'}}</h4>
                         <p>{{ organizer.description }}</p>
                       </div>
                     </md-list-item>
                 </md-list>
-                <md-divider ></md-divider>
-                <p id="organizerButtons">
-                    <md-button class="md-raised md-primary" md-colors="{background: 'blue'}">Ajouter des Organisateurs</md-button>
+                <p id="organizerButtons" ng-if="vm.isOrganizer()">
+                    <md-divider ></md-divider>
+                    <md-contact-chips ng-model="vm.organizersToAdd" md-contacts="vm.getFilteredUserList($query)" md-contact-name="name"  md-contact-email="email" md-require-match="true" placeholder="Organisateurs à ajouter...">
+                    </md-contact-chips>
+                    <md-button ng-click="vm.addOrganizers()" class="md-raised md-primary" md-colors="{background: 'blue'}"><md-icon>add</md-icon> Ajouter des Organisateurs</md-button>
                 </p>
             </md-card-content>
         </md-card>
@@ -239,15 +275,17 @@
                     <md-list-item class="md-3-line" ng-repeat="invite in vm.invitations">
                       <img ng-src="img/icons/userIcon.png" class="md-avatar" alt="Icone Utilisateur" />
                       <div class="md-list-item-text" layout="column">
-                        <h3>{{ invite.firstName }} {{ invite.name }}</h3>
+                          <h3><a ng-href="#!/users/{{invite.id}}">{{ invite.firstName }} {{ invite.name }}</a></h3>
                         <h4>{{ invite.birthdate | date:'dd/MM/yyyy'}}</h4>
                         <p>{{ invite.description }}</p>
                       </div>
                     </md-list-item>
                 </md-list>
-                <md-divider ></md-divider>
-                <p id="organizerButtons">
-                    <md-button class="md-raised md-primary" md-colors="{background: 'blue'}">Inviter des Amis</md-button>
+                <p id="organizerButtons" ng-if="vm.$auth.isAuthenticated()">
+                    <md-divider ></md-divider>
+                    <md-contact-chips ng-model="vm.guestsToAdd" md-contacts="vm.getFilteredUserList($query)" md-contact-name="name"  md-contact-email="email" md-require-match="true" placeholder="Invitations à envoyer...">
+                    </md-contact-chips>
+                    <md-button ng-click="vm.addInvitations()" class="md-raised md-primary" md-colors="{background: 'blue'}">Inviter des Amis</md-button>
                 </p>
             </md-card-content>
         </md-card>

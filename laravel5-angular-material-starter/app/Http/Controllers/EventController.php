@@ -161,6 +161,9 @@ class EventController extends Controller
         $event->dateDebut = $request->input('dateDebut');
         $event->dateFin = $request->input('dateFin');
         $event->idCategorie = $request->input('idCategorie');
+        $event->lat = $request->input('lat');
+        $event->lng = $request->input('lng');
+
         if($createOrganizer){
           $event->organizers()->attach(Auth::user()->id);
         }
@@ -184,7 +187,9 @@ class EventController extends Controller
             'dateDebut' => 'required|date_format:Y-m-d H:i:s|after:'.date("Y-m-d H:i:s"),
             'dateFin' => 'required|date_format:Y-m-d H:i:s|after:dateDebut',
             'idCategorie' => 'required | string',
-            'placeId' => 'required'
+            'placeId' => 'required',
+            'lat' => 'required | numeric',
+            'lng' => 'required | numeric'
         ]);
     }
 
