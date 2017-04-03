@@ -54,12 +54,12 @@ class UsersController {
     findOneUser() {
         let id = this.$state.params.id;
         let userId = {"id": id};
-        this.UserService.findOne(userId).then((response)=>{
+        this.UserService.findOne(userId).then((response) => {
             this.user = response;
             this.participation();
             //this.invitation();
             this.my_Event();
-        }, (error)=>{
+        }, (error) => {
             console.log(error);
             return this.$state.go('app.landing');
         });
@@ -78,8 +78,8 @@ class UsersController {
      * permet de recuperer l'utilisateur actuellement connecté
      */
     findMe() {
-        this.UserService.findMe().then((response)=>{
-            this.displayInvitation= true;
+        this.UserService.findMe().then((response) => {
+            this.displayInvitation = true;
             this.user = response.data.user;
             this.participation();
             this.my_Event();
@@ -88,7 +88,7 @@ class UsersController {
     }
 
     invitation() {
-        let data= {"id": this.user.id};
+        let data = {"id": this.user.id};
         this.UserService.getInvitations(data).then((response) => {
             this.invitations = response;
         });
@@ -179,29 +179,13 @@ class UsersController {
         // ;
     }
 
-
-    getEvent(data) {
-        this.EventService.findOne(data).then(function (result) {
-                return result.data.event;
-            },
-            (responseError) => {
-                console.log(responseError);
-
-            });
-    }
-
-
     /*
-    * Methode de redirection vers la page d'un événement
+     * Methode de redirection vers la page d'un événement
+     * @param id : idUser
      */
-    event_details(id){
+    event_details(id) {
         return this.$state.go('app.event_details', {"id": id});
     }
-
-    /**
-     * Methode de base , permettant de variables les bonnes variables pour la vue, celle ci fait le meme traitement
-     * pour afficher les bonnes DIV HTML
-     */
 
     $onInit() {
 
