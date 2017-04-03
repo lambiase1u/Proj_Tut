@@ -80,7 +80,7 @@ class EventFormController {
                         this.ToastService.show('L\'evenement n\'a pas été créé');
                     });
                 } else 
-                    this.verifCreateEvent(debut, fin);
+                this.verifCreateEvent(debut, fin);
             }
         }
     }
@@ -112,15 +112,15 @@ class EventFormController {
                                     +' Il est décrit comme suit : '+ event.description
                                     +' Voulez-vous retirer votre participation déjà existante pour pouvoir tout de même créer celle-ci ?',
                                     'Oui', 'Non'
-                                ).then(()=>{
-                                    this.EventService.deleteParticipant({id: event.id}).then(
-                                        (response) => {
-                                            this.ToastService.show('La participation a bien été supprimée.');
+                                    ).then(()=>{
+                                        this.EventService.deleteParticipant({id: event.id}).then(
+                                            (response) => {
+                                                this.ToastService.show('La participation a bien été supprimée.');
                                             this.createEvent(debut, fin);
                                         }
-                                    );
-                                });
-                            } else {
+                                        );
+                                    });
+                                } else {
                                 this.createEvent(debut, fin);
                             }
                         }
@@ -134,7 +134,7 @@ class EventFormController {
      * Methode permettant de savoir si un lieu sera ouvert au moment de l'evenement
      * Elle retourne un booleen afin de connaitre si l'utilisateur donne son autorisation quand même
      */
-     placeIsOpen() {
+    placeIsOpen() {
         var res = {
             ouvert : true,
             message : ""
@@ -142,6 +142,9 @@ class EventFormController {
         var found = false;
         //Si des horaires d'ouvertures sont envoyés, on regarde la correpondance
         if(place.opening_hours !== undefined){
+            var notOpenMessage = "Le lieu où vous souhaitez effectuer l'événement ne sera peut-être pas ouvert lors de l'événement. Voulez-vous quand même continuer ?";
+            var openAfterMessage = "Le lieu où vous souhaitez effectuer l'événement ne sera peut-être pas encore ouvert au début de l'événement. Voulez-vous quand même continuer ?";
+            var closeBeforeMessage = "Le lieu où vous souhaitez effectuer l'événement fermera peut-être avant la fin de l'événement. Voulez-vous quand même continuer ?";
             res.ouvert = false;
             var dayDebut = this.dateDebut.getDay();
             var dayFin = this.dateFin.getDay();
@@ -153,6 +156,9 @@ class EventFormController {
             var opening = null;
             var open = null;
             var close = null;
+            var nextOpening = null;
+            var nextOpen = null;
+            var nextClose = null;
             var multiDayEvent = (((this.dateFin.getTime() - this.dateDebut.getTime()) >= 24*60*60*1000) || dayDebut !== dayFin);
             while(i<sizeOpening && !(found || res.ouvert)){
                 opening = openings[i];
@@ -160,49 +166,93 @@ class EventFormController {
                 close = opening.close;
                 //On teste d'abord si l'evenement se déroule sur plusieurs jours ou si il dure jusqu'apres minuit
                 if(multiDayEvent){
-                    res.message = "Le lieu où vous souhaitez effectuer l'événement ne sera peut-être pas ouvert lors de l'événement. Voulez-vous quand même continuer ?";
+                    res.message = notOpenMessage;
                     return res;
-                }
-                else {
+                } else {
                     if(open.day === dayDebut){
-                        //Sinon on teste si le jour de fermeture correspond au jour du début de l'evenement
+                        //Sinon on teste si le jour d'ouverture correspond au jour du début de l'evenement
                         if(tempsDebut >= open.time){ //Si l'evenement commence apres l'ouverture du lieu
-                            if(tempsFin <= close.time){//Et qu'il se finit avant la fermeture du lieu
-                                res.ouvert = true;
-                            return res;
+                            //Soit il commence avant la fermeture du lieu
+                            if(tempsDebut < close.time){
+                                if(tempsFin <= close.time){//Et qu'il se finit avant la fermeture du lieu
+                                    res.ouvert = true;
+                                    return res;
+                                } else { //Sinon c'est que l'evenement se termine apres la fermeture
+                                    res.message = closeBeforeMessage;
+                                    return res;
+                                }
+                            } else { //Sinon il commence apres la fermeture du lieu
+                                if(i+1 < sizeOpening){ //On verifie si il y a un autre crénau dans la journee
+                                    nextOpening = openings[i+1];
+                                    nextOpen = nextOpening.open;
+                                    nextClose = nextOpening.close;
+                                    if(nextOpen.day === dayDebut){ //Il y a un autre crénau dans la journée
+                                        if(tempsDebut >= nextOpen.time){ //Si l'evenement commence apres l'ouverture du lieu
+                                            if(tempsFin <= nextClose.time){//Et qu'il se finit avant la fermeture du lieu
+                                                res.ouvert = true;
+                                                return res;
+                                            } else { //Sinon c'est que l'evenement se termine apres la fermeture
+                                                res.message = closeBeforeMessage;
+                                                return res;
+                                            }
+                                        } else { //Sinon il commence avant l'ouverture du lieu
+                                            //Soit il fini avant l'ouverture du lieu
+                                            if(tempsFin < nextOpen.time){
+                                                res.message = notOpenMessage;
+                                                return res;
+                                            } else { //Soit il fini apres l'ouverture du lieu
+                                                res.message = openAfterMessage;
+                                                return res;
+                                            }
+                                        } 
+                                    } else { //il n'y a pas d'autre crenau dans la journee
+                                        res.message = notOpenMessage;
+                                        return res;
+                                    }
+                                } else { //Sinon c'est que l'evenement commence avant l'ouverture ou apres la fermeture
+                                    if(tempsDebut < open.time && tempsFin > open.time){//Si il commence avant et qu'il s'arrete apres l'ouverture 
+                                        res.message = openAfterMessage;
+                                        return res;
+                                    } else if(tempsDebut < open.time && tempsFin <= open.time){//Si il commence avant et qu'il ferme avant
+                                        res.message = notOpenMessage;
+                                        return res;
+                                    } else {//Si il commence apres
+                                        res.message = openAfterMessage;
+                                        return res;
+                                    }
+                                }
+                            }
+                        } else { //Sinon il commence avant l'ouverture du lieu
+                            //Soit il fini apres l'ouverture
+                            if(tempsFin > open.time){
+                                res.message = openAfterMessage;
+                                return res;
+                            } else {//Soit il fini avant l'ouverture
+                                res.message = notOpenMessage;
+                                return res;
+                            }
                         }
-                            else{ //Sinon c'est que l'evenement se termine apres la fermeture
-                                res.message = "Le lieu où vous souhaitez effectuer l'événement fermera peut-être avant la fin de l'événement. Voulez-vous quand même continuer ?";
-                            return res;
-                        }
-                        } else { //Sinon c'est que l'evenement commence avant
-                        res.message = "Le lieu où vous souhaitez effectuer l'événement ne sera peut-être pas encore ouvert au début de l'événement. Voulez-vous quand même continuer ?";
-                        return res;
-                    }
-                } else if (close.day === dayDebut){
+                    } else if (close.day === dayDebut){
                         //Sinon on teste si le jour d'ouverture correspond au jour du début de l'evenement
                         if(close.time >= tempsDebut ){//Si l'evenement commence avant la fermeture du lieu
                             if(close.time >= tempsFin){ //Si l'evenement se termine avant la fermeture du lieu
                                 res.ouvert = true;
-                            return res;
-                        }
-                            else{ //Sinon l'evenement se termine apres la fermeture du lieu
-                                res.message = "Le lieu où vous souhaitez effectuer l'événement fermera peut-être avant la fin de l'événement. Voulez-vous quand même continuer ?";
-                            return res;
-                        }
+                                return res;
+                            } else { //Sinon l'evenement se termine apres la fermeture du lieu
+                                res.message = closeBeforeMessage;
+                                return res;
+                            }
                         } else {//Sinon le lieu est deja ferme avant le debut de l'evenement
-                        res.message = "Le lieu où vous souhaitez effectuer l'événement ne sera peut-être pas encore ouvert au début de l'événement. Voulez-vous quand même continuer ?";
-                        return res;
+                            res.message = openAfterMessage;
+                            return res;
+                        }
                     }
                 }
+                i++;
             }
-            i++;
         }
-    }
-
         if(!found && !res.ouvert) //Si on a pas trouver d'erreur, on affiche tout de même un message au cas ou.
-            res.message = "Le lieu où vous souhaitez effectuer l'événement ne sera peut-être pas ouvert lors de l'événement. Voulez-vous quand même continuer ?";
-
+            res.message = notOpenMessage;
         return res;
     }
 
