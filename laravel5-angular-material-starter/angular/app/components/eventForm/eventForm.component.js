@@ -223,7 +223,8 @@ class EventFormController {
         this.EventService.create(data).then(
             (response) => {
                 this.ToastService.show('L\'événement a bien été ajouté.');
-                return this.$state.go('app.landing');
+                console.log(response);
+                return this.$state.go('app.event_details', {id : response.data.event.id});
             }
             );
     }
