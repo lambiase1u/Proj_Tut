@@ -137,6 +137,28 @@ class EventController extends Controller
 
     }
 
+    /**
+     * Methode permettant de recuperer la categorie lié a l'evenement via l'id de l'event
+     * Methode : GET
+     * Route : /events/{id}/category
+     */
+    public function findCategory($id){
+        $event = Event::find($id);
+        if($event != null){
+            if($event->isAccessible()) {
+                $category = $event->category;
+                if($category==null)
+                    return response()->error("Ressource non trouvé", 404);
+                else
+                    return response()->success(compact('category'));
+            }
+            else
+                return response()->error("L'événement est privé", 401);
+        }
+        else
+            return response()->error("Evenement non trouvé", 404);
+    }
+
 
     /*******************************************************************************************************************
      *******************************************************************************************************************
@@ -161,6 +183,9 @@ class EventController extends Controller
         $event->dateDebut = $request->input('dateDebut');
         $event->dateFin = $request->input('dateFin');
         $event->idCategorie = $request->input('idCategorie');
+        $event->lat = $request->input('lat');
+        $event->lng = $request->input('lng');
+
         if($createOrganizer){
           $event->organizers()->attach(Auth::user()->id);
         }
@@ -184,7 +209,9 @@ class EventController extends Controller
             'dateDebut' => 'required|date_format:Y-m-d H:i:s|after:'.date("Y-m-d H:i:s"),
             'dateFin' => 'required|date_format:Y-m-d H:i:s|after:dateDebut',
             'idCategorie' => 'required | string',
-            'placeId' => 'required'
+            'placeId' => 'required',
+            'lat' => 'required | numeric',
+            'lng' => 'required | numeric'
         ]);
     }
 
