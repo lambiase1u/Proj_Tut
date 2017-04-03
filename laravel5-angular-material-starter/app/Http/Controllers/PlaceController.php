@@ -71,12 +71,31 @@ class PlaceController extends Controller
             }
 
             if($location['lat'] == 0 || $location['lng'] == 0) {
-                $location['lat'] = 48.682788;
-                $location['lng'] = 6.160994;
+                $location = $this->getDefaultLocation();
             }
 
             return $location;
         } else return false;
 
+    }
+
+    /**
+     * Methode permettant de recuperer la position de l'utilisateur effectuant la requete
+     * Methode : GET
+     * route : /location
+     */
+    public function getLocation(){
+        $location = $this->getUserLocation();
+        if($location == false){
+            $location = $this->getDefaultLocation();
+        }
+        return response()->success(compact('location'));
+    }
+
+    /**
+     * Methode prive permettant de recuperer une position par defaut
+     */
+    private function getDefaultLocation(){
+        return array('lat' => 48.682788, 'lng' => 6.160994);
     }
 }
