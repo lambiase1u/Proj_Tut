@@ -15,7 +15,7 @@
                         <md-icon> favorite</md-icon>
                     </md-button>
                     <md-button class="md-icon-button">
-                        <md-icon>settings</md-icon>
+                        <md-icon ng-if="vm.me">settings</md-icon>
                     </md-button>
                     <md-button class="md-icon-button">
                         <md-icon>share</md-icon>
@@ -37,7 +37,7 @@
                     </p>
                 </div>
 
-                <md-list flex class="invitation_container" ng-if="vm.displayInvitation">
+                <md-list flex class="invitation_container" ng-if="vm.me">
                     <md-toolbar class="md-accent" md-colors="{background: 'light-green'}">
                         <div class="md-toolbar-tools">
                             <md-icon>local_post_office</md-icon>
@@ -164,9 +164,10 @@
                                     </md-card-header-text>
                                 </md-card-header>
 
+
                                 <div class="md-card-image"
                                      map-lazy-load="https://maps.google.com/maps/api/js?key=AIzaSyAFosuj-n-qIEM_BRqt2JX-YIhfno9138k">
-                                    <ng-map zoom="11" center="[{{event.location.lat}}, {{event.location.lng}}]">
+                                    <ng-map zoom="11"  center="[{{event.location.lat}}, {{event.location.lng}}]">
                                         <marker ng-repeat="p in vm.positions"
                                                 position="{{p.pos}}" title="pos: {{p.pos}}"></marker>
                                         </marker>

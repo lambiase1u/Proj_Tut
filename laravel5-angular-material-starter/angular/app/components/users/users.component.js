@@ -12,7 +12,7 @@ class UsersController {
 
         //user info
         this.user = null;
-        this.displayInvitation = false;
+        this.me = false;
 
         //participation carousel
         this.lastParticipation = null;
@@ -79,7 +79,7 @@ class UsersController {
      */
     findMe() {
         this.UserService.findMe().then((response) => {
-            this.displayInvitation = true;
+            this.me = true;
             this.user = response.data.user;
             this.participation();
             this.my_Event();
