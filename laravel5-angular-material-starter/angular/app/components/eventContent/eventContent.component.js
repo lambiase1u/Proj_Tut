@@ -5,7 +5,7 @@ class EventContentController{
     /**
      * Injection des dependances necessaires dans le constructeur, ici, des acces API
      */
-    constructor(EventService, UserService, CategoryService, ToastService, DialogService, $state, $sce, $filter, $auth, $scope){
+    constructor(EventService, UserService, CategoryService, ToastService, DialogService, $state, $sce, $filter, $auth){
         'ngInject';
 
         this.EventService = EventService;
@@ -17,7 +17,6 @@ class EventContentController{
         this.$sce = $sce;
         this.$filter = $filter;
         this.$auth = $auth;
-        this.$scope = $scope;
         
         this.event = null;
         this.place = null;
@@ -395,14 +394,14 @@ class EventContentController{
         if(this.$auth.isAuthenticated()) {
             var data = {
                 id: this.event.id,
-                comment: this.$scope.commentForm
+                comment: this.commentForm
             }
             
             this.EventService.addComment(data).then(
                 (success) => {
                     this.ToastService.show(success.data);
                     this.getComments(data);
-                    this.$scope.commentForm = "";
+                    this.commentForm = "";
                 }, 
                 (error) => {
                     console.log(error);
