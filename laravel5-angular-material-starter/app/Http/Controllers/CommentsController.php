@@ -40,8 +40,18 @@ class CommentsController extends Controller
         if($event == null)
             return response()->noContent("Aucun evenement correspondant a l'identifiant n'a été trouvé");
 
-        $comments = $event->comments;
-        if($comments->count() == 0)
+        $commentsBD = $event->comments;
+        $comments = array();
+        
+        foreach($commentsBD as $comment) {
+            $constructedComment = array(
+                "comment" => $comment->comment, 
+                "user" => $comment->user);
+            
+            $comments[] = $constructedComment;
+        }
+        
+        if($commentsBD->count() == 0)
             return response()->noContent("Il n'y a aucun commentaire sur cet événement.");
         else
             return response()->success(compact('comments'));
