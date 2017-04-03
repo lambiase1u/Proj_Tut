@@ -15,17 +15,23 @@
             <md-card-title>
                 <date date="{{vm.event.dateDebut}}"></date>
                 <md-card-title-text>
-                    <span class="md-headline">{{vm.event.title}}</span>
+                    <span class="md-headline" ng-if="!vm.editable">{{vm.event.title}}</span>
+                    <md-input-container ng-if="vm.editable">
+                        <label>Nom de l'Événement</label>
+                        <input ng-model="vm.editableEvent.title">
+                    </md-input-container>
                     <span class="md-subhead">{{vm.category.title}}</span>
                 </md-card-title-text>
             </md-card-title>
             <md-divider></md-divider>
             <md-card-actions layout="row" layout-align="start center" ng-if="vm.$auth.isAuthenticated()">
-                <md-button ng-if="vm.enoughTime() == true && !vm.userParticipation" ng-click="vm.addParticipation()" class="md-raised md-primary" md-colors="{background: 'green'}">Participer</md-button>
-                <md-button ng-if="vm.enoughTime() == false && !vm.userParticipation" ng-click="vm.addParticipation()" class="md-raised md-primary" md-colors="{background: 'deep-orange'}">Participer (vous serez en retard)</md-button>
-                <md-button ng-if="vm.userParticipation" ng-click="vm.deleteParticipation()" class="md-raised md-primary" md-colors="{background: 'red'}">Ne plus Participer</md-button>
-                <md-button class="md-raised md-primary" md-colors="{background: 'blue'}" ng-click="vm.visibleInvitations = !vm.visibleInvitations">Inviter des Amis</md-button>
-                <md-button class="md-raised md-primary" md-colors="{background: 'purple'}" ng-click="vm.visibleDirections = !vm.visibleDirections"><span ng-if="!vm.visibleDirections">Comment m'y rendre ?</span><span ng-if="vm.visibleDirections">Masquer l'itinéraire</span></md-button>
+                <md-button ng-if="vm.enoughTime() == true && !vm.userParticipation && !vm.editable" ng-click="vm.addParticipation()" class="md-raised md-primary" md-colors="{background: 'green'}">Participer</md-button>
+                <md-button ng-if="vm.enoughTime() == false && !vm.userParticipation && !vm.editable" ng-click="vm.addParticipation()" class="md-raised md-primary" md-colors="{background: 'deep-orange'}">Participer (vous serez en retard)</md-button>
+                <md-button ng-if="vm.userParticipation && !vm.editable" ng-click="vm.deleteParticipation()" class="md-raised md-primary" md-colors="{background: 'red'}">Ne plus Participer</md-button>
+                <md-button class="md-raised md-primary" md-colors="{background: 'blue'}" ng-click="vm.visibleInvitations = !vm.visibleInvitations" ng-if="!vm.editable">Inviter des Amis</md-button>
+                <md-button class="md-raised md-primary" md-colors="{background: 'purple'}" ng-click="vm.visibleDirections = !vm.visibleDirections" ng-if="!vm.editable"><span ng-if="!vm.visibleDirections">Comment m'y rendre ?</span><span ng-if="vm.visibleDirections">Masquer l'itinéraire</span></md-button>
+                <md-button class="md-raised md-primary" md-colors="{background: 'grey'}" ng-if="vm.isOrganizer()" ng-click="vm.editable = !vm.editable"><span ng-if="!vm.editable">Éditer l'Événement</span><span ng-if="vm.editable">Annuler les modifications</span></md-button>
+                <md-button class="md-raised md-primary" md-colors="{background: 'green'}" ng-if="vm.isOrganizer() && vm.editable" ng-click="vm.updateEvent()">Valider les modifications</md-button>
             </md-card-actions>
             <md-card-actions layout="row" layout-align="start center" ng-if="!vm.$auth.isAuthenticated()">
                 <md-button ng-click="vm.$state.go('app.login')" class="md-raised md-primary" md-colors="{background: 'green'}">Accéder à mon compte pour Participer</md-button>
@@ -75,8 +81,12 @@
                             <md-list-item class="md-2-line">
                               <img ng-src="img/icons/capacityIcon.png" class="md-avatar" alt="Capacité" />
                               <div class="md-list-item-text">
-                                <h3>{{vm.event.capacity}} <em>({{vm.event.capacity-vm.participants.length}} places encore disponibles)</em></h3>
-                                <p> Combien de personnes peuvent être accueillies ? </p>
+                                <h3 ng-if="!vm.editable">{{vm.event.capacity}} <em>({{vm.event.capacity-vm.participants.length}} places encore disponibles)</em></h3>
+                                <md-input-container ng-if="vm.editable">
+                                    <label>Capacité d'accueil</label>
+                                     <input name="capacity" type="number" ng-model="vm.editableEvent.capacity" placeholder="Capacité d'accueil" required>
+                                </md-input-container>
+                                <p ng-if="!vm.editable"> Combien de personnes peuvent être accueillies ? </p>
                               </div>
                             </md-list-item>
                             <md-list-item class="md-2-line">
@@ -164,9 +174,13 @@
               </md-card-title-text>
             </md-card-title>
             <md-card-content>
-                <p>
+                <p ng-if="!vm.editable">
                     {{vm.event.description}}
                 </p>
+                <md-input-container ng-if="vm.editable">
+                    <label>Description</label>
+                    <textarea ng-model="vm.editableEvent.description" rows="3" minlength="15" md-select-on-focus required></textarea>
+                </md-input-container>
             </md-card-content>
         </md-card>
         <md-card>

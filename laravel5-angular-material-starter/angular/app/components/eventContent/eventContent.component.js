@@ -28,10 +28,12 @@ class EventContentController{
         this.user = null;
         this.invitations = null;
         this.weather = null;
+        this.editableEvent;
         
         this.visibleDirections = false;
         this.visibleInvitations = false;
         this.userParticipation = false;
+        this.editable = false;
         
         this.organizersToAdd = [];
         this.guestsToAdd = [];
@@ -49,6 +51,7 @@ class EventContentController{
             (responseSuccess) => {
                 //La requete a fonctionne
                 this.event = responseSuccess.data.event;
+                this.editableEvent = responseSuccess.data.event;
                 
                 var dataCategory = {
                     id: this.event.idCategorie
@@ -555,12 +558,48 @@ class EventContentController{
     }
     
     /**
-     * Methode permettant a un utilisateur d'editer l'evenement s'il est organisateur
+     * Methode permettant de mettre a jour un evenement
+          *      id,
+            title, 
+            description, 
+            public, 
+            capacity, 
+            dateDebut, 
+            dateFin, 
+            placeId, 
+            idCategorie 
      */
-    editerEvent() {
-        
+    updateEvent() {
+        if(this.$auth.isAuthenticated()) {
+            if(this.isOrganizer()) {
+                var data = {
+                    id: this.event.id,
+                    title: this.editableEvent.title,
+                    description: this.editableEvent.description,
+                    public: this.event.public,
+                    capacity: this.editableEvent.capacity,
+                    dateDebut: this.event.dateDebut,
+                    dateFin: this.event.dateFin,
+                    placeId: this.event.placeId,
+                    idCategorie: this.event.idCategorie,
+                    lat: this.place.geometry.location.lat,
+                    lng: this.place.geometry.location.lng
+                }
+                
+                this.EventService.update(data).then(
+                    (success) => {
+                        this.ToastService.show("L'événement a bien été mis à jour.");
+                        this.getEvent({id: this.event.id});
+                        this.editable = false;
+                    },
+                    (error) => {
+                        //this.ToastService.error("Une erreur est survenue lors de la mise à jour de l'événement.");
+                    }
+                );
+            }
+        }    
     }
-    
+        
     /**
      * Methode permettant de verifier si un utilisateur participe a un evenement
      */
