@@ -82,13 +82,14 @@ class UsersController {
             this.displayInvitation= true;
             this.user = response.data.user;
             this.participation();
-            this.invitation();
             this.my_Event();
+            this.invitation();
         });
     }
 
     invitation() {
-        this.API.all('users/' + this.user.id + '/invitation').get('').then((response) => {
+        let data= {"id": this.user.id};
+        this.UserService.getInvitations(data).then((response) => {
             this.invitations = response;
         });
     }
@@ -187,6 +188,14 @@ class UsersController {
                 console.log(responseError);
 
             });
+    }
+
+
+    /*
+    * Methode de redirection vers la page d'un événement
+     */
+    event_details(id){
+        return this.$state.go('app.event_details', {"id": id});
     }
 
     /**

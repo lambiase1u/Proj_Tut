@@ -79,6 +79,10 @@
                 </h3>
                 <md-divider></md-divider>
 
+                <div ng-if="vm.loadedLastParticipation && vm.lastParticipation.length === 0" class="section_top_margin">
+                    {{vm.user.name}} {{vm.user.firstName}} n'as participé a aucun événement pour le moment
+                </div>
+
                 <div ng-if="vm.loadedLastParticipation && vm.lastParticipation" class="section_top_margin">
 
                     <slick infinite="true" slides-to-show="{{vm.nb_carousel_last_participation}}"
@@ -112,9 +116,9 @@
                                     </p>
                                 </md-card-content>
                                 <md-card-actions layout="column" layout-align="start">
-                                    <md-button md-colors="{background: 'green'}" md-colors-watch="false">Participer
-                                    </md-button>
-                                    <md-button md-colors="{background: 'blue'}">Détails</md-button>
+                                   <!-- <md-button md-colors="{background: 'green'}" md-colors-watch="false">Participer
+                                    </md-button>-->
+                                    <md-button md-colors="{background: 'green'}" ng-click="vm.event_details(event.id)" >Détails</md-button>
                                 </md-card-actions>
                             </md-card>
 
@@ -140,6 +144,12 @@
                     Derniers événements organisés par {{vm.user.name}} {{vm.user.firstName}}
                 </h3>
                 <md-divider></md-divider>
+
+
+                <div ng-if="vm.loadedMyEevent && vm.my_event === 0" class="section_top_margin">
+                    {{vm.user.name}} {{vm.user.firstName}} n'as participé a aucun événement pour le moment
+                </div>
+
 
                 <div ng-if="vm.loadedMyEevent && vm.my_event" class="section_top_margin">
 
@@ -174,9 +184,9 @@
                                     </p>
                                 </md-card-content>
                                 <md-card-actions layout="column" layout-align="start">
-                                    <md-button md-colors="{background: 'green'}" md-colors-watch="false">Participer
-                                    </md-button>
-                                    <md-button md-colors="{background: 'blue'}">Détails</md-button>
+                                    <!-- <md-button md-colors="{background: 'green'}" md-colors-watch="false">Participer
+                                         </md-button>-->
+                                    <md-button md-colors="{background: 'green'}" ng-click="vm.event_details(event.id)">Détails</md-button>
                                 </md-card-actions>
                             </md-card>
 
