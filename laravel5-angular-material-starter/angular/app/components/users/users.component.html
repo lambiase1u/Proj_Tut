@@ -68,7 +68,7 @@
         </section>
     </div>
     <div flex layout="column" class="boxWithHeight" layout-padding>
-        <h3 class="md-display-2  user_section_title">
+        <h3 class="md-display-1  user_section_title">
             Derniers événements auxquels a participé {{vm.user.name}} {{vm.user.firstName}}
         </h3>
         <md-divider></md-divider>
@@ -80,11 +80,11 @@
             <section flex="80">
 
 
-                <div ng-if="vm.loadedLastParticipation && vm.lastParticipation.length === 0" class="section_top_margin">
+                <div ng-if="vm.loadedLastParticipation && vm.lastParticipation.length === 0"  layout-align='center center'>
                     {{vm.user.name}} {{vm.user.firstName}} n'as participé a aucun événement pour le moment
                 </div>
 
-                <div ng-if="vm.loadedLastParticipation && vm.lastParticipation" class="section_top_margin">
+                <div ng-if="vm.loadedLastParticipation && vm.lastParticipation" >
 
                     <slick infinite="true" slides-to-show="{{vm.nb_carousel_last_participation}}"
                            settings="vm.slickConfig"
@@ -137,7 +137,7 @@
             </md-button>
         </div>
 
-        <h3 class="md-display-2 user_section_title ">
+        <h3 class="md-display-1 user_section_title ">
             Derniers événements organisés par {{vm.user.name}} {{vm.user.firstName}}
         </h3>
         <md-divider></md-divider>
@@ -148,8 +148,8 @@
             </md-button>
             <section flex="80">
 
-                <div ng-if="vm.loadedMyEevent && vm.my_event === 0">
-                    {{vm.user.name}} {{vm.user.firstName}} n'as participé a aucun événement pour le moment
+                <div ng-if="vm.loadedLastParticipation && vm.lastParticipation.length === 0"  layout-align='center center'>
+                    {{vm.user.name}} {{vm.user.firstName}} n'as organisé aucun événement pour le moment.
                 </div>
 
 
