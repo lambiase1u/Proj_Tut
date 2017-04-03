@@ -236,7 +236,7 @@
                     <md-list-item class="md-3-line" ng-repeat="organizer in vm.organizers">
                       <img ng-src="img/icons/userIcon.png" class="md-avatar" alt="Icone Utilisateur" />
                       <div class="md-list-item-text" layout="column">
-                        <h3>{{ organizer.firstName }} {{ organizer.name }}</h3>
+                        <h3>{{ organizer.firstName }} {{ organizer.name }} <md-icon ng-if="vm.isOrganizer() && vm.organizers.length > 1" ng-click="vm.deleteOrganizer(organizer.id)" md-colors="{color: 'red'}">clear</md-icon></h3>
                         <h4>{{ organizer.birthdate | date:'dd/MM/yyyy'}}</h4>
                         <p>{{ organizer.description }}</p>
                       </div>
@@ -246,7 +246,7 @@
                     <md-divider ></md-divider>
                     <md-contact-chips ng-model="vm.organizersToAdd" md-contacts="vm.getFilteredUserList($query)" md-contact-name="name"  md-contact-email="email" md-require-match="true" placeholder="Organisateurs à ajouter...">
                     </md-contact-chips>
-                    <md-button ng-click="vm.addOrganizers()" class="md-raised md-primary" md-colors="{background: 'blue'}">Ajouter des Organisateurs</md-button>
+                    <md-button ng-click="vm.addOrganizers()" class="md-raised md-primary" md-colors="{background: 'blue'}"><md-icon>add</md-icon> Ajouter des Organisateurs</md-button>
                 </p>
             </md-card-content>
         </md-card>

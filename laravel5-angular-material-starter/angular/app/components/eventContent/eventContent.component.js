@@ -340,6 +340,27 @@ class EventContentController{
     }
     
     /**
+     * Methode permettant de supprimmer un organisateur
+     */
+    deleteOrganizer(id) {
+        var data = {
+            id: this.event.id,
+            idUser: id
+        }
+        
+        this.EventService.deleteOrganizer(data).then(
+            (success) => {
+                this.ToastService.show("L'organisateur a bien été supprimé.");
+                this.getOrganizers(data);
+            },
+            (error) => {
+                this.ToastService.error("Il doit rester au moins un organisateur sur chaque événement.");
+                this.getOrganizers(data);
+            }
+        );
+    }
+    
+    /**
      * Methode permettant d'ajouter des invites
      */
     addInvitations() {
