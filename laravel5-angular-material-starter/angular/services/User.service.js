@@ -23,7 +23,7 @@ export class UserService {
      * @param data : tableau des parametres utiles [id: id de l'utilisateur]
      */
     findOne(data) {
-        if(data.id !== undefined)
+        if (data.id !== undefined)
             return this.API.one('users', data.id).get('');
         else
             return false;
@@ -39,17 +39,17 @@ export class UserService {
     /**
      * Methode permettant de mettre a jour un utilisateur
      * @param data : tableau des parametres utiles
-        [
-            "id" : identificateur de l'utilisateur
-        	"name" : nom de famille de l'utilisateur
-            "firstName" : prenom de l'utilisateur
-            "birthdate" : date de naissance de l'utilisateur
-            "email" : email de l'utilisateur
-            "password" : mot de passe de l'utilisateur
-        ]
+     [
+     "id" : identificateur de l'utilisateur
+     "name" : nom de famille de l'utilisateur
+     "firstName" : prenom de l'utilisateur
+     "birthdate" : date de naissance de l'utilisateur
+     "email" : email de l'utilisateur
+     "password" : mot de passe de l'utilisateur
+     ]
      */
     udpdate(data) {
-        if(data.id !== undefined)
+        if (data.id !== undefined)
             return this.API.one('users', data.id).put(data);
         else
             return false;
@@ -60,7 +60,7 @@ export class UserService {
      * @param data : tableau des donnees utiles [id: id de l'utilisateur a supprimer]
      */
     delete(data) {
-        if(data.id !== undefined)
+        if (data.id !== undefined)
             return this.API.one('users', data.id).remove();
         else
             return false;
@@ -70,20 +70,36 @@ export class UserService {
      * Methode permettant de recuperer tout les événement auxquels un utilisateur participe
      * @param data  tableau des donnees utiles [id: id de l'utilisateur]
      */
-    getParicipant(data){
-        if (data.id !== undefined){
-           return this.API.all('users/' + data.id + '/participate/').get('');
-        }else {
+    getParicipant(data) {
+        if (data.id !== undefined) {
+            return this.API.all('users/' + data.id + '/participate/').get('');
+        } else {
             return false;
         }
 
     }
 
-    getEventUser(data){
-        if(data.id !== undefined) {
+    /*
+     * Methode pour recuperer tout les évévenement crée par un utilisateur
+     * @param data :{"id" : idUser} id de l'utilisateur
+     */
+    getEventUser(data) {
+        if (data.id !== undefined) {
             return this.API.all('users/' + data.id + '/events/').get('');
-        }else {
+        } else {
             return false;
+        }
+    }
+
+    /*
+     * Methode pour recuperer toutes les invitations recu d'un utilsateurs
+     * @para data : {"id" : idUser} id de l'utilisateur
+     */
+    getInvitations(data) {
+        if (data.id !== undefined) {
+            return this.API.all('users/' + data.id + '/invitation').get('');
+        } else {
+            return false
         }
     }
 
