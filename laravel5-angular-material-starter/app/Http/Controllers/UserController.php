@@ -132,15 +132,15 @@ class UserController extends Controller
      * methode : GET
      */
     public function getICalendar($id) {
-        $ical = 
-            "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//hacksw/handcal//NONSGML v1.0//FR";
-            
         $user = User::find($id);
         $participations = $user->eventsParticipations;
         
+        $ical = 
+            "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//hacksw/handcal//NONSGML v1.0//FR";
+            
         foreach($participations as $participation) {
             $ical .= 
-                "\nBEGIN:VEVENT\nUID:" . md5(uniqid(mt_rand(), true)) . "@openevent.com\nDTSTAMP:" . gmdate('Ymd').'T'. gmdate('His') . "Z\nDTSTART:".date('Ymd\THis', strtotime($participation->dateDebut))."\nDTEND:".date('Ymd\THis', strtotime($participation->dateFin))."\nSUMMARY:".$participation->title."\nEND:VEVENT";
+                "\nBEGIN:VEVENT\nUID:" . md5(uniqid(mt_rand(), true)) . "@openevent.com\nDTSTAMP:" . gmdate('Ymd').'T'. gmdate('His') . "Z\nDTSTART:".date('Ymd\THis', strtotime($participation->dateDebut))."\nDTEND:".date('Ymd\THis', strtotime($participation->dateFin))."\nSUMMARY:".$participation->title."\nDESCRIPTION:".$participation->description."\nSTATUS:CONFIRMED\nEND:VEVENT";
         }
         
         $ical .= "\nEND:VCALENDAR";
