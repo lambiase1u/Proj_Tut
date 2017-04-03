@@ -1,13 +1,18 @@
 class UsersController {
-    constructor(API, ToastService, $state, $log) {
+    constructor(API, ToastService, $state, $log, EventService, UserService) {
         'ngInject';
 
         //services
         this.API = API;
         this.$state = $state;
         this.ToastService = ToastService;
-        this.user = null;
         this.$log = $log;
+        this.EventService = EventService;
+        this.UserService = UserService;
+
+        //user info
+        this.user = null;
+        this.displayInvitation = false;
 
         //participation carousel
         this.lastParticipation = null;
@@ -22,10 +27,11 @@ class UsersController {
         this.loadedMyEevent = false;
         this.positions = [];
 
+        //carousel config
         this.slickConfig = {
             enabled: true,
             autoplay: false,
-            dots:true,
+            dots: true,
             draggable: false,
             autoplaySpeed: 3000,
             slidesToShow: this.nb_carousel_last_participation,
@@ -47,11 +53,15 @@ class UsersController {
      */
     findOneUser() {
         let id = this.$state.params.id;
-
-        this.API.all('users/' + id).get('').then((response) => {
-            this.user = response.data.user;
+        let userId = {"id": id};
+        this.UserService.findOne(userId).then((response)=>{
+            this.user = response;
             this.participation();
-            // this.$log.log(response.data.user);
+            //this.invitation();
+            this.my_Event();
+        }, (error)=>{
+            console.log(error);
+            return this.$state.go('app.landing');
         });
     }
 
@@ -60,7 +70,6 @@ class UsersController {
      -*/
     findAllUsers() {
         this.API.all('users').get('').then((response) => {
-            // this.user =  response.data.user;
             this.$log.log(response.data);
         });
     }
@@ -69,19 +78,17 @@ class UsersController {
      * permet de recuperer l'utilisateur actuellement connecté
      */
     findMe() {
-        this.API.all('users/self').get('').then((response) => {
+        this.UserService.findMe().then((response)=>{
+            this.displayInvitation= true;
             this.user = response.data.user;
-            //this.$log.log(response.data.user);
             this.participation();
             this.invitation();
             this.my_Event();
-
-        })
+        });
     }
 
     invitation() {
         this.API.all('users/' + this.user.id + '/invitation').get('').then((response) => {
-            // this.$log.log(response.data);
             this.invitations = response;
         });
     }
@@ -90,25 +97,25 @@ class UsersController {
      * Permet de recuperer toute les évenements (localisation aussi) d'un utilisateurs et d'initializé les cartes google map
      */
     participation() {
-        //this.$log.log('users/' + this.user.id + '/participate');
-
         let ctrl = this;
-        this.API.all('users/' + this.user.id + '/participate/').get('').then((response) => {
-            this.lastParticipation = response;
+        let userId = {"id": this.user.id};
 
-        }).finally(function () {
+        this.UserService.getParicipant(userId).then((res) => {
+            this.lastParticipation = res;
+        }).finally(() => {
             ctrl.loadedLastParticipation = true;
 
             angular.forEach(ctrl.lastParticipation, function (res) {
+                let eventId = {"id": res.id};
 
-                ctrl.API.all('events/' + res.id + '/participants/').get('').then((response) => {
+                ctrl.EventService.getParticipants(eventId).then((response) => {
                     let nb_participant = response.data.participants.length;
                     res.nbParticipant = nb_participant;
                 });
 
-
-                ctrl.API.all('places/' + res.placeId).get('').then((response) => {
-                    res.location = response.result.geometry.location;
+                let placeId = {"id": res.placeId};
+                ctrl.EventService.getPlace(placeId).then((placeResult) => {
+                    res.location = placeResult.result.geometry.location;
                     ctrl.positions.push({
                             pos: [
                                 Number(res.location.lat),
@@ -116,10 +123,9 @@ class UsersController {
                             ]
                         }
                     );
-
                 });
-            });
 
+            });
         });
 
     }
@@ -127,24 +133,23 @@ class UsersController {
     my_Event() {
 
         let ctrl = this;
+        let userId = {"id": this.user.id};
 
-        this.API.all('users/' + this.user.id + '/events/').get('').then((response) => {
-
+        this.UserService.getEventUser(userId).then((response) => {
             this.my_event = response;
-
-        }).finally(function () {
-
+        }).finally(() => {
             ctrl.loadedMyEevent = true;
             angular.forEach(ctrl.my_event, function (res) {
 
-                ctrl.API.all('events/' + res.id + '/participants/').get('').then((response) => {
+                let eventId = {"id": res.id};
+                ctrl.EventService.getParticipants(eventId).then((response) => {
                     let nb_participant = response.data.participants.length;
                     res.nbParticipant = nb_participant;
                 });
 
-
-                ctrl.API.all('places/' + res.placeId).get('').then((response) => {
-                    res.location = response.result.geometry.location;
+                let placeId = {"id": res.placeId};
+                ctrl.EventService.getPlace(placeId).then((placeResult) => {
+                    res.location = placeResult.result.geometry.location;
                     ctrl.positions.push({
                             pos: [
                                 Number(res.location.lat),
@@ -152,14 +157,14 @@ class UsersController {
                             ]
                         }
                     );
-
                 });
+
             });
 
         });
 
-
     }
+
 
     /*
      * Le timeout permet d'afficher le caroussel comme il se doit
@@ -171,6 +176,17 @@ class UsersController {
             this.ready = true;
         }, 1000);
         // ;
+    }
+
+
+    getEvent(data) {
+        this.EventService.findOne(data).then(function (result) {
+                return result.data.event;
+            },
+            (responseError) => {
+                console.log(responseError);
+
+            });
     }
 
     /**
