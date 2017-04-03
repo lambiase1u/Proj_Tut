@@ -211,6 +211,10 @@ class UsersController {
 
 
     }
+
+    redirectToCalendar(){
+        return this.$state.go('app.calendar_user', {"id": this.user.id});
+    }
 }
 
 export const UsersComponent = {

@@ -15,7 +15,7 @@
                         <md-icon> favorite</md-icon>
                     </md-button>
                     <md-button class="md-icon-button">
-                        <md-icon ng-if="vm.me">settings</md-icon>
+                        <md-icon ng-click="">perm_contact_calendar</md-icon>
                     </md-button>
                     <md-button class="md-icon-button">
                         <md-icon>share</md-icon>
@@ -45,15 +45,15 @@
                             <span flex></span>
                         </div>
                     </md-toolbar>
-                    <md-list-item class="md-3-line" ng-repeat="invitation in vm.invitations" ng-click="null"
-                                  ng-if="vm.invitations.length > 0">
+                    <md-list-item class="md-3-line" ng-repeat="invitation in vm.invitations" ng-click="vm.redirectToCalendar()"
+                                  ng-if="vm.invitations.length > 0">    
 
                         <div class="md-list-item-text" layout="column">
                             <h3>{{ invitation.title }}</h3>
                             <h4>{{ invitation.date }}</h4>
                             <p>{{ invitation.description }}</p>
                         </div>
-                        <md-button class="md-secondary">Respond</md-button>
+                        <md-button class="md-secondary">répondre</md-button>
                         <md-divider ng-if="!$last"></md-divider>
                     </md-list-item>
 
