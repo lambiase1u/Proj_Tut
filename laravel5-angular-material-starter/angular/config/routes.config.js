@@ -105,6 +105,14 @@ export function RoutesConfig($stateProvider, $urlRouterProvider) {
                 }
             }
         })
+        .state('app.calendar_user', {
+            url: '/users/{id}/calendar',
+            views: {
+                'main@': {
+                    templateUrl: getView('calendar_user')
+                }
+            }
+        })
 
 
     ;

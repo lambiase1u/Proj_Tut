@@ -1,9 +1,8 @@
 class UsersController {
-    constructor(API, ToastService, $state, $log, EventService, UserService) {
+    constructor(ToastService, $state, $log, EventService, UserService) {
         'ngInject';
 
         //services
-        this.API = API;
         this.$state = $state;
         this.ToastService = ToastService;
         this.$log = $log;
@@ -18,8 +17,6 @@ class UsersController {
         //participation carousel
         this.lastParticipation = null;
         this.loadedLastParticipation = false;
-        this.nb_carousel_last_participation = 3;
-        this.nb_event_carousel_last_participation = 9;
         this.invitations = [];
 
         //orgarnisé  carousel
@@ -27,14 +24,20 @@ class UsersController {
         this.loadedMyEevent = false;
 
         //carousel config
+        this.nb_carousel_computer = 3;
+        this.nb_carousel_phone = 1;
+        this.nb_carousel_tablet = 2;
+        this.breakPointTablet = 1426;
+        this.breakPointPhone = 1142;
+
         this.slickConfig = {
             enabled: true,
             autoplay: false,
             dots: true,
             draggable: false,
             autoplaySpeed: 3000,
-            slidesToShow: this.nb_carousel_last_participation,
-            slidesToScroll: this.nb_carousel_last_participation,
+            slidesToShow: this.nb_carousel_computer,
+            slidesToScroll: this.nb_carousel_computer,
             adaptiveHeight: true,
             method: {},
             event: {
@@ -45,19 +48,19 @@ class UsersController {
             },
             responsive: [
                 {
-                    breakpoint: 1426,
+                    breakpoint: this.breakPointTablet,
                     settings: {
-                        slidesToShow: 2,
-                        slidesToScroll: 2,
+                        slidesToShow: this.nb_carousel_tablet,
+                        slidesToScroll: this.nb_carousel_tablet,
                         infinite: true,
                         dots: true
                     }
                 },
                 {
-                    breakpoint: 1142,
+                    breakpoint: this.breakPointPhone,
                     settings: {
-                        slidesToShow: 1,
-                        slidesToScroll: 1
+                        slidesToShow: this.nb_carousel_phone,
+                        slidesToScroll: this.nb_carousel_phone
                     }
                 },
             ]
@@ -71,6 +74,7 @@ class UsersController {
     findOneUser() {
         let id = this.$state.params.id;
         let userId = {"id": id};
+
         this.UserService.findOne(userId).then((response) => {
             this.user = response;
             this.participation();
@@ -85,11 +89,11 @@ class UsersController {
     /**
      *permet de recuperer tout les utilisateurs
      -*/
-    findAllUsers() {
-        this.API.all('users').get('').then((response) => {
-            this.$log.log(response.data);
-        });
-    }
+    /*findAllUsers() {
+     this.API.all('users').get('').then((response) => {
+     this.$log.log(response.data);
+     });
+     }*/
 
     /*
      * permet de recuperer l'utilisateur actuellement connecté
