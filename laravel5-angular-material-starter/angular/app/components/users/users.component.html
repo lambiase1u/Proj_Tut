@@ -64,6 +64,21 @@
                     </md-list-item>
 
                 </md-list>
+
+
+
+                <md-toolbar class="md-accent create" md-colors="{background: 'pink'}">
+                    <div class="md-toolbar-tools">
+                        <md-icon>event</md-icon>
+
+
+                        <h2 class="title_white_with_icon">  <a href="#!/events/create">Créer un évènement </a> </h2>
+
+                    <span flex></span>
+                </md-toolbar>
+
+                </div>
+
             </section>
         </section>
     </div>
@@ -174,9 +189,8 @@
                                     </p>
                                 </md-card-content>
                                 <md-card-actions layout="column" layout-align="start">
-                                    <md-button md-colors="{background: 'green'}" md-colors-watch="false">Participer
-                                    </md-button>
-                                    <md-button md-colors="{background: 'blue'}">Détails</md-button>
+                                    <md-button md-colors="{background: 'green'}"  md-colors-watch="false">Participer </md-button>
+                                    <md-button md-colors="{background: 'blue'}" ng-click=""><a href="#!/events/{{event.id}}">Détails</a> </md-button>
                                 </md-card-actions>
                             </md-card>
 

@@ -97,6 +97,7 @@ class UsersController {
      * Permet de recuperer toute les évenements (localisation aussi) d'un utilisateurs et d'initializé les cartes google map
      */
     participation() {
+
         let ctrl = this;
         let userId = {"id": this.user.id};
 
@@ -109,8 +110,13 @@ class UsersController {
                 let eventId = {"id": res.id};
 
                 ctrl.EventService.getParticipants(eventId).then((response) => {
-                    let nb_participant = response.data.participants.length;
-                    res.nbParticipant = nb_participant;
+
+                    if(!angular.isUndefined(response)){
+                        let nb_participant = response.data.participants.length;
+                        res.nbParticipant = nb_participant;
+                    }
+
+
                 });
 
                 let placeId = {"id": res.placeId};
