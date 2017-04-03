@@ -144,10 +144,11 @@ class ParticipationController extends Controller
      * route : users/:id/participations
      * methode : GET
      */
-    public function findByUser(Request $request, $id){
-        if($id == "self"){
+    public function findByUser(Request $request, $id)
+    {
+        if ($id == "self") {
             $user = User::findAuthorOfRequest();
-            if($user==null)
+            if ($user == null)
                 return response()->unauthorized();
             $authorOfRequest = $user;
         } else {
@@ -157,7 +158,7 @@ class ParticipationController extends Controller
                 return response()->error("Aucun utilisateur ne correspond a l'identifiant donné.", 404);
         }
 
-        if(isset($request->begin) && isset($request->end)){
+        if (isset($request->begin) && isset($request->end)) {
             $this->validate($request, [
                 'begin' => 'required | date_format:Y-m-d H:i:s',
                 'end' => 'required | date_format:Y-m-d H:i:s',
@@ -168,23 +169,23 @@ class ParticipationController extends Controller
                 ->where('dateDebut', '<=', $begin)
                 ->where('dateFin', '>', $begin)->get();
 
-            if($events->count() == 0)
+            if ($events->count() == 0)
                 $events = $user->eventsParticipations()
                     ->where('dateDebut', '>=', $begin)
                     ->where('dateDebut', '<', $end)->get();
         } else
             $events = $user->eventsParticipations;
 
-        if($events->count() == 0)
+        if ($events->count() == 0)
             return response()->noContent();
 
-        if($user != $authorOfRequest){
+        if ($user != $authorOfRequest) {
             $eventsFilter = array();
-            foreach ($events as $event){
-                if($event->isAccessible($authorOfRequest))
+            foreach ($events as $event) {
+                if ($event->isAccessible($authorOfRequest))
                     array_push($eventsFilter, $event);
             }
-            if(empty($eventsFilter))
+            if (empty($eventsFilter))
                 return response()->noContent();
 
             return response()->success(compact('eventsFilter'));
