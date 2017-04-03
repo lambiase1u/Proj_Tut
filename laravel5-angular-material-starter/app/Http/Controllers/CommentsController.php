@@ -45,6 +45,7 @@ class CommentsController extends Controller
         
         foreach($commentsBD as $comment) {
             $constructedComment = array(
+                "id" => $comment->id,
                 "comment" => $comment->comment, 
                 "user" => $comment->user);
             

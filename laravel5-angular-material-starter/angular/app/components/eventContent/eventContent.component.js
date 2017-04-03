@@ -28,10 +28,12 @@ class EventContentController{
         this.user = null;
         this.invitations = null;
         this.weather = null;
+        this.editableEvent;
         
         this.visibleDirections = false;
         this.visibleInvitations = false;
         this.userParticipation = false;
+        this.editable = false;
         
         this.organizersToAdd = [];
         this.guestsToAdd = [];
@@ -49,6 +51,7 @@ class EventContentController{
             (responseSuccess) => {
                 //La requete a fonctionne
                 this.event = responseSuccess.data.event;
+                this.editableEvent = responseSuccess.data.event;
                 
                 var dataCategory = {
                     id: this.event.idCategorie
@@ -124,8 +127,6 @@ class EventContentController{
                     this.comments = responseSuccess.data.comments;
                 else
                     this.comments = [];
-                
-                console.log(responseSuccess);
             },
             (responseSuccess) => {
                 //On n'a pas trouve les commentaires
@@ -340,6 +341,27 @@ class EventContentController{
     }
     
     /**
+     * Methode permettant de supprimmer un organisateur
+     */
+    deleteOrganizer(id) {
+        var data = {
+            id: this.event.id,
+            idUser: id
+        }
+        
+        this.EventService.deleteOrganizer(data).then(
+            (success) => {
+                this.ToastService.show("L'organisateur a bien été supprimé.");
+                this.getOrganizers(data);
+            },
+            (error) => {
+                this.ToastService.error("Il doit rester au moins un organisateur sur chaque événement.");
+                this.getOrganizers(data);
+            }
+        );
+    }
+    
+    /**
      * Methode permettant d'ajouter des invites
      */
     addInvitations() {
@@ -515,12 +537,69 @@ class EventContentController{
     }
     
     /**
-     * Methode permettant a un utilisateur d'editer l'evenement s'il est organisateur
+     * Methode permettant de supprimer un commentaire
      */
-    editerEvent() {
-        
+    deleteComment(id) {
+        if(this.$auth.isAuthenticated()) {
+            var data = {
+                id: id
+            }
+
+            this.EventService.deleteComment(data).then(
+                (success) => {
+                    this.ToastService.show("Le commentaire a bien été supprimé.");
+                    this.getComments({ id: this.event.id });
+                }, 
+                (error) => {
+                    console.log(error);
+                }
+            );
+        }    
     }
     
+    /**
+     * Methode permettant de mettre a jour un evenement
+          *      id,
+            title, 
+            description, 
+            public, 
+            capacity, 
+            dateDebut, 
+            dateFin, 
+            placeId, 
+            idCategorie 
+     */
+    updateEvent() {
+        if(this.$auth.isAuthenticated()) {
+            if(this.isOrganizer()) {
+                var data = {
+                    id: this.event.id,
+                    title: this.editableEvent.title,
+                    description: this.editableEvent.description,
+                    public: this.event.public,
+                    capacity: this.editableEvent.capacity,
+                    dateDebut: this.event.dateDebut,
+                    dateFin: this.event.dateFin,
+                    placeId: this.event.placeId,
+                    idCategorie: this.event.idCategorie,
+                    lat: this.place.geometry.location.lat,
+                    lng: this.place.geometry.location.lng
+                }
+                
+                this.EventService.update(data).then(
+                    (success) => {
+                        this.ToastService.show("L'événement a bien été mis à jour.");
+                        this.getEvent({id: this.event.id});
+                        this.editable = false;
+                    },
+                    (error) => {
+                        //this.ToastService.error("Une erreur est survenue lors de la mise à jour de l'événement.");
+                    }
+                );
+            }
+        }    
+    }
+        
     /**
      * Methode permettant de verifier si un utilisateur participe a un evenement
      */
@@ -535,6 +614,9 @@ class EventContentController{
         } else this.userParticipation = false;
     }
     
+    /**
+     * Methode permettant de verifier si l'utilisateur authentifie est un organisateur
+     */
     isOrganizer() {
         let userIsOrganizer = false;
         
@@ -542,6 +624,24 @@ class EventContentController{
             if(this.organizers !== null && this.user !== null) {
                 this.organizers.forEach((organizer) => {
                     if(organizer.id === this.user.id)
+                        userIsOrganizer = true;
+                })
+            }
+        }
+        
+        return userIsOrganizer;
+    }
+    
+    /** 
+     * Methode permettant de verifier si un utilisateur est organisateur
+     */
+    isDefinedUserOrganizer(id) {
+        let userIsOrganizer = false;
+        
+        if(this.$auth.isAuthenticated()) {
+            if(this.organizers !== null) {
+                this.organizers.forEach((organizer) => {
+                    if(organizer.id === id)
                         userIsOrganizer = true;
                 })
             }
