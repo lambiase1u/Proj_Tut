@@ -1,11 +1,17 @@
 class HeaderController{
-    constructor($auth){
+    constructor($auth, ToastService){
         'ngInject';
 
         this.$auth = $auth;
+        this.ToastService = ToastService;
     }
 
     $onInit(){
+    }
+
+    disconnect(){
+        this.$auth.logout();
+        this.ToastService.show("Vous avez bien été déconnecté");
     }
 }
 

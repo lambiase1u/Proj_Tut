@@ -1,9 +1,6 @@
 <div ng-switch="vm.$state.$current.self.name">
     <div ng-switch-when="app.landing">
         <div class="row">
-            <md-button ng-click="vm.event_create()" md-no-ink class="md-primary">Créer un évènement</md-button>
-        </div>
-        <div class="row">
             <section layout="row" flex>
                 <md-sidenav
                         class="md-sidenav-left"
@@ -11,7 +8,7 @@
                         md-is-locked-open="$mdMedia('gt-md')"
                         md-whiteframe="4">
                     <md-toolbar class="md-theme-indigo">
-                        <h1 class="md-toolbar-tools">Détails</h1>
+                        <h1 class="md-toolbar-tools">Quelques événements</h1>
                     </md-toolbar>
                     <md-content layout-padding>
                         <p hide show-gt-md>
