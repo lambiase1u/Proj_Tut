@@ -51,6 +51,7 @@ class OrganizerController extends Controller
             return response()->error("L'utilisateur est deja organisateur.", 400);
 
         $event->organizers()->attach($idUser);
+        $event->participants()->attach($idUser);
         $listOrganizers->push($userToAdd);
         return response()->created($listOrganizers);
     }
