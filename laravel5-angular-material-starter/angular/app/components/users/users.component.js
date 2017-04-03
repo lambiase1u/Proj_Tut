@@ -12,6 +12,7 @@ class UsersController {
         //user info
         this.user = null;
         this.me = false;
+        this.apiKey = "AIzaSyDOoKSyoh_Lwe1r18KOVWhjbAHzsidDM00";
 
         //participation carousel
         this.lastParticipation = null;
@@ -134,16 +135,12 @@ class UsersController {
                     res.nbParticipant = nb_participant;
                 });
 
-                let placeId = {"id": res.placeId};
-                ctrl.EventService.getPlace(placeId).then((placeResult) => {
-                    res.location = placeResult.result.geometry.location;
-                    res.positions = {
-                        pos: [
-                            Number(res.location.lat),
-                            Number(res.location.lng)
-                        ]
-                    }
-                });
+                res.positions = {
+                    pos: [
+                        Number(res.lat),
+                        Number(res.lng)
+                    ]
+                }
 
             });
         });
@@ -158,29 +155,26 @@ class UsersController {
         this.UserService.getEventUser(userId).then((response) => {
             this.my_event = response;
         }).finally(() => {
-            ctrl.loadedMyEevent = true;
-            angular.forEach(ctrl.my_event, function (res) {
+                ctrl.loadedMyEevent = true;
+                angular.forEach(ctrl.my_event, function (res) {
 
-                let eventId = {"id": res.id};
-                ctrl.EventService.getParticipants(eventId).then((response) => {
-                    let nb_participant = response.data.participants.length;
-                    res.nbParticipant = nb_participant;
-                });
+                    let eventId = {"id": res.id};
+                    ctrl.EventService.getParticipants(eventId).then((response) => {
+                        let nb_participant = response.data.participants.length;
+                        res.nbParticipant = nb_participant;
+                    });
 
-                let placeId = {"id": res.placeId};
-                ctrl.EventService.getPlace(placeId).then((placeResult) => {
-                    res.location = placeResult.result.geometry.location;
                     ctrl.positions = {
                         pos: [
-                            Number(res.location.lat),
-                            Number(res.location.lng)
+                            Number(res.lat),
+                            Number(res.lng)
                         ]
                     };
+
                 });
 
-            });
-
-        });
+            }
+        );
 
     }
 
@@ -220,6 +214,10 @@ class UsersController {
         }
 
 
+    }
+
+    redirectToCalendar(){
+        return this.$state.go('app.calendar_user', {"id": this.user.id});
     }
 }
 
