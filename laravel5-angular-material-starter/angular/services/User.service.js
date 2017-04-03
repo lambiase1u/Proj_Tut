@@ -87,5 +87,9 @@ export class UserService {
         }
     }
 
+    getLocation(){
+        return this.API.one('location/').get('');
+    }
+
 }
 
