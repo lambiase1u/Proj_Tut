@@ -70,6 +70,9 @@ $api->group(['middleware' => ['api']], function ($api) {
     $api->get('categories/', 'CategoryController@findAll');
     $api->get('categories/{id}', 'CategoryController@findById');
     $api->get('categories/{id}/events', 'CategoryController@findEvents');
+
+    //recuperer la categorie d'un evenement
+    $api->get('events/{id}/category', 'EventController@findCategory');
     
     //GooglePlaces routes
     $api->get('places/{id}', 'PlaceController@findById');

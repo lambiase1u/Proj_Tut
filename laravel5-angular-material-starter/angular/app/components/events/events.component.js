@@ -1,23 +1,25 @@
 class EventsController{
-    constructor(UserService, EventService,$log,$state,ToastService,NgMap){
+    constructor(UserService, CategoryService, EventService, $log,$state,ToastService,NgMap){
         'ngInject';
 
-       this.place = null;
-       this.UserService = UserService;
-       this.EventService = EventService;
-       this.$log = $log;
-       this.event = null;
-       this.events = [];
-       this.$state = $state;
-       this.ToastService = ToastService;
-       this.user = null;
-       this.map = NgMap;
-       this.location = { 
+         this.place = null;
+         this.CategoryService = CategoryService;
+         this.UserService = UserService;
+         this.EventService = EventService;
+         this.$log = $log;
+         this.event = null;
+         this.events = [];
+         this.$state = $state;
+         this.ToastService = ToastService;
+         this.user = null;
+         this.map = NgMap;
+         this.location = { 
             lat : 0,
             lng : 0
         }
-
-       this.positions =[];
+        this.zoom = 14;
+        this.categories = new Map();
+        this.positions =[];
     }
 
     $onInit(){
@@ -27,16 +29,20 @@ class EventsController{
       });
 
       //On initialise events
-      this.EventService.findAll().then((success) => {
-          this.events = success.data.listEvents;
-          this.events.forEach((event) => {
-            this.positions.push({lat: event.lat, lng: event.lng});
-            this.extractDate(event);
-          });
-      });
+      this.CategoryService.findAll().then((success) => {
+        success.forEach((category) => {
+          this.categories.set(category.id, category);
+        });
 
-      var d1 = new Date();
-      var d2 = new Date(d1.getTime() + 50*60*1000);
+        this.EventService.findAll().then((success) => {
+            this.events = success.data.listEvents;
+            this.events.forEach((event) => {
+              this.positions.push({lat: event.lat, lng: event.lng});
+              this.extractDate(event);
+              event.category = this.categories.get(event.idCategorie);
+            });
+        });
+      });
     }
 
     extractDate(event){
@@ -62,6 +68,14 @@ class EventsController{
 
     seeEvent(id){
       this.$state.go('app.event_details', {id: id});
+    }
+
+    centerMapOnEvent(event){
+      this.location = {
+        lat : event.lat,
+        lng : event.lng
+      }
+      this.zoom = 16;
     }
 }
 
