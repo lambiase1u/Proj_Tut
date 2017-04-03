@@ -180,7 +180,7 @@
                     <md-list-item class="md-2-line" ng-repeat="comment in vm.comments">
                       <img ng-src="img/icons/userIcon.png" class="md-avatar" alt="Icone Utilisateur" />
                       <div class="md-list-item-text" layout="column">
-                        <h4>{{ comment.user.firstName }} {{ comment.user.name }} <strong ng-if="vm.isDefinedUserOrganizer(comment.user.id)" md-colors="{color: 'red'}">(Organisateur)</strong><md-icon ng-if="comment.user.id === vm.user.id" ng-click="vm.deleteComment(comment.id)" md-colors="{color: 'red'}">clear</md-icon></h4>
+                          <h4><a ng-href="#!/users/{{comment.user.id}}">{{ comment.user.firstName }} {{ comment.user.name }}</a> <strong ng-if="vm.isDefinedUserOrganizer(comment.user.id)" md-colors="{color: 'red'}">(Organisateur)</strong><md-icon ng-if="comment.user.id === vm.user.id" ng-click="vm.deleteComment(comment.id)" md-colors="{color: 'red'}">clear</md-icon></h4>
                         <p>{{ comment.comment }}</p>
                       </div>
                     </md-list-item>
@@ -211,7 +211,7 @@
                     <md-list-item class="md-3-line" ng-repeat="participant in vm.participants">
                       <img ng-src="img/icons/userIcon.png" class="md-avatar" alt="Icone Utilisateur" />
                       <div class="md-list-item-text" layout="column">
-                        <h3>{{ participant.firstName }} {{ participant.name }}</h3>
+                        <h3><a ng-href="#!/users/{{participant.id}}">{{ participant.firstName }} {{ participant.name }}</a></h3>
                         <h4>{{ participant.birthdate | date:'dd/MM/yyyy'}}</h4>
                         <p>{{ participant.description }}</p>
                       </div>
@@ -236,7 +236,7 @@
                     <md-list-item class="md-3-line" ng-repeat="organizer in vm.organizers">
                       <img ng-src="img/icons/userIcon.png" class="md-avatar" alt="Icone Utilisateur" />
                       <div class="md-list-item-text" layout="column">
-                        <h3>{{ organizer.firstName }} {{ organizer.name }} <md-icon ng-if="vm.isOrganizer() && vm.organizers.length > 1" ng-click="vm.deleteOrganizer(organizer.id)" md-colors="{color: 'red'}">clear</md-icon></h3>
+                          <h3><a ng-href="#!/users/{{organizer.id}}">{{ organizer.firstName }} {{ organizer.name }}</a> <md-icon ng-if="vm.isOrganizer() && vm.organizers.length > 1" ng-click="vm.deleteOrganizer(organizer.id)" md-colors="{color: 'red'}">clear</md-icon></h3>
                         <h4>{{ organizer.birthdate | date:'dd/MM/yyyy'}}</h4>
                         <p>{{ organizer.description }}</p>
                       </div>
@@ -261,7 +261,7 @@
                     <md-list-item class="md-3-line" ng-repeat="invite in vm.invitations">
                       <img ng-src="img/icons/userIcon.png" class="md-avatar" alt="Icone Utilisateur" />
                       <div class="md-list-item-text" layout="column">
-                        <h3>{{ invite.firstName }} {{ invite.name }}</h3>
+                          <h3><a ng-href="#!/users/{{invite.id}}">{{ invite.firstName }} {{ invite.name }}</a></h3>
                         <h4>{{ invite.birthdate | date:'dd/MM/yyyy'}}</h4>
                         <p>{{ invite.description }}</p>
                       </div>
