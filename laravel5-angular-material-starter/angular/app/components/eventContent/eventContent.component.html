@@ -174,7 +174,7 @@
                     <md-list-item class="md-2-line" ng-repeat="comment in vm.comments">
                       <img ng-src="img/icons/userIcon.png" class="md-avatar" alt="Icone Utilisateur" />
                       <div class="md-list-item-text" layout="column">
-                        <h4>Quentin Claudel</h4>
+                        <h4>{{ comment.user.firstName }} {{ comment.user.name }}</h4>
                         <p>{{ comment.comment }}</p>
                       </div>
                     </md-list-item>

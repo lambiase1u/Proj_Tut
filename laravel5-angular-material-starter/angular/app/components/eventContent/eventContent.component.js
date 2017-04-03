@@ -120,6 +120,8 @@ class EventContentController{
                     this.comments = responseSuccess.data.comments;
                 else
                     this.comments = [];
+                
+                console.log(responseSuccess);
             },
             (responseSuccess) => {
                 //On n'a pas trouve les commentaires
