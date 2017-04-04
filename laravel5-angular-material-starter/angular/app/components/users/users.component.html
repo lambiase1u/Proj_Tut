@@ -12,8 +12,8 @@
                     <md-card-icon-actions>
                         <h2> {{vm.user.firstName}} {{vm.user.name}} </h2>
                     </md-card-icon-actions>
-                    <md-button>
-                        <md-icon> favorite</md-icon>
+                    <md-button ng-click="vm.exportCalendar()">
+                        <md-icon>date_range</md-icon>
                     </md-button>
                     <md-button ng-click="vm.redirectToCalendar()" class="md-icon-button">
                         <md-icon>perm_contact_calendar</md-icon>

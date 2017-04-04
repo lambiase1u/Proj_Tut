@@ -1,5 +1,5 @@
 class UsersController {
-    constructor(ToastService, $state, $log, EventService, UserService,CategoryService) {
+    constructor(ToastService, $state, $log, EventService, UserService,CategoryService, DialogService) {
         'ngInject';
 
         //services
@@ -9,6 +9,7 @@ class UsersController {
         this.EventService = EventService;
         this.UserService = UserService;
         this.CategoryService = CategoryService;
+        this.DialogService= DialogService;
 
         //user info
         this.user = null;
@@ -109,11 +110,21 @@ class UsersController {
         });
     }
 
+    /*
+    * recupere tout les événements auquel est invité l'utilisateurs
+     */
     invitation() {
         let data = {"id": this.user.id};
         this.UserService.getInvitations(data).then((response) => {
             this.invitations = response;
         });
+    }
+
+    exportCalendar(){
+
+        let html = 'http://localhost:8000/api/users/'+this.user.id+'/calendar';
+
+        this.DialogService.alert('Lien d\'export du calendrier', html);
     }
 
     /*
