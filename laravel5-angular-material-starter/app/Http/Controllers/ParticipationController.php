@@ -41,8 +41,18 @@ class ParticipationController extends Controller
                         break;
                     }
                 }
-
-                if ($invite) {
+                
+                $organizers = $event->organizers;
+                $organisateur = false;
+                
+                foreach($organizers as $organizer) {
+                    if($organizer->id == $user->id) {
+                        $organisateur = true;
+                        break;
+                    }
+                }
+                
+                if ($invite || $organisateur) {
                     $participationPossible = true;
                 } else
                     return response()->error('Vous n\'avez pas le droit de participer à cet événement.', 401);
