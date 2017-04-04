@@ -132,7 +132,6 @@ class UsersController {
                 let eventId = {"id": res.id};
                 let idCateg = {"id": res.idCategorie};
 
-                console.log(res);
                 ctrl.CategoryService.findOne(idCateg).then((success) => {
                     res.categ =success;
                 });
@@ -170,7 +169,6 @@ class UsersController {
 
                     ctrl.CategoryService.findOne(idCateg).then((success) => {
                         res.categ =success;
-                        console.log(success)
                     });
 
                     ctrl.EventService.getParticipants(eventId).then((response) => {
