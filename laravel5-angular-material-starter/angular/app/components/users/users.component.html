@@ -55,7 +55,7 @@
                             <h4>{{ invitation.date }}</h4>
                             <p>{{ invitation.description }}</p>
                         </div>
-                        <md-button class="md-secondary">répondre</md-button>
+                        <md-button class="md-secondary" ng-click="vm.event_details(invitation.id)">détails</md-button>
                         <md-divider ng-if="!$last"></md-divider>
                     </md-list-item>
 
