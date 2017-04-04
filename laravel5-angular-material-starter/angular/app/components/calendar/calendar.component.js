@@ -119,7 +119,7 @@ class CalendarController {
     displayEvent() {
         let ctrl = this;
         let idUser = {"id": this.user.id};
-        this.UserService.getEventUser(idUser).then((respsonse) => {
+        this.UserService.getParicipant(idUser).then((respsonse) => {
             this.lastParticipation = respsonse;
         }).finally(() => {
 
@@ -130,6 +130,7 @@ class CalendarController {
 
                 let html = '<h3>' + res.title + '</h3>';
                 ctrl.MaterialCalendarData.setDayContent(dateDebut, html);
+
 
                 if (dateDebut.getMonth() + 1 === ctrl.month) {
                     ctrl.highLightRange(dateDebut.getDate(), dateFin.getDate(), "orange");
