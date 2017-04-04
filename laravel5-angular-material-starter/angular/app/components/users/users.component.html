@@ -1,7 +1,7 @@
-<section layout="row"  layout-sm="column" layout-xs="column" class="icondemoFontIconsWithLigatures" ng-cloak>
+<section layout="row" layout-sm="column" layout-xs="column" class="icondemoFontIconsWithLigatures" ng-cloak>
 
     <div></div>
-    <div flex="30" flex-sm="100"  flex-xs="100" layout="column"  class="boxWithHeight" layout-padding>
+    <div flex="30" flex-sm="100" flex-xs="100" layout="column" class="boxWithHeight" layout-padding>
         <section flex="40">
 
             <md-card class="md-whiteframe-5dp">
@@ -46,7 +46,8 @@
                             <span flex></span>
                         </div>
                     </md-toolbar>
-                    <md-list-item class="md-3-line" ng-repeat="invitation in vm.invitations" ng-click="vm.redirectToCalendar()"
+                    <md-list-item class="md-3-line" ng-repeat="invitation in vm.invitations"
+                                  ng-click="vm.redirectToCalendar()"
                                   ng-if="vm.invitations.length > 0">
 
                         <div class="md-list-item-text" layout="column">
@@ -81,11 +82,12 @@
             <section flex="80">
 
 
-                <div ng-if="vm.loadedLastParticipation && vm.lastParticipation.length === 0"  layout-align='center center'>
-                     {{vm.user.firstName}} {{vm.user.name}} n'as participé a aucun événement pour le moment
+                <div ng-if="vm.loadedLastParticipation && vm.lastParticipation.length === 0"
+                     layout-align='center center'>
+                    {{vm.user.firstName}} {{vm.user.name}} n'as participé a aucun événement pour le moment
                 </div>
 
-                <div ng-if="vm.loadedLastParticipation && vm.lastParticipation" >
+                <div ng-if="vm.loadedLastParticipation && vm.lastParticipation">
 
                     <slick infinite="true" slides-to-show="{{vm.nb_carousel_last_participation}}"
                            settings="vm.slickConfig"
@@ -97,15 +99,20 @@
                                     <md-card-header-text>
                                         <span class="md-title">{{event.title}}</span>
                                         <span class="md-subhead">{{event.date}}</span>
+                                        <span class="md-subhead">du {{event.dateDebut}} <br> au {{event.dateFin}} </span>
+
+                                        <p class="category"><strong>Catégorie :</strong> {{event.categ.title}}</p>
                                     </md-card-header-text>
                                 </md-card-header>
 
-                                <div class="md-card-image"
-                                     map-lazy-load="https://maps.google.com/maps/api/js?key={{vm.apiKey}}">
+                                <!--
+                                <div class="md-card-image">
                                     <ng-map zoom="11" center="[{{event.lat}}, {{event.lng}}]">
-                                        <marker position="{{event.positions.pos}}" title="pos: {{event.positions.pos}}"></marker>
+                                        <marker position="{{event.positions.pos}}"
+                                                title="pos: {{event.positions.pos}}"></marker>
                                     </ng-map>
                                 </div>
+                                -->
                                 <md-card-title>
                                     <md-card-title-text>
                                         <span class="md-subhead">Nombre de participants: {{event.nbParticipant}}/{{event.capacity}}</span>
@@ -149,7 +156,8 @@
             </md-button>
             <section flex="80">
 
-                <div ng-if="vm.loadedLastParticipation && vm.lastParticipation.length === 0"  layout-align='center center'>
+                <div ng-if="vm.loadedLastParticipation && vm.lastParticipation.length === 0"
+                     layout-align='center center'>
                     {{vm.user.name}} {{vm.user.firstName}} n'as organisé aucun événement pour le moment.
                 </div>
 
@@ -159,39 +167,40 @@
                     <slick infinite="true" init-onload="true" data="vm.loadedMyEevent" settings="vm.slickConfig"
                            prev-arrow="#prev2" next-arrow="#next2">
                         <div ng-repeat="event in vm.my_event track by $index">
-                            <md-card class="md-whiteframe-3dp"
-                            ">
-                            <md-card-header>
-                                <md-card-header-text>
-                                    <span class="md-title">{{event.title}}</span>
-                                    <span class="md-subhead">{{event.date}}</span>
-                                </md-card-header-text>
-                            </md-card-header>
+                            <md-card class="md-whiteframe-3dp">
+                                <md-card-header>
+                                    <md-card-header-text>
+                                        <span class="md-title">{{event.title}}</span>
+                                        <span class="md-subhead">du {{event.dateDebut}} <br> au {{event.dateFin}} </span>
 
+                                        <p class="category"><strong>Catégorie :</strong> {{event.categ.title}}</p>
+                                    </md-card-header-text>
+                                </md-card-header>
 
-                            <div class="md-card-image"
-                                 map-lazy-load="https://maps.google.com/maps/api/js?key={{vm.apiKey}}">
-                                <ng-map zoom="11" center="[{{event.lat}}, {{event.lng}}]">
-                                    <marker position="{{event.positions.pos}}" title="pos: {{event.positions.pos}}"></marker>
-                                </ng-map>
-                            </div>
-                            <md-card-title>
-                                <md-card-title-text>
-                                    <span class="md-subhead">Nombre de participants: {{event.nbParticipant}}/{{event.capacity}}</span>
-                                </md-card-title-text>
-                            </md-card-title>
-                            <md-card-content>
-                                <p>
-                                    {{event.description}}
-                                </p>
-                            </md-card-content>
-                            <md-card-actions layout="column" layout-align="start">
-                                <!-- <md-button md-colors="{background: 'green'}" md-colors-watch="false">Participer
-                                     </md-button>-->
-                                <md-button md-colors="{background: 'green'}" ng-click="vm.event_details(event.id)">
-                                    Détails
-                                </md-button>
-                            </md-card-actions>
+                                <!--
+                                    <div class="md-card-image">
+                                        <ng-map zoom="11" center="[{{event.lat}}, {{event.lng}}]">
+                                            <marker position="{{event.positions.pos}}" title="pos: {{event.positions.pos}}"></marker>
+                                        </ng-map>
+                                    </div>
+                                    -->
+                                <md-card-title>
+                                    <md-card-title-text>
+                                        <span class="md-subhead">Nombre de participants: {{event.nbParticipant}}/{{event.capacity}}</span>
+                                    </md-card-title-text>
+                                </md-card-title>
+                                <md-card-content>
+                                    <p>
+                                        {{event.description}}
+                                    </p>
+                                </md-card-content>
+                                <md-card-actions layout="column" layout-align="start">
+                                    <!-- <md-button md-colors="{background: 'green'}" md-colors-watch="false">Participer
+                                         </md-button>-->
+                                    <md-button md-colors="{background: 'green'}" ng-click="vm.event_details(event.id)">
+                                        Détails
+                                    </md-button>
+                                </md-card-actions>
                             </md-card>
 
                         </div>

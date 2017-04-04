@@ -1,5 +1,5 @@
 class UsersController {
-    constructor(ToastService, $state, $log, EventService, UserService) {
+    constructor(ToastService, $state, $log, EventService, UserService,CategoryService) {
         'ngInject';
 
         //services
@@ -8,6 +8,7 @@ class UsersController {
         this.$log = $log;
         this.EventService = EventService;
         this.UserService = UserService;
+        this.CategoryService = CategoryService;
 
         //user info
         this.user = null;
@@ -129,6 +130,12 @@ class UsersController {
 
             angular.forEach(ctrl.lastParticipation, function (res) {
                 let eventId = {"id": res.id};
+                let idCateg = {"id": res.idCategorie};
+
+                console.log(res);
+                ctrl.CategoryService.findOne(idCateg).then((success) => {
+                    res.categ =success;
+                });
 
                 ctrl.EventService.getParticipants(eventId).then((response) => {
                     let nb_participant = response.data.participants.length;
@@ -159,6 +166,13 @@ class UsersController {
                 angular.forEach(ctrl.my_event, function (res) {
 
                     let eventId = {"id": res.id};
+                    let idCateg = {"id": res.idCategorie};
+
+                    ctrl.CategoryService.findOne(idCateg).then((success) => {
+                        res.categ =success;
+                        console.log(success)
+                    });
+
                     ctrl.EventService.getParticipants(eventId).then((response) => {
                         let nb_participant = response.data.participants.length;
                         res.nbParticipant = nb_participant;
